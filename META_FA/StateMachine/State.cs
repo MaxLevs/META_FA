@@ -12,5 +12,18 @@ namespace META_FA.StateMachine
             Id = id;
             IsFinal = isFinal;
         }
+        
+        public override bool Equals(object? obj)
+        {
+            if (!(obj is State))
+                return false;
+            
+            return Id == ((State) obj).Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, IsFinal);
+        }
     }
 }

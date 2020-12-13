@@ -9,13 +9,13 @@ namespace META_FA.StateMachine
     public class StateMachine
     {
         public Guid Id { get; } = Guid.NewGuid();
-        private List<State> _states = new List<State>();
-        private List<Transition> _transitions = new List<Transition>();
-        public State CurrentState = null;
+        private readonly List<State> _states = new List<State>();
+        private readonly List<Transition> _transitions = new List<Transition>();
+        private State _initialState;
 
         public void AddState(State newState)
         {
-            var foundState = _states.Find(state => state.Id == newState.Id);
+            var foundState = _states.Find(state => Equals(state, newState));
             if (foundState != null)
             {
                 throw new DuplicateStateException(newState, this);
@@ -40,12 +40,8 @@ namespace META_FA.StateMachine
         public void Init(string initialStateId)
         {
             var initialState = _states.Find(state => state.Id == initialStateId);
-            CurrentState = initialState ?? throw new InitialStateIsNullException(initialStateId, this);
+            _initialState = initialState ?? throw new InitialStateIsNullException(initialStateId, this);
 
-            var unreachableStates = _states
-                .Where(state => state.Id != initialStateId)
-                .Select(state => _transitions.Find(transition => transition.EndState.Id == state.Id))
-                .Any(foundTransition => foundTransition == null);
             var oblivionWayTransitions = _transitions
                 .Select(transition => _states.Find(state => state.Id == transition.EndState.Id))
                 .Any(foundState => foundState == null);
@@ -54,12 +50,16 @@ namespace META_FA.StateMachine
                 throw new OblivionWayTransitionsException(this);
             }
 
+            var unreachableStates = _states
+                .Where(state => state.Id != initialStateId)
+                .Select(state => _transitions.Find(transition => transition.EndState.Id == state.Id))
+                .Any(foundTransition => foundTransition == null);
             if (unreachableStates)
             {
                 Console.WriteLine($"[Warning] There is some unreachable states into machine: {Id}");
                 var noAnyReachableFinalState = _states
-                    .Where(state => state.IsFinal)
-                    .Select(state => _transitions.Find(transition => transition.EndState.Id == state.Id))
+                    .Where(state => state.IsFinal && state.Id != initialStateId)
+                    .Select(state => _transitions.Find(transition => Equals(transition.EndState, state)))
                     .Any(foundTransition => foundTransition == null);
                 if (noAnyReachableFinalState)
                 {
