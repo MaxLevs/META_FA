@@ -43,6 +43,7 @@ namespace META_FA.StateMachine
             CurrentState = initialState ?? throw new InitialStateIsNullException(initialStateId, this);
 
             var unreachableStates = _states
+                .Where(state => state.Id != initialStateId)
                 .Select(state => _transitions.Find(transition => transition.EndState.Id == state.Id))
                 .Any(foundTransition => foundTransition == null);
             var oblivionWayTransitions = _transitions
