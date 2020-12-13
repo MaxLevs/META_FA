@@ -15,6 +15,19 @@
           </e>
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="StateMachine" t="Include">
+          <e p="Exceptions" t="Include">
+            <e p="CoreSMException.cs" t="Include" />
+            <e p="DuplicateStateException.cs" t="Include" />
+            <e p="DuplicateTransitionException.cs" t="Include" />
+            <e p="InitialStateIsNullException.cs" t="Include" />
+            <e p="NoAnyReachableFinalStateException.cs" t="Include" />
+            <e p="OblivionWayTransitionsException.cs" t="Include" />
+          </e>
+          <e p="State.cs" t="Include" />
+          <e p="StateMachine.cs" t="Include" />
+          <e p="Transition.cs" t="Include" />
+        </e>
       </e>
       <e p="META_FA.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />

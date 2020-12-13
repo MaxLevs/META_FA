@@ -1,4 +1,5 @@
 ﻿using System;
+using META_FA.StateMachine;
 
 namespace META_FA
 {
@@ -6,7 +7,14 @@ namespace META_FA
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var stateMachine = new StateMachine.StateMachine();
+            var state1 = new State("A", false);
+            var state2 = new State("B", true);
+            var transition = new Transition("[", state1, state2);
+            stateMachine.AddState(state1);
+            stateMachine.AddState(state2);
+            stateMachine.AddTransition(transition);
+            stateMachine.Init("A");
         }
     }
 }
