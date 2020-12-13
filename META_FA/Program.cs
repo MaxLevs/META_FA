@@ -10,11 +10,12 @@ namespace META_FA
             var stateMachine = new StateMachine.StateMachine();
             var state1 = new State("A", false);
             var state2 = new State("B", true);
-            var transition = new Transition("[", state1, state2);
             stateMachine.AddState(state1);
             stateMachine.AddState(state2);
-            stateMachine.AddTransition(transition);
+            stateMachine.AddTransition(new Transition("[", state1, state2));
             stateMachine.Init("A");
+            var res = stateMachine.Run("[");
+            Console.WriteLine(res);
         }
     }
 }

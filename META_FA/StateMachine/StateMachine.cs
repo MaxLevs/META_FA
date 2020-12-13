@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using META_FA.StateMachine.Exceptions;
 
@@ -66,6 +65,25 @@ namespace META_FA.StateMachine
                     throw new NoAnyReachableFinalStateException(this);
                 }
             }
+        }
+
+        public bool Run(string text)
+        {
+            return DoStep(text, _initialState);
+        }
+        
+        private bool DoStep(string text, State currentState)
+        {
+            if (currentState.IsFinal && text == "")
+                return true;
+            
+            var token = text[0].ToString();
+            
+            var ways = _transitions.FindAll(transition
+                => Equals(transition.StartState, currentState)
+                && transition.Token == token);
+
+            return ways.Any(way => DoStep(text.Substring(1), way.EndState));
         }
     }
 }
