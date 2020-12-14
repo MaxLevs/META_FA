@@ -11,7 +11,11 @@ namespace META_FA
     {
         static void Main(string[] args)
         {
-            var stateMachine = GetSM();
+            using var optionsFile = File.OpenText("../../../regexMachine.json");
+            var options = JsonSerializer.Deserialize<SMOptions>(optionsFile.ReadToEnd());
+            
+            var stateMachine = ConvertOptionsIntoStateMachine(options);
+            
             var assets = new Dictionary<string, bool>
             {
                 // ba((ab)|(ac))*cb
@@ -28,12 +32,8 @@ namespace META_FA
             }
         }
 
-        public static StateMachine.StateMachine GetSM()
+        private static StateMachine.StateMachine ConvertOptionsIntoStateMachine(SMOptions options)
         {
-            using var jsonFile = File.OpenText("../../../regexMachine.json");
-            var jsonText = jsonFile.ReadToEnd();
-            var options = JsonSerializer.Deserialize<SMOptions>(jsonText);
-
             var stateMachine = new StateMachine.StateMachine();
             
             var statesNames = options.GetStates();
