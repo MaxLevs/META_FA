@@ -112,7 +112,15 @@ namespace META_FA.StateMachine
 
         public SMOptions ToOptions()
         {
-            throw new System.NotImplementedException();
+            return new SMOptions {
+                InitialState = _initialState.Id,
+                FinalStates = _states.Where(state => state.IsFinal).Select(state => state.Id).ToList(),
+                Transitions = _transitions.Select(transition => new TransitionOptions {
+                    StartState = transition.StartState.Id,
+                    EndState = transition.EndState.Id,
+                    Token = transition.Token
+                }).ToList()
+            };
         }
 
         public abstract Machine Minimize();
