@@ -1,4 +1,4 @@
-namespace META_FA
+namespace META_FA.Options
 {
     public class TransitionOptions
     {

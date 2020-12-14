@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using META_FA.Assets;
+using META_FA.Options;
 using META_FA.StateMachine;
 
 namespace META_FA
@@ -14,18 +16,13 @@ namespace META_FA
             using var optionsFile = File.OpenText("../../../regexMachine.json");
             var options = JsonSerializer.Deserialize<SMOptions>(optionsFile.ReadToEnd());
             
+            using var assetsFile = File.OpenText("../../../assets.json");
+            var assets = JsonSerializer
+                .Deserialize<List<Asset>>(assetsFile.ReadToEnd())
+                .ToDictionary(asset => asset.Text, asset => asset.ExpectedResult);
+            
             var stateMachine = ConvertOptionsIntoStateMachine(options);
             
-            var assets = new Dictionary<string, bool>
-            {
-                // ba((ab)|(ac))*cb
-                {"bacb", true},
-                {"bcb", false},
-                {"baabcb", true},
-                {"baaccb", true},
-                {"baacababcb", true},
-            };
-
             foreach (var (text, expectedRes) in assets)
             {
                 Console.WriteLine($"Test \"{text}\". Expected: {expectedRes}. Result: {(stateMachine.Run(text) == expectedRes ? "Correct" : "Reject!")}");

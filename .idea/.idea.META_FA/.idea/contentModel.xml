@@ -5,6 +5,10 @@
     <e p="$USER_HOME$/Library/Caches/JetBrains/Rider2020.2/resharper-host/local/Transient/Rider/v202/SolutionCaches/_META_FA.-98921265.00" t="ExcludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="META_FA" t="IncludeRecursive">
+        <e p="Assets" t="Include">
+          <e p="Asset.cs" t="Include" />
+        </e>
+        <e p="assets.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="META_FA.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
@@ -14,9 +18,12 @@
             </e>
           </e>
         </e>
+        <e p="Options" t="Include">
+          <e p="SMOptions.cs" t="Include" />
+          <e p="TransitionOptions.cs" t="Include" />
+        </e>
         <e p="Program.cs" t="Include" />
         <e p="regexMachine.json" t="Include" />
-        <e p="SMOptions.cs" t="Include" />
         <e p="StateMachine" t="Include">
           <e p="Exceptions" t="Include">
             <e p="CoreSMException.cs" t="Include" />
@@ -30,7 +37,6 @@
           <e p="StateMachine.cs" t="Include" />
           <e p="Transition.cs" t="Include" />
         </e>
-        <e p="TransitionOptions.cs" t="Include" />
       </e>
       <e p="META_FA.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />

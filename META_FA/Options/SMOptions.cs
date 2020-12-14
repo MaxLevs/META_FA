@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace META_FA
+namespace META_FA.Options
 {
     public class SMOptions
     {
@@ -9,7 +9,7 @@ namespace META_FA
         public List<string> FinalStates { get; set; }
         public List<TransitionOptions> Transitions { get; set; }
 
-        public List<string> GetStates()
+        public IEnumerable<string> GetStates()
         {
             var firstPart = Transitions.Select(options => options.StartState).ToList();
             var secondPart = Transitions.Select(options => options.EndState).ToList();

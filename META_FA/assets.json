@@ -1,0 +1,7 @@
+[
+  {"Text": "bacb", "ExpectedResult": true},
+  {"Text": "bcb", "ExpectedResult": false},
+  {"Text": "baabcb", "ExpectedResult": true},
+  {"Text": "baaccb", "ExpectedResult": true},
+  {"Text": "baacababcb", "ExpectedResult": true}
+]
