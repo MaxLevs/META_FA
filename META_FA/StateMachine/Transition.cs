@@ -9,7 +9,7 @@ namespace META_FA.StateMachine
         public State StartState { get; }
         public State EndState { get; }
 
-        public Transition(string token, State startState, State endState)
+        public Transition(State startState, string token, State endState)
         {
             Id = Guid.NewGuid();
             Token = token;

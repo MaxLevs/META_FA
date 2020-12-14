@@ -15,6 +15,8 @@
           </e>
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="regexMachine.json" t="Include" />
+        <e p="SMOptions.cs" t="Include" />
         <e p="StateMachine" t="Include">
           <e p="Exceptions" t="Include">
             <e p="CoreSMException.cs" t="Include" />
@@ -28,6 +30,7 @@
           <e p="StateMachine.cs" t="Include" />
           <e p="Transition.cs" t="Include" />
         </e>
+        <e p="TransitionOptions.cs" t="Include" />
       </e>
       <e p="META_FA.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />
