@@ -18,6 +18,9 @@ namespace META_FA
             {
                 Console.WriteLine($"Test \"{text}\". Expected: {expectedRes}. Result: {(stateMachine.Run(text) == expectedRes ? "Correct" : "Reject!")}");
             }
+            
+            Console.WriteLine();
+            Console.WriteLine(stateMachine.ToOptions().ToTable());
         }
     }
 }

@@ -28,7 +28,10 @@ namespace META_FA.Options
 
         public string ToTable()
         {
-            throw new NotImplementedException();
+            var states = GetStates().ToList();
+            var padding = Math.Max(states.Max(s => s.Length), Transitions.Max(tr => tr.Token.Length)) + 2;
+            var headline = states.Aggregate(new string(' ', padding), (result, stateCol) => result + stateCol.PadLeft(padding));
+            return states.Aggregate(headline, (resultRow, stateRow) => resultRow + "\n" + states.Aggregate(stateRow.PadLeft(padding), (resultCol, stateCol) => resultCol + (Transitions.Find(tr => tr.StartState == stateCol && tr.EndState == stateRow)?.Token ?? "").PadLeft(padding)));
         }
     }
 }
