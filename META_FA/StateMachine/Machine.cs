@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using META_FA.Options;
 using META_FA.StateMachine.Exceptions;
 
 namespace META_FA.StateMachine
 {
-    public class Machine
+    public abstract class Machine
     {
         public Guid Id { get; } = Guid.NewGuid();
-        private readonly List<State> _states = new List<State>();
-        private readonly List<Transition> _transitions = new List<Transition>();
-        private State _initialState;
+        protected readonly List<State> _states = new List<State>();
+        protected readonly List<Transition> _transitions = new List<Transition>();
+        protected State _initialState;
+        protected abstract MachineType Type { get; }
+        protected bool _inited = false;
 
         public void AddState(State newState)
         {
@@ -24,18 +27,11 @@ namespace META_FA.StateMachine
 
         public void AddTransition(Transition newTransition)
         {
-            var foundTransition = _transitions.Find(transition
-                => transition.StartState.Id == newTransition.StartState.Id
-                && transition.EndState.Id == newTransition.EndState.Id
-                && transition.Token == newTransition.Token);
-            if (foundTransition != null)
-            {
-                throw new DuplicateTransitionException(newTransition, this);
-            }
-            
+            PreAddTransitionCheck(newTransition);
             _transitions.Add(newTransition);
         }
 
+        
         public void Init(string initialStateId)
         {
             var initialState = _states.Find(state => state.Id == initialStateId);
@@ -84,6 +80,35 @@ namespace META_FA.StateMachine
                 && transition.Token == token);
 
             return ways.Any(way => DoStep(text.Substring(1), way.EndState));
+        }
+
+        protected abstract void PreAddTransitionCheck(Transition newTransition);
+        
+        public static Machine GetFromOptions(SMOptions options)
+        {
+            var stateMachine = new MachineNonDetermined();
+            
+            var statesNames = options.GetStates();
+            var statesDict = new Dictionary<string, State>();
+            foreach (var stateName in statesNames)
+            {
+                var state = new State(stateName, options.FinalStates.Contains(stateName));
+                statesDict.Add(stateName, state);
+                stateMachine.AddState(state);
+            }
+
+            foreach (var transitionOptions in options.Transitions)
+            {
+                stateMachine.AddTransition(new Transition(
+                    statesDict[transitionOptions.StartState],
+                    transitionOptions.Token,
+                    statesDict[transitionOptions.EndState]
+                ));
+            }
+            
+            stateMachine.Init(options.InitialState);
+            
+            return stateMachine;
         }
     }
 }

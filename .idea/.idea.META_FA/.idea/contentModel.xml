@@ -36,6 +36,7 @@
           <e p="Machine.cs" t="Include" />
           <e p="MachineDetermined.cs" t="Include" />
           <e p="MachineNonDetermined.cs" t="Include" />
+          <e p="MachineType.cs" t="Include" />
           <e p="State.cs" t="Include" />
           <e p="Transition.cs" t="Include" />
         </e>
