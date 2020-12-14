@@ -10,6 +10,7 @@
         </e>
         <e p="assets.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="machine_arch.json" t="Include" />
         <e p="META_FA.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -23,7 +24,6 @@
           <e p="TransitionOptions.cs" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
-        <e p="regexMachine.json" t="Include" />
         <e p="StateMachine" t="Include">
           <e p="Exceptions" t="Include">
             <e p="CoreSMException.cs" t="Include" />

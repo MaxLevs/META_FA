@@ -13,10 +13,10 @@ namespace META_FA
     {
         static void Main(string[] args)
         {
-            using var optionsFile = File.OpenText("../../../regexMachine.json");
+            using var optionsFile = File.OpenText("machine_arch.json");
             var options = JsonSerializer.Deserialize<SMOptions>(optionsFile.ReadToEnd());
             
-            using var assetsFile = File.OpenText("../../../assets.json");
+            using var assetsFile = File.OpenText("assets.json");
             var assets = JsonSerializer
                 .Deserialize<List<Asset>>(assetsFile.ReadToEnd())
                 .ToDictionary(asset => asset.Text, asset => asset.ExpectedResult);
