@@ -4,7 +4,7 @@ namespace META_FA.StateMachine.Exceptions
     {
         public override string Message { get; }
 
-        public OblivionWayTransitionsException(StateMachine machine)
+        public OblivionWayTransitionsException(Machine machine)
         {
             Message = $"There are oblivion way transitions into machine: {machine.Id}";
         }

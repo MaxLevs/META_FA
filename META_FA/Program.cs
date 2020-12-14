@@ -29,9 +29,9 @@ namespace META_FA
             }
         }
 
-        private static StateMachine.StateMachine ConvertOptionsIntoStateMachine(SMOptions options)
+        private static Machine ConvertOptionsIntoStateMachine(SMOptions options)
         {
-            var stateMachine = new StateMachine.StateMachine();
+            var stateMachine = new Machine();
             
             var statesNames = options.GetStates();
             var statesDict = new Dictionary<string, State>();

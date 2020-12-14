@@ -7,7 +7,7 @@ namespace META_FA.StateMachine.Exceptions
     {
         public override string Message { get; }
 
-        public InitialStateIsNullException(string stateId, StateMachine machine)
+        public InitialStateIsNullException(string stateId, Machine machine)
         { 
             Message = $"Cannot found initial state by id: {stateId} [machine: {machine.Id}]";
         }

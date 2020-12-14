@@ -5,7 +5,7 @@ using META_FA.StateMachine.Exceptions;
 
 namespace META_FA.StateMachine
 {
-    public class StateMachine
+    public class Machine
     {
         public Guid Id { get; } = Guid.NewGuid();
         private readonly List<State> _states = new List<State>();

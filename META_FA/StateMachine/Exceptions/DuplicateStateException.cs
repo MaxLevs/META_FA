@@ -4,9 +4,9 @@ namespace META_FA.StateMachine.Exceptions
     {
         public override string Message { get; }
 
-        public DuplicateStateException(State state, StateMachine stateMachine)
+        public DuplicateStateException(State state, Machine machine)
         {
-            Message = $"There almost is another state with the same name in this state machine: {stateMachine.Id}[{state.Id}]";
+            Message = $"There almost is another state with the same name in this state machine: {machine.Id}[{state.Id}]";
         }
     }
 }
