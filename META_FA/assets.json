@@ -1,7 +1,8 @@
 [
-  {"Text": "bacb", "ExpectedResult": true},
-  {"Text": "bcb", "ExpectedResult": false},
-  {"Text": "baabcb", "ExpectedResult": true},
-  {"Text": "baaccb", "ExpectedResult": true},
-  {"Text": "baacababcb", "ExpectedResult": true}
+  {"Text": "cb", "ExpectedResult": true},
+  {"Text": "acb", "ExpectedResult": false},
+  {"Text": "abcb", "ExpectedResult": true},
+  {"Text": "bccb", "ExpectedResult": true},
+  {"Text": "abbccb", "ExpectedResult": true},
+  {"Text": "bcababcb", "ExpectedResult": true}
 ]

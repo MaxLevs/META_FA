@@ -2,12 +2,11 @@
 	"InitialState": "A",
 	"FinalStates": ["E"],
 	"Transitions": [
-		{"StartState": "A", "Token":"b", "EndState": "B"},
-		{"StartState": "B", "Token":"a", "EndState": "C"},
-		{"StartState": "C", "Token":"c", "EndState": "D"},
-		{"StartState": "D", "Token":"b", "EndState": "E"},
-		{"StartState": "C", "Token":"a", "EndState": "F"},
-		{"StartState": "F", "Token":"b", "EndState": "C"},
-		{"StartState": "F", "Token":"c", "EndState": "C"}
+		{"StartState": "A", "Token":"a", "EndState": "B"},
+		{"StartState": "A", "Token":"b", "EndState": "C"},
+		{"StartState": "B", "Token":"b", "EndState": "A"},
+		{"StartState": "C", "Token":"c", "EndState": "A"},
+		{"StartState": "A", "Token":"c", "EndState": "D"},
+		{"StartState": "D", "Token":"b", "EndState": "E"}
 	]
 }
