@@ -16,5 +16,16 @@ namespace META_FA.StateMachine
                 throw new DuplicateTransitionException(newTransition, this);
             }
         }
+
+        public override Machine Minimize()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override MachineDetermined Determine()
+        {
+            var determined = new MachineDetermined();
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -30,7 +30,6 @@ namespace META_FA.StateMachine
             PreAddTransitionCheck(newTransition);
             _transitions.Add(newTransition);
         }
-
         
         public void Init(string initialStateId)
         {
@@ -110,5 +109,13 @@ namespace META_FA.StateMachine
             
             return stateMachine;
         }
+
+        public SMOptions ToOptions()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public abstract Machine Minimize();
+        public abstract MachineDetermined Determine();
     }
 }
