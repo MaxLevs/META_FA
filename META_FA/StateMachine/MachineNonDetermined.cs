@@ -25,7 +25,27 @@ namespace META_FA.StateMachine
         public override MachineDetermined Determine()
         {
             var determined = new MachineDetermined();
-            throw new System.NotImplementedException();
+            try
+            {
+                foreach (var state in _states)
+                {
+                    determined.AddState(state);
+                }
+
+                foreach (var transition in _transitions)
+                {
+                    determined.AddTransition(transition);
+                }
+                
+                determined.Init(_initialState.Id);
+            }
+            catch (NonDeterminedException e)
+            {
+                // Mathematical way for convert nondetermined state machine to determined
+                throw new System.NotImplementedException();
+            }
+
+            return determined;
         }
     }
 }

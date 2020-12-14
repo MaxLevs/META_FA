@@ -69,6 +69,7 @@ namespace META_FA.StateMachine
         
         private bool DoStep(string text, State currentState)
         {
+            // [TODO] Think about ε-transitions
             if (currentState.IsFinal && text == "")
                 return true;
             

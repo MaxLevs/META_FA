@@ -31,6 +31,7 @@
             <e p="DuplicateTransitionException.cs" t="Include" />
             <e p="InitialStateIsNullException.cs" t="Include" />
             <e p="NoAnyReachableFinalStateException.cs" t="Include" />
+            <e p="NonDeterminedException.cs" t="Include" />
             <e p="OblivionWayTransitionsException.cs" t="Include" />
           </e>
           <e p="Machine.cs" t="Include" />
