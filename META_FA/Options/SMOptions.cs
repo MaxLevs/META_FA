@@ -26,6 +26,13 @@ namespace META_FA.Options
             return JsonSerializer.Deserialize<SMOptions>(optionsFile.ReadToEnd());
         }
 
+        public void ToFile(string path)
+        {
+            using var optionsFile = File.OpenWrite(path);
+            optionsFile.Write(JsonSerializer.SerializeToUtf8Bytes(this, GetType()));
+            optionsFile.Close();
+        }
+
         public string ToTable()
         {
             var states = GetStates().ToList();
