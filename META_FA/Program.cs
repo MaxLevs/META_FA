@@ -21,6 +21,9 @@ namespace META_FA
             
             Console.WriteLine();
             Console.WriteLine(stateMachine.ToOptions().ToTable());
+            
+            Console.WriteLine();
+            Console.WriteLine(stateMachine.ToOptions().ToDot());
         }
     }
 }
