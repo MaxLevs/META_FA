@@ -120,11 +120,22 @@ namespace META_FA.StateMachine
 
             foreach (var transitionOptions in options.Transitions)
             {
-                stateMachine.AddTransition(new Transition(
-                    statesDict[transitionOptions.StartState],
-                    transitionOptions.Token,
-                    statesDict[transitionOptions.EndState]
-                ));
+                if (transitionOptions.IsEpsilon)
+                {
+                    stateMachine.AddTransition(new Transition(
+                        statesDict[transitionOptions.StartState],
+                        statesDict[transitionOptions.EndState]
+                    ));
+                }
+                
+                else
+                {
+                    stateMachine.AddTransition(new Transition(
+                        statesDict[transitionOptions.StartState],
+                        transitionOptions.Token,
+                        statesDict[transitionOptions.EndState]
+                    ));
+                }
             }
             
             stateMachine.Init(options.InitialState);
@@ -134,14 +145,25 @@ namespace META_FA.StateMachine
 
         public SMOptions ToOptions()
         {
-            return new SMOptions {
-                InitialState = _initialState.Id,
-                FinalStates = _states.Where(state => state.IsFinal).Select(state => state.Id).ToList(),
-                Transitions = _transitions.Select(transition => new TransitionOptions {
+            var transitions = _transitions
+                .Where(transition => transition.IsEpsilon)
+                .Select(transition => new TransitionOptions {
+                    StartState = transition.StartState.Id,
+                    EndState = transition.EndState.Id,
+                    IsEpsilon = true
+                }).ToList();
+            
+            transitions.AddRange(_transitions.Where(transition => !transition.IsEpsilon)
+                .Select(transition => new TransitionOptions {
                     StartState = transition.StartState.Id,
                     EndState = transition.EndState.Id,
                     Token = transition.Token
-                }).ToList()
+                }));
+            
+            return new SMOptions {
+                InitialState = _initialState.Id,
+                FinalStates = _states.Where(state => state.IsFinal).Select(state => state.Id).ToList(),
+                Transitions = transitions
             };
         }
 

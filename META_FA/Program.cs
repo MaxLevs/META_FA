@@ -9,7 +9,7 @@ namespace META_FA
     {
         static void Main(string[] args)
         {
-            var options = SMOptions.FromFile("machine_arch.json");
+            var options = SMOptions.FromFile("../../../machine_arch.json");
             var assets = Asset.FromFile("assets.json");
             
             var stateMachine = Machine.GetFromOptions(options);
