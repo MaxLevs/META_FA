@@ -87,7 +87,7 @@ namespace META_FA.StateMachine
             
             var ways = _transitions.FindAll(transition
                 => Equals(transition.StartState, currentState)
-                && transition.Token == token);
+                && (transition.Token == token || transition.IsEpsilon));
 
             return ways.Any(way => DoStep(text.Substring(1), way.EndState));
         }
