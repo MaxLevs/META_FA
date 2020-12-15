@@ -13,7 +13,7 @@ namespace META_FA.StateMachine
         protected readonly List<Transition> _transitions = new List<Transition>();
         protected State _initialState;
         public abstract MachineType Type { get; }
-        protected bool _inited = false;
+        protected bool _inited;
 
         public void AddState(State newState)
         {
@@ -76,22 +76,9 @@ namespace META_FA.StateMachine
             if (!_inited) throw new UninitedMachineRunException(this);
             return DoStep(text, _initialState);
         }
+
+        protected abstract bool DoStep(string text, State currentState);
         
-        private bool DoStep(string text, State currentState)
-        {
-            // [TODO] Think about ε-transitions
-            if (currentState.IsFinal && text == "")
-                return true;
-            
-            var token = text[0].ToString();
-            
-            var ways = _transitions.FindAll(transition
-                => Equals(transition.StartState, currentState)
-                && (transition.Token == token || transition.IsEpsilon));
-
-            return ways.Any(way => DoStep(text.Substring(1), way.EndState));
-        }
-
         protected abstract void PreAddTransitionCheck(Transition newTransition);
         
         public static Machine GetFromOptions(SMOptions options)
