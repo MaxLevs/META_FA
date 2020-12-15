@@ -4,7 +4,7 @@ namespace META_FA.StateMachine
 {
     public class MachineNonDetermined : Machine
     {
-        protected override MachineType Type => MachineType.NonDetermined;
+        public override MachineType Type => MachineType.NonDetermined;
         protected override void PreAddTransitionCheck(Transition newTransition)
         {
             var foundTransition = _transitions.Find(transition

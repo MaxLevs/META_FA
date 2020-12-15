@@ -12,7 +12,7 @@ namespace META_FA.StateMachine
         protected readonly List<State> _states = new List<State>();
         protected readonly List<Transition> _transitions = new List<Transition>();
         protected State _initialState;
-        protected abstract MachineType Type { get; }
+        public abstract MachineType Type { get; }
         protected bool _inited = false;
 
         public void AddState(State newState)
