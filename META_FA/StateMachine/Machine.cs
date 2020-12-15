@@ -96,7 +96,8 @@ namespace META_FA.StateMachine
         
         public static Machine GetFromOptions(SMOptions options)
         {
-            var stateMachine = new MachineNonDetermined();
+            // var stateMachine = new MachineNonDetermined();
+            var stateMachine = new MachineDetermined();
             
             var statesNames = options.GetStates();
             var statesDict = new Dictionary<string, State>();

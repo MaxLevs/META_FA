@@ -25,5 +25,10 @@ namespace META_FA.StateMachine
         {
             return HashCode.Combine(Id, IsFinal);
         }
+
+        public override string ToString()
+        {
+            return Id;
+        }
     }
 }

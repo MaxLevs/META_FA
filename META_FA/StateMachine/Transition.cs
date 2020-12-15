@@ -16,5 +16,10 @@ namespace META_FA.StateMachine
             StartState = startState;
             EndState = endState;
         }
+
+        public override string ToString()
+        {
+            return $"[{Token}]{StartState} => {EndState}";
+        }
     }
 }
