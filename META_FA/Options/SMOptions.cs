@@ -41,9 +41,24 @@ namespace META_FA.Options
         public string ToTable()
         {
             var states = GetStates().ToList();
-            var padding = Math.Max(states.Max(s => s.Length), Transitions.Max(tr => tr.Token.Length)) + 2;
+            var padding = Math.Max(states.Max(s => s.Length), Transitions.Max(tr => tr.Token?.Length ?? 1)) + 2;
+            if (Transitions.Any(tr => tr.IsEpsilon))
+            {
+                padding = Math.Max(padding, 3 + 2);
+            }
             var headline = states.Aggregate(new string(' ', padding), (result, stateCol) => result + stateCol.PadLeft(padding));
-            return states.Aggregate(headline, (resultRow, stateRow) => resultRow + "\n" + states.Aggregate(stateRow.PadLeft(padding), (resultCol, stateCol) => resultCol + (Transitions.Find(tr => tr.StartState == stateCol && tr.EndState == stateRow)?.Token ?? ".").PadLeft(padding)));
+            return states.Aggregate(headline, (resultRow, stateRow) => resultRow + "\n" + states.Aggregate(stateRow.PadLeft(padding),
+                (resultCol, stateCol) =>
+                {
+                    var tr = Transitions.Find(tr => tr.StartState == stateCol && tr.EndState == stateRow);
+                    
+                    if (tr == null)
+                    {
+                        return resultCol + ".".PadLeft(padding);
+                    }
+                    
+                    return resultCol + (tr.Token ?? (tr.IsEpsilon ? "[ε]" : ".")).PadLeft(padding);
+                }));
         }
 
         public string ToDot()
@@ -65,7 +80,7 @@ namespace META_FA.Options
             {
                 graph.Edges.Add(group.Key.StartState, group.Key.EndState, edge =>
                 {
-                    edge.Attributes.Label = string.Join(",", group.Select(options => options.Token));
+                    edge.Attributes.Label = string.Join(",", group.Select(options => options.Token ?? "[ε]"));
                 });
             }
             

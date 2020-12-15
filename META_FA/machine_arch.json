@@ -7,7 +7,6 @@
 		{"StartState": "B", "Token":"b", "EndState": "A"},
 		{"StartState": "C", "Token":"c", "EndState": "A"},
 		{"StartState": "A", "Token":"c", "EndState": "D"},
-		{"StartState": "D", "Token":"b", "EndState": "E"},
-		{"StartState": "C", "EndState": "D", "IsEpsilon": true}
+		{"StartState": "D", "Token":"b", "EndState": "E"}
 	]
 }

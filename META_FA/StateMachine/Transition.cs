@@ -23,7 +23,7 @@ namespace META_FA.StateMachine
         public Transition(State startState, State endState)
         {
             Id = Guid.NewGuid();
-            Token = "";
+            Token = null;
             StartState = startState;
             EndState = endState;
             IsEpsilon = true;
