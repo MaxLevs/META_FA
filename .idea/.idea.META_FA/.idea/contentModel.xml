@@ -30,9 +30,11 @@
             <e p="DuplicateStateException.cs" t="Include" />
             <e p="DuplicateTransitionException.cs" t="Include" />
             <e p="InitialStateIsNullException.cs" t="Include" />
+            <e p="NoAnyFinalStateException.cs" t="Include" />
             <e p="NoAnyReachableFinalStateException.cs" t="Include" />
             <e p="NonDeterminedException.cs" t="Include" />
             <e p="OblivionWayTransitionsException.cs" t="Include" />
+            <e p="UninitedMachineRunException.cs" t="Include" />
           </e>
           <e p="Machine.cs" t="Include" />
           <e p="MachineDetermined.cs" t="Include" />

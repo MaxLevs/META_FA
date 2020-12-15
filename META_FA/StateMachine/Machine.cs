@@ -33,8 +33,15 @@ namespace META_FA.StateMachine
         
         public void Init(string initialStateId)
         {
+            if (_inited) return;
+            
             var initialState = _states.Find(state => state.Id == initialStateId);
             _initialState = initialState ?? throw new InitialStateIsNullException(initialStateId, this);
+
+            if (!_states.Any(state => state.IsFinal))
+            {
+                throw new NoAnyFinalStateException(this);
+            }
 
             var oblivionWayTransitions = _transitions
                 .Select(transition => _states.Find(state => state.Id == transition.EndState.Id))
@@ -60,10 +67,13 @@ namespace META_FA.StateMachine
                     throw new NoAnyReachableFinalStateException(this);
                 }
             }
+
+            _inited = true;
         }
 
         public bool Run(string text)
         {
+            if (!_inited) throw new UninitedMachineRunException(this);
             return DoStep(text, _initialState);
         }
         
