@@ -9,7 +9,7 @@ namespace META_FA
     {
         static void Main(string[] args)
         {
-            var options = SMOptions.FromFile("../../../machine_arch.json");
+            var options = SMOptions.FromFile("machine_arch.json");
             var assets = Asset.FromFile("assets.json");
             
             var stateMachine = Machine.GetFromOptions(options);
@@ -19,7 +19,10 @@ namespace META_FA
             
             foreach (var (text, expectedRes) in assets)
             {
-                Console.WriteLine($"Test \"{text}\". Expected: {expectedRes}. Result: {(stateMachine.Run(text) == expectedRes ? "Correct" : "Reject!")}");
+                Console.Write($"Test \"{text}\". ");
+                Console.Write($"Expected: {expectedRes}. ");
+                Console.Write($"Result: {(stateMachine.Run(text) == expectedRes ? "Correct" : "Reject!")}");
+                Console.WriteLine();
             }
             
             Console.WriteLine();
