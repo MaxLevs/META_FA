@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-namespace META_FA.Assets
+namespace META_FA.Options
 {
     public class Asset
     {

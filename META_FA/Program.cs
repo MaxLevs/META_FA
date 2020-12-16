@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using META_FA.Assets;
 using META_FA.Options;
 using META_FA.StateMachine;
 using META_FA.StateMachine.Exceptions;
@@ -25,16 +24,6 @@ namespace META_FA
 
                 Console.WriteLine($"[Info] Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
                 Console.WriteLine();
-
-                // var assets = Asset.FromFile("Examples/assets.json");
-                // foreach (var (text, expectedRes) in assets)
-                // {
-                //     Console.Write($"Test \"{text}\". ");
-                //     Console.Write($"Expected: {expectedRes}. ");
-                //     Console.Write($"Result: {(stateMachine.Run(text) == expectedRes ? "Correct" : "Reject!")}");
-                //     Console.WriteLine();
-                // }
-                // Console.WriteLine();
 
                 Console.WriteLine(stateMachine.ToOptions().ToTable());
                 Console.WriteLine();
@@ -65,6 +54,16 @@ namespace META_FA
                 Console.WriteLine();
                 
                 Console.WriteLine(stateMachine.ToOptions().ToDot());
+                Console.WriteLine();
+
+                // foreach (var (text, expectedRes) in options.Assets)
+                foreach (var asset in options.Assets)
+                {
+                    Console.Write($"Test \"{asset.Text}\". ");
+                    Console.Write($"Expected: {asset.ExpectedResult}. ");
+                    Console.Write($"Result: {(stateMachine.Run(asset.Text) == asset.ExpectedResult ? "Correct" : "Reject!")}");
+                    Console.WriteLine();
+                }
                 Console.WriteLine();
             }
 

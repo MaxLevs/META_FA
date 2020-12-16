@@ -16,6 +16,8 @@ namespace META_FA.Options
         public string InitialState { get; set; }
         public List<string> FinalStates { get; set; }
         public List<TransitionOptions> Transitions { get; set; }
+        
+        public List<Asset> Assets { get; set; }
 
         public IEnumerable<string> GetStates()
         {
