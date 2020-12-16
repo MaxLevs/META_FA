@@ -117,5 +117,19 @@ namespace META_FA.StateMachine
         {
             return this;
         }
+
+        public MachineDetermined RenameToNormalNames()
+        {
+            var renameDict = _states
+                .Select((state, n) => new {NewState = new State((n+1).ToString(), state.IsFinal), OldState = state})
+                .ToDictionary(x => x.OldState, x => x.NewState);
+            
+            var renamedMachine = new MachineDetermined();
+            renamedMachine.AddStateRange(renameDict.Values);
+            renamedMachine.AddTransitionRange(_transitions.Select(transition => new Transition(renameDict[transition.StartState], transition.Token, renameDict[transition.EndState])));
+            renamedMachine.Init(renameDict[_initialState].Id);
+
+            return renamedMachine;
+        }
     }
 }

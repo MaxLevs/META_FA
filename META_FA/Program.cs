@@ -45,7 +45,7 @@ namespace META_FA
                 Console.WriteLine("[Action] Determine...");
                 Console.WriteLine();
 
-                stateMachine = stateMachine.Determine();
+                stateMachine = stateMachine.Determine().RenameToNormalNames();
                 
                 Console.WriteLine(stateMachine.ToOptions().ToText());
                 Console.WriteLine();

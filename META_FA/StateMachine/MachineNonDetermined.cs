@@ -68,15 +68,15 @@ namespace META_FA.StateMachine
                             .Where(tr => !tr.IsEpsilon && currentClosure.Contains(tr.StartState) && tr.Token == token)
                             .Select(tr => EpsilonClosure(tr.EndState))
                             .Where(closure =>
-                                !newStates.Select(ClosureComparer.GetClosureName).Contains(ClosureComparer.GetClosureName(closure))
-                                && !buffer.Select(ClosureComparer.GetClosureName).Contains(ClosureComparer.GetClosureName(closure)))
+                                !newStates.Select(GetClosureName).Contains(GetClosureName(closure))
+                                && !buffer.Select(GetClosureName).Contains(GetClosureName(closure)))
                             .ToList();
                         
                         buffer.AddRange(newClosures);
                     }
                 }
 
-                var determinedStates = newStates.Select(state => new State(ClosureComparer.GetClosureName(state), state.Any(x => x.IsFinal))).ToList();
+                var determinedStates = newStates.Select(state => new State(GetClosureName(state), state.Any(x => x.IsFinal))).ToList();
                 determined.AddStateRange(determinedStates);
 
                 foreach (var startNewState in newStates)
@@ -91,14 +91,14 @@ namespace META_FA.StateMachine
                         // Should I use Where() instead of Find()?
                         var endNewState = newStates.Find(st => st.Contains(way.EndState));
 
-                        var startDeterminedState = determinedStates.Find(st => st.Id == ClosureComparer.GetClosureName(startNewState));
-                        var endDeterminedState = determinedStates.Find(st => st.Id == ClosureComparer.GetClosureName(endNewState));
+                        var startDeterminedState = determinedStates.Find(st => st.Id == GetClosureName(startNewState));
+                        var endDeterminedState = determinedStates.Find(st => st.Id == GetClosureName(endNewState));
                         
                         determined.AddTransition(new Transition(startDeterminedState, token, endDeterminedState));
                     }
                 }
 
-                determined.Init(ClosureComparer.GetClosureName(initialClosure));
+                determined.Init(GetClosureName(initialClosure));
             }
 
             else
@@ -110,25 +110,7 @@ namespace META_FA.StateMachine
 
             return determined;
         }
-
-        internal class ClosureComparer : IEqualityComparer<List<State>>
-        {
-            public static string GetClosureName(List<State> closure)
-            {
-                return "{" + string.Join(",", closure) + "}";
-            }
-            
-            public bool Equals(List<State> x, List<State> y)
-            {
-                return GetClosureName(x) == GetClosureName(y);
-            }
-
-            public int GetHashCode(List<State> obj)
-            {
-                return HashCode.Combine(GetClosureName(obj));
-            }
-        }
-
+        
         private List<State> EpsilonClosure(State state)
         {
             // var closure = new List<State> {state};
@@ -157,6 +139,25 @@ namespace META_FA.StateMachine
 
             closure.Sort((state1, state2) => string.CompareOrdinal(state1.Id, state2.Id));
             return closure;
+        }
+        
+        private static string GetClosureName(List<State> closure)
+        {
+            return "{" + string.Join(",", closure) + "}";
+        }
+        
+        public MachineDetermined RenameToNormalNames()
+        {
+            var renameDict = _states
+                .Select((state, n) => new {NewState = new State((n+1).ToString(), state.IsFinal), OldState = state})
+                .ToDictionary(x => x.OldState, x => x.NewState);
+            
+            var renamedMachine = new MachineDetermined();
+            renamedMachine.AddStateRange(renameDict.Values);
+            renamedMachine.AddTransitionRange(_transitions.Select(transition => transition.IsEpsilon? new Transition(renameDict[transition.StartState], renameDict[transition.EndState]) : new Transition(renameDict[transition.StartState], transition.Token, renameDict[transition.EndState])));
+            renamedMachine.Init(renameDict[_initialState].Id);
+
+            return renamedMachine;
         }
     }
 }
