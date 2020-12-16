@@ -40,30 +40,34 @@ namespace META_FA.StateMachine
 
             for (int k = 1; k <= _states.Count; ++k)
             {
-                List<IGrouping<string, State>> newSplitting = new List<IGrouping<string, State>>();
+                var newSplitting = new List<IGrouping<string, State>>();
                 
                 foreach (var currentCategory in currentSplitting)
                 {
                     var subSplittingIntoCurrentCategory = currentCategory.GroupBy(checkedStartState => {
                         var kLocal = k;
                         var currentSplittingLocal = currentSplitting;
-                        
-                        var movementsRow = string.Join("|", tokens.Select(checkedToken =>
+
+                        var movementCategories = tokens.Select(checkedToken =>
                         {
                             var endState = _transitions.Find(transition =>
-                                Equals(transition.StartState, checkedStartState) && transition.Token == checkedToken)?.EndState;
+                                    Equals(transition.StartState, checkedStartState) &&
+                                    transition.Token == checkedToken)
+                                ?.EndState;
 
                             if (endState == null)
                             {
                                 return "";
                             }
 
-                            var endCategory = currentSplittingLocal.Find(suspectedCategory => suspectedCategory.Contains(endState));
-                            var nameOfEndCategory = "{" + string.Join(",", endCategory) + "}"; // + "[" + kLocal + "]";
+                            var endCategory = currentSplittingLocal.Find(suspectedCategory =>
+                                suspectedCategory.Contains(endState));
                             
+                            var nameOfEndCategory = "{" + string.Join(",", endCategory) + "}" /* + "[" + kLocal + "]"*/;
                             return nameOfEndCategory;
-                        }));
-
+                        });
+                        
+                        var movementsRow = string.Join("|", movementCategories);
                         return movementsRow;
                     }).ToList();
                     
