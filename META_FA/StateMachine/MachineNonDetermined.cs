@@ -48,6 +48,7 @@ namespace META_FA.StateMachine
             if (isThereAnyEpsilonTransition || isThereAnyMultiVariantTokenTransition)
             {
                 var tokens = _transitions.Select(tr => tr.Token).Distinct().ToList();
+                tokens.Remove(null);
                 tokens.Sort();
                 
                 var initialClosure = EpsilonClosure(_initialState);
@@ -87,21 +88,40 @@ namespace META_FA.StateMachine
                 }
 
                 // newStates = newStates.Distinct(new ClosureComparer()).ToList();
-                var determinedStates = newStates.Select(state => new State("{" + string.Join(",", state) + "}", state.Any(x => x.IsFinal))).ToList();
+                var determinedStates = newStates.Select(state => new State(ClosureComparer.GetClosureName(state), state.Any(x => x.IsFinal))).ToList();
                 determined.AddStateRange(determinedStates);
 
-                foreach (var movement in movements)
+                foreach (var startNewState in newStates)
                 {
-                    var startState = determinedStates.Find(state => state.Id == movement.StartId);
-                    var endState = determinedStates.Find(state => state.Id == movement.EndId);
-
-                    try
+                    foreach (var token in tokens)
                     {
-                        determined.AddTransition(new Transition(startState, movement.Token, endState));
-                    } catch (DuplicateTransitionException) { }
+                        // Should I use Where() instead of First()?
+                        var way = _transitions.Find(tr => startNewState.Contains(tr.StartState) && tr.Token == token);
+                        
+                        if (way == null) continue;
+
+                        // Should I use Where() instead of First()?
+                        var endNewState = newStates.Find(st => st.Contains(way.EndState));
+
+                        var startDeterminedState = determinedStates.Find(st => st.Id == ClosureComparer.GetClosureName(startNewState));
+                        var endDeterminedState = determinedStates.Find(st => st.Id == ClosureComparer.GetClosureName(endNewState));
+                        
+                        determined.AddTransition(new Transition(startDeterminedState, token, endDeterminedState));
+                    }
                 }
 
-                determined.Init("{" + string.Join(",", initialClosure) + "}");
+                // foreach (var movement in movements)
+                // {
+                //     var startState = determinedStates.Find(state => state.Id == movement.StartId);
+                //     var endState = determinedStates.Find(state => state.Id == movement.EndId);
+                //
+                //     try
+                //     {
+                //         determined.AddTransition(new Transition(startState, movement.Token, endState));
+                //     } catch (DuplicateTransitionException) { }
+                // }
+
+                determined.Init(ClosureComparer.GetClosureName(initialClosure));
             }
 
             else
@@ -118,7 +138,7 @@ namespace META_FA.StateMachine
         {
             public static string GetClosureName(List<State> closure)
             {
-                return "{" + string.Join("|", closure) + "}";
+                return "{" + string.Join(",", closure) + "}";
             }
             
             public bool Equals(List<State> x, List<State> y)
