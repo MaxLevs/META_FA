@@ -17,8 +17,6 @@ namespace META_FA.Options
         public List<string> FinalStates { get; set; }
         public List<TransitionOptions> Transitions { get; set; }
         
-        public List<Asset> Assets { get; set; }
-
         public IEnumerable<string> GetStates()
         {
             var firstPart = Transitions.Select(options => options.StartState).ToList();
@@ -27,23 +25,6 @@ namespace META_FA.Options
             return firstPart.Distinct().ToList();
         }
 
-        public static SMOptions FromFile(string path)
-        {
-            using var optionsFile = File.OpenText(path);
-            return JsonSerializer.Deserialize<SMOptions>(optionsFile.ReadToEnd());
-        }
-
-        public string ToText()
-        {
-            return JsonSerializer.Serialize(this, GetType());
-        }
-
-        public void ToFile(string path)
-        {
-            using var optionsFile = File.OpenWrite(path);
-            optionsFile.Write(JsonSerializer.SerializeToUtf8Bytes(this, GetType()));
-            optionsFile.Close();
-        }
 
         public string ToTable()
         {

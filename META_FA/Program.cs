@@ -10,7 +10,7 @@ namespace META_FA
     {
         static void Main(string[] args)
         {
-            string optionsFilePath = "Examples/machine_arch.json";
+            string optionsFilePath = "Examples/options.json";
             try
             {
                 optionsFilePath = args[1];
@@ -19,8 +19,8 @@ namespace META_FA
             try
             {
                 Console.WriteLine($"[Info] Used arch file is {optionsFilePath}");
-                var options = SMOptions.FromFile(optionsFilePath);
-                var stateMachine = Machine.GetFromOptions(options);
+                var options = Options.Options.FromFile(optionsFilePath);
+                var stateMachine = Machine.GetFromOptions(options.Arch);
 
                 Console.WriteLine($"[Info] Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
                 Console.WriteLine();
