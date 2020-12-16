@@ -22,6 +22,8 @@ namespace META_FA.StateMachine
 
         protected override bool DoStep(string text, State currentState)
         {
+            throw new NotImplementedException("Effective move with epsilon-transition isn't implemented");
+            
             if (currentState.IsFinal && text == "")
                 return true;
             
