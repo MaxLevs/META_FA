@@ -1,49 +1,34 @@
 {
 	"InitialState": "1",
-	"FinalStates": ["19"],
+	"FinalStates": ["10"],
 	"Transitions": [
 		{"StartState": "1", "EndState": "2", "IsEpsilon": true},
-		{"StartState": "1", "EndState": "4", "IsEpsilon": true},
-      
-		{"StartState": "2", "Token":"a", "EndState": "3"},
+		{"StartState": "1", "EndState": "3", "IsEpsilon": true},
+		{"StartState": "1", "EndState": "8", "IsEpsilon": true},
 
-		{"StartState": "3", "EndState": "6", "IsEpsilon": true},
+		{"StartState": "2", "Token":"a", "EndState": "4"},
       
-		{"StartState": "4", "EndState": "5", "IsEpsilon": true},
+		{"StartState": "3", "Token":"b", "EndState": "5"},
       
-		{"StartState": "5", "EndState": "6", "IsEpsilon": true},
+		{"StartState": "4", "Token":"b", "EndState": "6"},
       
-		{"StartState": "6", "Token":"b", "EndState": "7"},
+		{"StartState": "5", "Token":"c", "EndState": "7"},
+      
+		{"StartState": "6", "EndState": "8", "IsEpsilon": true},
       
 		{"StartState": "7", "EndState": "8", "IsEpsilon": true},
       
-		{"StartState": "7", "EndState": "10", "IsEpsilon": true},
+		{"StartState": "8", "Token":"c", "EndState": "9"},
+		{"StartState": "8", "EndState": "1", "IsEpsilon": true},
       
-		{"StartState": "8", "Token":"b", "EndState": "9"},
-      
-		{"StartState": "9", "EndState": "8", "IsEpsilon": true},
-		{"StartState": "9", "EndState": "10", "IsEpsilon": true},
-      
-		{"StartState": "10", "EndState": "11", "IsEpsilon": true},
-		{"StartState": "10", "EndState": "19", "IsEpsilon": true},
-      
-		{"StartState": "11", "EndState": "12", "IsEpsilon": true},
-		{"StartState": "11", "EndState": "14", "IsEpsilon": true},
-		{"StartState": "11", "EndState": "16", "IsEpsilon": true},
-      
-		{"StartState": "12", "Token":"a", "EndState": "13"},
-      
-		{"StartState": "13", "EndState": "18", "IsEpsilon": true},
-      
-		{"StartState": "14", "Token":"b", "EndState": "15"},
-      
-		{"StartState": "15", "EndState": "18", "IsEpsilon": true},
-      
-		{"StartState": "16", "Token":"c", "EndState": "17"},
-      
-		{"StartState": "17", "EndState": "18", "IsEpsilon": true},
-
-		{"StartState": "18", "EndState": "11", "IsEpsilon": true},
-		{"StartState": "18", "EndState": "19", "IsEpsilon": true}
+		{"StartState": "9", "Token":"b", "EndState": "10"}
+	],
+	"Assets": [
+		{"Text": "cb", "ExpectedResult": true},
+		{"Text": "acb", "ExpectedResult": false},
+		{"Text": "abcb", "ExpectedResult": true},
+		{"Text": "bccb", "ExpectedResult": true},
+		{"Text": "abbccb", "ExpectedResult": true},
+		{"Text": "bcababcb", "ExpectedResult": true}
 	]
 }
