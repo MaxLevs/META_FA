@@ -39,7 +39,7 @@
       
 		{"StartState": "15", "EndState": "18", "IsEpsilon": true},
       
-		{"StartState": "16", "Token":"b", "EndState": "17"},
+		{"StartState": "16", "Token":"c", "EndState": "17"},
       
 		{"StartState": "17", "EndState": "18", "IsEpsilon": true},
 

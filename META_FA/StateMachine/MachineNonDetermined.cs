@@ -55,10 +55,6 @@ namespace META_FA.StateMachine
                 var buffer = new List<List<State>> { initialClosure };
                 var newStates = new List<List<State>> {};
 
-                var movements = new List<Transition> {_transitions[0]}
-                    .Select(x => new {StartId = x.Token, Token = x.Token, EndId = x.Token}).ToList();
-                movements.Clear();
-
                 while (buffer.Any())
                 {
                     var currentClosure = buffer[0];
@@ -76,18 +72,10 @@ namespace META_FA.StateMachine
                                 && !buffer.Select(ClosureComparer.GetClosureName).Contains(ClosureComparer.GetClosureName(closure)))
                             .ToList();
                         
-                        var startId = "{" + string.Join(",", currentClosure) + "}";
-                        var newMovements = newClosures
-                            .Select(x => "{" + string.Join(",", x) + "}")
-                            .Select(endId => new {StartId = startId, Token = token, EndId = endId})
-                            .ToList();
-                        movements.AddRange(newMovements);
-
                         buffer.AddRange(newClosures);
                     }
                 }
 
-                // newStates = newStates.Distinct(new ClosureComparer()).ToList();
                 var determinedStates = newStates.Select(state => new State(ClosureComparer.GetClosureName(state), state.Any(x => x.IsFinal))).ToList();
                 determined.AddStateRange(determinedStates);
 
@@ -95,12 +83,12 @@ namespace META_FA.StateMachine
                 {
                     foreach (var token in tokens)
                     {
-                        // Should I use Where() instead of First()?
+                        // Should I use Where() instead of Find()?
                         var way = _transitions.Find(tr => startNewState.Contains(tr.StartState) && tr.Token == token);
                         
                         if (way == null) continue;
 
-                        // Should I use Where() instead of First()?
+                        // Should I use Where() instead of Find()?
                         var endNewState = newStates.Find(st => st.Contains(way.EndState));
 
                         var startDeterminedState = determinedStates.Find(st => st.Id == ClosureComparer.GetClosureName(startNewState));
@@ -109,17 +97,6 @@ namespace META_FA.StateMachine
                         determined.AddTransition(new Transition(startDeterminedState, token, endDeterminedState));
                     }
                 }
-
-                // foreach (var movement in movements)
-                // {
-                //     var startState = determinedStates.Find(state => state.Id == movement.StartId);
-                //     var endState = determinedStates.Find(state => state.Id == movement.EndId);
-                //
-                //     try
-                //     {
-                //         determined.AddTransition(new Transition(startState, movement.Token, endState));
-                //     } catch (DuplicateTransitionException) { }
-                // }
 
                 determined.Init(ClosureComparer.GetClosureName(initialClosure));
             }
