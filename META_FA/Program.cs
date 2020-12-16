@@ -42,8 +42,19 @@ namespace META_FA
                 Console.WriteLine(stateMachine.ToOptions().ToDot());
                 Console.WriteLine();
 
+                Console.WriteLine("[Action] Minimize...");
+                Console.WriteLine();
+                
                 stateMachine = stateMachine.Minimize();
+                
+                Console.WriteLine(stateMachine.ToOptions().ToText());
+                Console.WriteLine();
+
+                Console.WriteLine(stateMachine.ToOptions().ToTable());
+                Console.WriteLine();
+                
                 Console.WriteLine(stateMachine.ToOptions().ToDot());
+                Console.WriteLine();
             }
 
             catch (FileNotFoundException)
