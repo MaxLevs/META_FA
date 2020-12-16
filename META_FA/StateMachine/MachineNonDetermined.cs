@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using META_FA.StateMachine.Exceptions;
 
@@ -58,6 +59,32 @@ namespace META_FA.StateMachine
             }
 
             return determined;
+        }
+
+        private List<State> EpsilonClosure(State state)
+        {
+            // var closure = new List<State> {state};
+            // var buffer = _transitions
+            //     .Where(tr => tr.StartState.Equals(state) && tr.IsEpsilon)
+            //     .Select(tr => tr.EndState)
+            //     .ToList();
+
+            var closure = new List<State>();
+            var buffer = new List<State> {state};
+            
+            while (buffer.Any())
+            {
+                var pickedState = buffer[0];
+                buffer.Remove(pickedState);
+                
+                buffer.AddRange(_transitions
+                    .Where(tr => tr.StartState.Equals(pickedState) && tr.IsEpsilon)
+                    .Select(tr => tr.EndState));
+                
+                closure.Add(pickedState);
+            }
+            
+            return closure;
         }
     }
 }
