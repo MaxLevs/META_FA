@@ -38,24 +38,22 @@ namespace META_FA.StateMachine
         public override MachineDetermined Determine()
         {
             var determined = new MachineDetermined();
-            try
-            {
-                foreach (var state in _states)
-                {
-                    determined.AddState(state);
-                }
 
-                foreach (var transition in _transitions)
-                {
-                    determined.AddTransition(transition);
-                }
-                
-                determined.Init(_initialState.Id);
-            }
-            catch (NonDeterminedException e)
+            bool isThereAnyEpsilonTransition = _transitions.Any(transition => transition.IsEpsilon);
+            bool isThereAnyMultiVariantTokenTransition = _transitions
+                .GroupBy(tr => new {tr.StartState, tr.Token})
+                .Any(gr => gr.Count() > 1);
+
+            if (isThereAnyEpsilonTransition || isThereAnyMultiVariantTokenTransition)
             {
-                // Mathematical way for convert nondetermined state machine to determined
-                throw new System.NotImplementedException();
+                // todo: add realisation
+            }
+
+            else
+            {
+                determined.AddStateRange(_states);
+                determined.AddTransitionRange(_transitions);
+                determined.Init(_initialState.Id);
             }
 
             return determined;
