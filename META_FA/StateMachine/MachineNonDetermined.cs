@@ -1,10 +1,11 @@
+using System.Linq;
 using META_FA.StateMachine.Exceptions;
 
 namespace META_FA.StateMachine
 {
     public class MachineNonDetermined : Machine
     {
-        protected override MachineType Type => MachineType.NonDetermined;
+        public override MachineType Type => MachineType.NonDetermined;
         protected override void PreAddTransitionCheck(Transition newTransition)
         {
             var foundTransition = _transitions.Find(transition
@@ -17,6 +18,17 @@ namespace META_FA.StateMachine
             }
         }
 
+        protected override bool DoStep(string text, State currentState)
+        {
+            if (currentState.IsFinal && text == "")
+                return true;
+            
+            var token = text[0].ToString();
+            var ways = _transitions.Where(transition => Equals(transition.StartState, currentState) && (transition.IsEpsilon || transition.Token == token));
+
+            return ways.Any(variant => DoStep(text.Substring(1), variant.EndState));
+        }
+        
         public override Machine Minimize()
         {
             throw new System.NotImplementedException();

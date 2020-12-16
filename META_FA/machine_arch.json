@@ -1,12 +1,30 @@
 {
-	"InitialState": "A",
-	"FinalStates": ["E"],
+	"InitialState": "1",
+	"FinalStates": ["3", "4", "5", "6", "7"],
 	"Transitions": [
-		{"StartState": "A", "Token":"a", "EndState": "B"},
-		{"StartState": "A", "Token":"b", "EndState": "C"},
-		{"StartState": "B", "Token":"b", "EndState": "A"},
-		{"StartState": "C", "Token":"c", "EndState": "A"},
-		{"StartState": "A", "Token":"c", "EndState": "D"},
-		{"StartState": "D", "Token":"b", "EndState": "E"}
+		{"StartState": "1", "Token":"a", "EndState": "2"},
+		{"StartState": "1", "Token":"b", "EndState": "3"},
+		
+		{"StartState": "2", "Token":"b", "EndState": "3"},
+		
+		{"StartState": "3", "Token":"a", "EndState": "4"},
+		{"StartState": "3", "Token":"b", "EndState": "5"},
+		{"StartState": "3", "Token":"c", "EndState": "6"},
+		
+		{"StartState": "4", "Token":"a", "EndState": "4"},
+		{"StartState": "4", "Token":"b", "EndState": "7"},
+		{"StartState": "4", "Token":"c", "EndState": "6"},
+		
+		{"StartState": "5", "Token":"a", "EndState": "4"},
+		{"StartState": "5", "Token":"b", "EndState": "5"},
+		{"StartState": "5", "Token":"c", "EndState": "6"},
+      
+		{"StartState": "6", "Token":"a", "EndState": "4"},
+		{"StartState": "6", "Token":"b", "EndState": "7"},
+		{"StartState": "6", "Token":"c", "EndState": "6"},
+
+		{"StartState": "7", "Token":"a", "EndState": "4"},
+		{"StartState": "7", "Token":"b", "EndState": "7"},
+		{"StartState": "7", "Token":"c", "EndState": "6"}
 	]
 }

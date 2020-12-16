@@ -14,9 +14,15 @@ namespace META_FA
             
             var stateMachine = Machine.GetFromOptions(options);
             
+            Console.WriteLine($"Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
+            Console.WriteLine();
+            
             foreach (var (text, expectedRes) in assets)
             {
-                Console.WriteLine($"Test \"{text}\". Expected: {expectedRes}. Result: {(stateMachine.Run(text) == expectedRes ? "Correct" : "Reject!")}");
+                Console.Write($"Test \"{text}\". ");
+                Console.Write($"Expected: {expectedRes}. ");
+                Console.Write($"Result: {(stateMachine.Run(text) == expectedRes ? "Correct" : "Reject!")}");
+                Console.WriteLine();
             }
             
             Console.WriteLine();

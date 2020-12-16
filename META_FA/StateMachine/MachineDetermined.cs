@@ -7,7 +7,8 @@ namespace META_FA.StateMachine
 {
     public class MachineDetermined : Machine
     {
-        protected override MachineType Type => MachineType.Determined;
+        public override MachineType Type => MachineType.Determined;
+        
         protected override void PreAddTransitionCheck(Transition newTransition)
         {
             var foundTransition = _transitions.Find(transition
@@ -18,31 +19,18 @@ namespace META_FA.StateMachine
                 throw new DuplicateTransitionException(newTransition, this);
             }
         }
-        
-        private bool EquivalentK(State stateOne, State stateTwo, int k)
+
+        protected override bool DoStep(string text, State currentState)
         {
-            if (k < 0) throw new ArgumentException("Argument k can't be less than 0", nameof(k));
+            if (currentState.IsFinal && text == "")
+                return true;
+            
+            var token = text[0].ToString();
+            var way = _transitions.Find(transition => Equals(currentState, transition.StartState) && token == transition.Token);
 
-            if (k == 0)
-            {
-                return stateOne.IsFinal == stateTwo.IsFinal;
-            }
-
-            var nextStatesOne = _transitions.Where(transition => Equals(transition.StartState, stateOne)).Select(transition => transition.EndState).ToList();
-            var nextStatesTwo = _transitions.Where(transition => Equals(transition.StartState, stateTwo)).Select(transition => transition.EndState).ToList();
-
-            if (!EquivalentK(stateOne, stateTwo, k - 1))
-            {
-                return false;
-            }
-
-            return !nextStatesOne
-                .SelectMany(nextStateOne => nextStatesTwo,
-                    (nextStateOne, nextStateTwo) => new {nextStateOne, nextStateTwo})
-                .Where(t => !EquivalentK(t.nextStateOne, t.nextStateTwo, k - 1))
-                .Select(t => t.nextStateOne).Any();
+            return way != null && DoStep(text.Substring(1), way.EndState);
         }
-        
+
         public override Machine Minimize()
         {
             var states_paris_are_not_eq = _states
