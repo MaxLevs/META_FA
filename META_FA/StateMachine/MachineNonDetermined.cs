@@ -53,6 +53,10 @@ namespace META_FA.StateMachine
                 var buffer = new List<List<State>> { initialClosure };
                 var newStates = new List<List<State>> {};
 
+                var movements = new List<Transition> {_transitions[0]}
+                    .Select(x => new {StartId = x.Token, Token = x.Token, EndId = x.Token}).ToList();
+                movements.Clear();
+
                 while (buffer.Any())
                 {
                     var currentClosure = buffer[0];
@@ -62,7 +66,15 @@ namespace META_FA.StateMachine
                     {
                         var newClosures = _transitions
                             .Where(tr => !tr.IsEpsilon && currentClosure.Contains(tr.StartState) && tr.Token == token)
-                            .Select(tr => EpsilonClosure(tr.EndState));
+                            .Select(tr => EpsilonClosure(tr.EndState))
+                            .ToList();
+                        
+                        var startId = "{" + string.Join(",", currentClosure) + "}";
+                        var newMovements = newClosures
+                            .Select(x => "{" + string.Join(",", x) + "}")
+                            .Select(endId => new {StartId = startId, Token = token, EndId = endId})
+                            .ToList();
+                        movements.AddRange(newMovements);
                         
                         buffer.AddRange(newClosures);
                     }
@@ -70,7 +82,17 @@ namespace META_FA.StateMachine
                     newStates.Add(currentClosure);
                 }
 
-                // todo: add realisation
+                var determinedStates = newStates.Select(state => new State("{" + string.Join(",", state) + "}", state.Any(x => x.IsFinal))).ToList();
+                determined.AddStateRange(determinedStates);
+
+                foreach (var movement in movements)
+                {
+                    var startState = determinedStates.Find(state => state.Id == movement.StartId);
+                    var endState = determinedStates.Find(state => state.Id == movement.EndId);
+                    determined.AddTransition(new Transition(startState, movement.Token, endState));
+                }
+
+                determined.Init("{" + string.Join(",", initialClosure) + "}");
             }
 
             else
