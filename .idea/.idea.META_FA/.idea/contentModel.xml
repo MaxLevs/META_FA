@@ -7,13 +7,12 @@
       <e p="META_FA" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="Examples" t="Include">
-          <e p="arthur_arch.json" t="Include" />
-          <e p="arthur_arch_old.json" t="Include" />
-          <e p="assets.json" t="Include" />
-          <e p="machine_arch.json" t="Include" />
-          <e p="machine_arch.json.bak" t="Include" />
-          <e p="nondermined_machine_arch.json" t="Include" />
           <e p="options.json" t="Include" />
+          <e p="options_Arthur_determ.json" t="Include" />
+          <e p="options_Arthur_min.json" t="Include" />
+          <e p="options_Arthur_nondeterm.json" t="Include" />
+          <e p="options_example_determ.json" t="Include" />
+          <e p="options_example_nondeterm.json" t="Include" />
         </e>
         <e p="META_FA.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">

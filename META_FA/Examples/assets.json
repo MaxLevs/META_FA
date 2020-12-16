@@ -1,8 +1,0 @@
-[
-  {"Text": "cb", "ExpectedResult": true},
-  {"Text": "acb", "ExpectedResult": false},
-  {"Text": "abcb", "ExpectedResult": true},
-  {"Text": "bccb", "ExpectedResult": true},
-  {"Text": "abbccb", "ExpectedResult": true},
-  {"Text": "bcababcb", "ExpectedResult": true}
-]

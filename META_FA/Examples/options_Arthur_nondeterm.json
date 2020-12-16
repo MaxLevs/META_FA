@@ -1,0 +1,20 @@
+{
+	"Arch":{
+		"InitialState": "1",
+		"FinalStates": ["8"],
+		"Transitions": [
+			{"StartState": "1", "Token":"b", "EndState": "2"},
+			{"StartState": "2", "Token":"a", "EndState": "3"},
+			{"StartState": "3", "Token":"a", "EndState": "4"},
+			{"StartState": "3", "Token":"c", "EndState": "7"},
+			{"StartState": "4", "Token":"b", "EndState": "5"},
+			{"StartState": "4", "Token":"c", "EndState": "6"},
+			{"StartState": "5", "Token":"c", "EndState": "7"},
+			{"StartState": "6", "Token":"a", "EndState": "4"},
+			{"StartState": "6", "Token":"c", "EndState": "7"},
+			{"StartState": "5", "Token":"a", "EndState": "4"},
+			{"StartState": "7", "Token":"b", "EndState": "8"}
+		]
+	},
+	"Assets": []
+}

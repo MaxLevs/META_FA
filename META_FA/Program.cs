@@ -33,7 +33,7 @@ namespace META_FA
 
                 if (stateMachine.Type != MachineType.Determined)
                 {
-                    Console.WriteLine("[Action] Determine...");
+                    Console.WriteLine("[Action] Determining...");
                     Console.WriteLine();
 
                     stateMachine = stateMachine.Determine().RenameToNormalNames();
@@ -45,7 +45,7 @@ namespace META_FA
                     Console.WriteLine();
                 }
 
-                Console.WriteLine("[Action] Minimize...");
+                Console.WriteLine("[Action] Minimizing...");
                 Console.WriteLine();
 
                 stateMachine = stateMachine.Minimize().RenameToNormalNames();
@@ -57,6 +57,8 @@ namespace META_FA
                 Console.WriteLine();
 
                 // foreach (var (text, expectedRes) in options.Assets)
+                
+                Console.WriteLine("[Action] Testing assets...");
                 foreach (var asset in options.Assets)
                 {
                     Console.Write($"Test \"{asset.Text}\". ");
