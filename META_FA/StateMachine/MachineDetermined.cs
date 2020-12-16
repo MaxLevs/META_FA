@@ -59,7 +59,7 @@ namespace META_FA.StateMachine
                             }
 
                             var endCategory = currentSplittingLocal.Find(suspectedCategory => suspectedCategory.Contains(endState));
-                            var nameOfEndCategory = "{" + string.Join(",", endCategory) + "}[" + kLocal + "]";
+                            var nameOfEndCategory = "{" + string.Join(",", endCategory) + "}"; // + "[" + kLocal + "]";
                             
                             return nameOfEndCategory;
                         }));
@@ -76,11 +76,28 @@ namespace META_FA.StateMachine
                 // Then break; here [todo]
             }
             
-            // TODO:
-            // - Create States from categories
-            // - Create Transitions with this states
+            var minimizedStateMachine = new MachineDetermined();
             
-            throw new System.NotImplementedException();
+            var newStates = currentSplitting.Select(category => new { State = new State("{" + string.Join(",",category.Select(state => state.Id)) + "}", category.Any(state => state.IsFinal)), Category = category}).ToList();
+            minimizedStateMachine.AddStateRange(newStates.Select(x => x.State));
+            
+            foreach (var startPoint in newStates)
+            {
+                var ways = startPoint.Category.Key.Split("|")
+                    .Zip(tokens, (endPoint, token) => new {Token = token, EndPoint = endPoint})
+                    .Where(x => !string.IsNullOrEmpty(x.EndPoint))
+                    .Select(x =>
+                    {
+                        var endPointState = newStates.Find(state => state.State.Id == x.EndPoint);
+                        return new Transition(startPoint.State, x.Token, endPointState.State); // Null check??
+                    });
+                
+                minimizedStateMachine.AddTransitionRange(ways);
+            }
+            
+            minimizedStateMachine.Init(newStates.Find(x => x.Category.Contains(_initialState))?.State.Id ?? throw new InitialStateIsNullException("null", minimizedStateMachine));
+
+            return minimizedStateMachine;
         }
 
         public override MachineDetermined Determine()

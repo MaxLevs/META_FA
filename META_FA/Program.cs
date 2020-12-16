@@ -42,15 +42,8 @@ namespace META_FA
                 Console.WriteLine(stateMachine.ToOptions().ToDot());
                 Console.WriteLine();
 
-                try
-                {
-                    stateMachine.Minimize();
-                }
-
-                catch (NotImplementedException)
-                {
-                    Console.Error.WriteLine($"[Warning] Minimize() for {stateMachine.Type} is not implemented now");
-                }
+                stateMachine = stateMachine.Minimize();
+                Console.WriteLine(stateMachine.ToOptions().ToDot());
             }
 
             catch (FileNotFoundException)
