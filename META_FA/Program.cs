@@ -11,7 +11,7 @@ namespace META_FA
     {
         static void Main(string[] args)
         {
-            string optionsFilePath = "../../../machine_arch.json";
+            string optionsFilePath = "Examples/machine_arch.json";
             try
             {
                 optionsFilePath = args[1];
@@ -26,7 +26,7 @@ namespace META_FA
                 Console.WriteLine($"[Info] Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
                 Console.WriteLine();
 
-                // var assets = Asset.FromFile("assets.json");
+                // var assets = Asset.FromFile("Examples/assets.json");
                 // foreach (var (text, expectedRes) in assets)
                 // {
                 //     Console.Write($"Test \"{text}\". ");
@@ -42,28 +42,25 @@ namespace META_FA
                 Console.WriteLine(stateMachine.ToOptions().ToDot());
                 Console.WriteLine();
 
-                Console.WriteLine("[Action] Determine...");
-                Console.WriteLine();
+                if (stateMachine.Type != MachineType.Determined)
+                {
+                    Console.WriteLine("[Action] Determine...");
+                    Console.WriteLine();
 
-                stateMachine = stateMachine.Determine().RenameToNormalNames();
-                
-                Console.WriteLine(stateMachine.ToOptions().ToText());
-                Console.WriteLine();
-
-                Console.WriteLine(stateMachine.ToOptions().ToTable());
-                Console.WriteLine();
-                
-                Console.WriteLine(stateMachine.ToOptions().ToDot());
-                Console.WriteLine();
+                    stateMachine = stateMachine.Determine().RenameToNormalNames();
+                    
+                    Console.WriteLine(stateMachine.ToOptions().ToTable());
+                    Console.WriteLine();
+                    
+                    Console.WriteLine(stateMachine.ToOptions().ToDot());
+                    Console.WriteLine();
+                }
 
                 Console.WriteLine("[Action] Minimize...");
                 Console.WriteLine();
 
                 stateMachine = stateMachine.Minimize().RenameToNormalNames();
                 
-                Console.WriteLine(stateMachine.ToOptions().ToText());
-                Console.WriteLine();
-
                 Console.WriteLine(stateMachine.ToOptions().ToTable());
                 Console.WriteLine();
                 

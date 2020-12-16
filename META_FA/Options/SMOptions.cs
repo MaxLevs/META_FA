@@ -51,7 +51,7 @@ namespace META_FA.Options
             {
                 padding = Math.Max(padding, 3 + 2);
             }
-            var headline = states.Aggregate(new string(' ', padding), (result, stateCol) => result + stateCol.PadLeft(padding));
+            var headline = states.Aggregate(">".PadLeft(padding), (result, stateCol) => result + stateCol.PadLeft(padding));
             return states.Aggregate(headline, (resultRow, stateRow) => resultRow + "\n" + states.Aggregate(stateRow.PadLeft(padding),
                 (resultCol, stateCol) =>
                 {

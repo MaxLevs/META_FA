@@ -5,17 +5,19 @@
     <e p="$USER_HOME$/Library/Caches/JetBrains/Rider2020.2/resharper-host/local/Transient/Rider/v202/SolutionCaches/_META_FA.-98921265.00" t="ExcludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="META_FA" t="IncludeRecursive">
-        <e p="arthur_arch.json" t="Include" />
-        <e p="arthur_arch_old.json" t="Include" />
         <e p="Assets" t="Include">
           <e p="Asset.cs" t="Include" />
         </e>
-        <e p="assets.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="machine_arch.json" t="Include" />
-        <e p="machine_arch.json.bak" t="Include" />
+        <e p="Examples" t="Include">
+          <e p="arthur_arch.json" t="Include" />
+          <e p="arthur_arch_old.json" t="Include" />
+          <e p="assets.json" t="Include" />
+          <e p="machine_arch.json" t="Include" />
+          <e p="machine_arch.json.bak" t="Include" />
+          <e p="nondermined_machine_arch.json" t="Include" />
+        </e>
         <e p="META_FA.csproj" t="IncludeRecursive" />
-        <e p="nondermined_machine_arch.json" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
