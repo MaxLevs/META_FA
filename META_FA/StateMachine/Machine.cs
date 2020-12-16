@@ -25,10 +25,26 @@ namespace META_FA.StateMachine
             _states.Add(newState);
         }
 
+        public void AddStateRange(IEnumerable<State> newStates)
+        {
+            foreach (var state in newStates)
+            {
+                AddState(state);
+            }
+        }
+
         public void AddTransition(Transition newTransition)
         {
             PreAddTransitionCheck(newTransition);
             _transitions.Add(newTransition);
+        }
+
+        public void AddTransitionRange(IEnumerable<Transition> newTransitions)
+        {
+            foreach (var transition in newTransitions)
+            {
+                AddTransition(transition);
+            }
         }
         
         public void Init(string initialStateId)
