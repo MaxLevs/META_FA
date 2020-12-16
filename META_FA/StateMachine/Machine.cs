@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using META_FA.Options;
 using META_FA.StateMachine.Exceptions;
@@ -9,20 +10,30 @@ namespace META_FA.StateMachine
     public abstract class Machine
     {
         public Guid Id { get; } = Guid.NewGuid();
-        protected readonly List<State> _states = new List<State>();
-        protected readonly List<Transition> _transitions = new List<Transition>();
-        protected State _initialState;
+        protected readonly List<State> States = new List<State>();
+        protected readonly List<Transition> Transitions = new List<Transition>();
+        protected State InitialState;
         public abstract MachineType Type { get; }
-        protected bool _inited;
+        protected bool IsInited;
 
+        public IEnumerable<State> GetStates()
+        {
+            return new ReadOnlyCollection<State>(States);
+        }
+        
+        public IEnumerable<Transition> GetTransitions()
+        {
+            return new ReadOnlyCollection<Transition>(Transitions);
+        }
+        
         public void AddState(State newState)
         {
-            var foundState = _states.Find(state => Equals(state, newState));
+            var foundState = States.Find(state => Equals(state, newState));
             if (foundState != null)
             {
                 throw new DuplicateStateException(newState, this);
             }
-            _states.Add(newState);
+            States.Add(newState);
         }
 
         public void AddStateRange(IEnumerable<State> newStates)
@@ -36,7 +47,7 @@ namespace META_FA.StateMachine
         public void AddTransition(Transition newTransition)
         {
             PreAddTransitionCheck(newTransition);
-            _transitions.Add(newTransition);
+            Transitions.Add(newTransition);
         }
 
         public void AddTransitionRange(IEnumerable<Transition> newTransitions)
@@ -49,34 +60,34 @@ namespace META_FA.StateMachine
         
         public void Init(string initialStateId)
         {
-            if (_inited) return;
+            if (IsInited) return;
             
-            var initialState = _states.Find(state => state.Id == initialStateId);
-            _initialState = initialState ?? throw new InitialStateIsNullException(initialStateId, this);
+            var initialState = States.Find(state => state.Id == initialStateId);
+            InitialState = initialState ?? throw new InitialStateIsNullException(initialStateId, this);
 
-            if (!_states.Any(state => state.IsFinal))
+            if (!States.Any(state => state.IsFinal))
             {
                 throw new NoAnyFinalStateException(this);
             }
 
-            var oblivionWayTransitions = _transitions
-                .Select(transition => _states.Find(state => state.Id == transition.EndState.Id))
+            var oblivionWayTransitions = Transitions
+                .Select(transition => States.Find(state => state.Id == transition.EndState.Id))
                 .Any(foundState => foundState == null);
             if (oblivionWayTransitions)
             {
                 throw new OblivionWayTransitionsException(this);
             }
 
-            var unreachableStates = _states
+            var unreachableStates = States
                 .Where(state => state.Id != initialStateId)
-                .Select(state => _transitions.Find(transition => transition.EndState.Id == state.Id))
+                .Select(state => Transitions.Find(transition => transition.EndState.Id == state.Id))
                 .Any(foundTransition => foundTransition == null);
             if (unreachableStates)
             {
                 Console.WriteLine($"[Warning] There is some unreachable states into machine: {Id}");
-                var isReachableFinalState = _states
+                var isReachableFinalState = States
                     .Where(state => state.IsFinal && state.Id != initialStateId)
-                    .Select(state => _transitions.Find(transition => Equals(transition.EndState, state)))
+                    .Select(state => Transitions.Find(transition => Equals(transition.EndState, state)))
                     .Any(foundTransition => foundTransition != null);
                 if (!isReachableFinalState)
                 {
@@ -84,13 +95,13 @@ namespace META_FA.StateMachine
                 }
             }
 
-            _inited = true;
+            IsInited = true;
         }
 
         public bool Run(string text)
         {
-            if (!_inited) throw new UninitedMachineRunException(this);
-            return DoStep(text, _initialState);
+            if (!IsInited) throw new UninitedMachineRunException(this);
+            return DoStep(text, InitialState);
         }
 
         protected abstract bool DoStep(string text, State currentState);
@@ -103,7 +114,7 @@ namespace META_FA.StateMachine
             if(options.Transitions.Any(tr => tr.IsEpsilon)
             || options.Transitions
                 .GroupBy(tr => tr.StartState + tr.Token)
-                .Any(@gr => @gr.Count() > 1))
+                .Any(gr => gr.Count() > 1))
             {
                 stateMachine = new MachineNonDetermined();
             }
@@ -148,7 +159,7 @@ namespace META_FA.StateMachine
 
         public SMOptions ToOptions()
         {
-            var transitions = _transitions
+            var transitions = Transitions
                 .Where(transition => transition.IsEpsilon)
                 .Select(transition => new TransitionOptions {
                     StartState = transition.StartState.Id,
@@ -156,7 +167,7 @@ namespace META_FA.StateMachine
                     IsEpsilon = true
                 }).ToList();
             
-            transitions.AddRange(_transitions.Where(transition => !transition.IsEpsilon)
+            transitions.AddRange(Transitions.Where(transition => !transition.IsEpsilon)
                 .Select(transition => new TransitionOptions {
                     StartState = transition.StartState.Id,
                     EndState = transition.EndState.Id,
@@ -164,8 +175,8 @@ namespace META_FA.StateMachine
                 }));
             
             return new SMOptions {
-                InitialState = _initialState.Id,
-                FinalStates = _states.Where(state => state.IsFinal).Select(state => state.Id).ToList(),
+                InitialState = InitialState.Id,
+                FinalStates = States.Where(state => state.IsFinal).Select(state => state.Id).ToList(),
                 Transitions = transitions
             };
         }

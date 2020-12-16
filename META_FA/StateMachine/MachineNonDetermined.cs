@@ -10,7 +10,7 @@ namespace META_FA.StateMachine
         public override MachineType Type => MachineType.NonDetermined;
         protected override void PreAddTransitionCheck(Transition newTransition)
         {
-            var foundTransition = _transitions.Find(transition
+            var foundTransition = Transitions.Find(transition
                 => Equals(transition.StartState, newTransition.StartState)
                 && Equals(transition.EndState, newTransition.EndState)
                 && transition.Token == newTransition.Token);
@@ -26,7 +26,7 @@ namespace META_FA.StateMachine
                 return true;
             
             var token = text[0].ToString();
-            var ways = _transitions.Where(transition => Equals(transition.StartState, currentState) && (transition.IsEpsilon || transition.Token == token));
+            var ways = Transitions.Where(transition => Equals(transition.StartState, currentState) && (transition.IsEpsilon || transition.Token == token));
 
             return ways.Any(variant => DoStep(text.Substring(1), variant.EndState));
         }
@@ -40,18 +40,18 @@ namespace META_FA.StateMachine
         {
             var determined = new MachineDetermined();
 
-            bool isThereAnyEpsilonTransition = _transitions.Any(transition => transition.IsEpsilon);
-            bool isThereAnyMultiVariantTokenTransition = _transitions
+            bool isThereAnyEpsilonTransition = Transitions.Any(transition => transition.IsEpsilon);
+            bool isThereAnyMultiVariantTokenTransition = Transitions
                 .GroupBy(tr => new {tr.StartState, tr.Token})
                 .Any(gr => gr.Count() > 1);
 
             if (isThereAnyEpsilonTransition || isThereAnyMultiVariantTokenTransition)
             {
-                var tokens = _transitions.Select(tr => tr.Token).Distinct().ToList();
+                var tokens = Transitions.Select(tr => tr.Token).Distinct().ToList();
                 tokens.Remove(null);
                 tokens.Sort();
                 
-                var initialClosure = EpsilonClosure(_initialState);
+                var initialClosure = EpsilonClosure(InitialState);
                 var buffer = new List<List<State>> { initialClosure };
                 var newStates = new List<List<State>> {};
 
@@ -64,7 +64,7 @@ namespace META_FA.StateMachine
                     
                     foreach (var token in tokens)
                     {
-                        var newClosures = _transitions
+                        var newClosures = Transitions
                             .Where(tr => !tr.IsEpsilon && currentClosure.Contains(tr.StartState) && tr.Token == token)
                             .Select(tr => EpsilonClosure(tr.EndState))
                             .Where(closure =>
@@ -84,7 +84,7 @@ namespace META_FA.StateMachine
                     foreach (var token in tokens)
                     {
                         // Should I use Where() instead of Find()?
-                        var way = _transitions.Find(tr => startNewState.Contains(tr.StartState) && tr.Token == token);
+                        var way = Transitions.Find(tr => startNewState.Contains(tr.StartState) && tr.Token == token);
                         
                         if (way == null) continue;
 
@@ -103,9 +103,9 @@ namespace META_FA.StateMachine
 
             else
             {
-                determined.AddStateRange(_states);
-                determined.AddTransitionRange(_transitions);
-                determined.Init(_initialState.Id);
+                determined.AddStateRange(States);
+                determined.AddTransitionRange(Transitions);
+                determined.Init(InitialState.Id);
             }
 
             return determined;
@@ -129,7 +129,7 @@ namespace META_FA.StateMachine
                 
                 closure.Add(pickedState);
 
-                var nextStates = _transitions
+                var nextStates = Transitions
                     .Where(tr => tr.IsEpsilon && tr.StartState.Equals(pickedState))
                     .Select(tr => tr.EndState)
                     .ToList();
@@ -148,14 +148,14 @@ namespace META_FA.StateMachine
         
         public MachineDetermined RenameToNormalNames()
         {
-            var renameDict = _states
+            var renameDict = States
                 .Select((state, n) => new {NewState = new State((n+1).ToString(), state.IsFinal), OldState = state})
                 .ToDictionary(x => x.OldState, x => x.NewState);
             
             var renamedMachine = new MachineDetermined();
             renamedMachine.AddStateRange(renameDict.Values);
-            renamedMachine.AddTransitionRange(_transitions.Select(transition => transition.IsEpsilon? new Transition(renameDict[transition.StartState], renameDict[transition.EndState]) : new Transition(renameDict[transition.StartState], transition.Token, renameDict[transition.EndState])));
-            renamedMachine.Init(renameDict[_initialState].Id);
+            renamedMachine.AddTransitionRange(Transitions.Select(transition => transition.IsEpsilon? new Transition(renameDict[transition.StartState], renameDict[transition.EndState]) : new Transition(renameDict[transition.StartState], transition.Token, renameDict[transition.EndState])));
+            renamedMachine.Init(renameDict[InitialState].Id);
 
             return renamedMachine;
         }

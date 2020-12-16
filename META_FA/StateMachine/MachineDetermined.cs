@@ -11,7 +11,7 @@ namespace META_FA.StateMachine
         
         protected override void PreAddTransitionCheck(Transition newTransition)
         {
-            var foundTransition = _transitions.Find(transition
+            var foundTransition = Transitions.Find(transition
                 => Equals(transition.StartState, newTransition.StartState)
                 && transition.Token == newTransition.Token);
             if (foundTransition != null)
@@ -26,19 +26,19 @@ namespace META_FA.StateMachine
                 return true;
             
             var token = text[0].ToString();
-            var way = _transitions.Find(transition => Equals(currentState, transition.StartState) && token == transition.Token);
+            var way = Transitions.Find(transition => Equals(currentState, transition.StartState) && token == transition.Token);
 
             return way != null && DoStep(text.Substring(1), way.EndState);
         }
 
         public override Machine Minimize()
         {
-            var tokens = _transitions.Select(transition => transition.Token).Distinct().ToList();
+            var tokens = Transitions.Select(transition => transition.Token).Distinct().ToList();
             tokens.Sort();
 
-            var currentSplitting = _states.GroupBy(state => state.IsFinal ? "A0" : "B0").ToList();
+            var currentSplitting = States.GroupBy(state => state.IsFinal ? "A0" : "B0").ToList();
 
-            for (int k = 1; k <= _states.Count; ++k)
+            for (int k = 1; k <= States.Count; ++k)
             {
                 var newSplitting = new List<IGrouping<string, State>>();
                 
@@ -50,7 +50,7 @@ namespace META_FA.StateMachine
 
                         var movementCategories = tokens.Select(checkedToken =>
                         {
-                            var endState = _transitions.Find(transition =>
+                            var endState = Transitions.Find(transition =>
                                     Equals(transition.StartState, checkedStartState) &&
                                     transition.Token == checkedToken)
                                 ?.EndState;
@@ -101,7 +101,7 @@ namespace META_FA.StateMachine
                 minimizedStateMachine.AddTransitionRange(ways);
             }
             
-            minimizedStateMachine.Init(newStates.Find(x => x.Category.Contains(_initialState))?.State.Id ?? throw new InitialStateIsNullException("null", minimizedStateMachine));
+            minimizedStateMachine.Init(newStates.Find(x => x.Category.Contains(InitialState))?.State.Id ?? throw new InitialStateIsNullException("null", minimizedStateMachine));
 
             return minimizedStateMachine;
         }
@@ -113,14 +113,14 @@ namespace META_FA.StateMachine
 
         public MachineDetermined RenameToNormalNames()
         {
-            var renameDict = _states
+            var renameDict = States
                 .Select((state, n) => new {NewState = new State((n+1).ToString(), state.IsFinal), OldState = state})
                 .ToDictionary(x => x.OldState, x => x.NewState);
             
             var renamedMachine = new MachineDetermined();
             renamedMachine.AddStateRange(renameDict.Values);
-            renamedMachine.AddTransitionRange(_transitions.Select(transition => new Transition(renameDict[transition.StartState], transition.Token, renameDict[transition.EndState])));
-            renamedMachine.Init(renameDict[_initialState].Id);
+            renamedMachine.AddTransitionRange(Transitions.Select(transition => new Transition(renameDict[transition.StartState], transition.Token, renameDict[transition.EndState])));
+            renamedMachine.Init(renameDict[InitialState].Id);
 
             return renamedMachine;
         }
