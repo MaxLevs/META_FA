@@ -74,11 +74,11 @@ namespace META_FA.StateMachine
             if (unreachableStates)
             {
                 Console.WriteLine($"[Warning] There is some unreachable states into machine: {Id}");
-                var noAnyReachableFinalState = _states
+                var isReachableFinalState = _states
                     .Where(state => state.IsFinal && state.Id != initialStateId)
                     .Select(state => _transitions.Find(transition => Equals(transition.EndState, state)))
-                    .Any(foundTransition => foundTransition == null);
-                if (noAnyReachableFinalState)
+                    .Any(foundTransition => foundTransition != null);
+                if (!isReachableFinalState)
                 {
                     throw new NoAnyReachableFinalStateException(this);
                 }
