@@ -59,7 +59,7 @@ namespace META_FA
                 Console.WriteLine("[Action] Minimize...");
                 Console.WriteLine();
 
-                stateMachine = stateMachine.Minimize();
+                stateMachine = stateMachine.Minimize().RenameToNormalNames();
                 
                 Console.WriteLine(stateMachine.ToOptions().ToText());
                 Console.WriteLine();

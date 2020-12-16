@@ -172,5 +172,15 @@ namespace META_FA.StateMachine
 
         public abstract Machine Minimize();
         public abstract MachineDetermined Determine();
+
+        public Machine RenameToNormalNames()
+        {
+            return Type switch
+            {
+                MachineType.Determined => ((MachineDetermined)this).RenameToNormalNames(),
+                MachineType.NonDetermined => ((MachineNonDetermined)this).RenameToNormalNames(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
     }
 }

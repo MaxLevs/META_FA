@@ -83,13 +83,8 @@ namespace META_FA.StateMachine
             var minimizedStateMachine = new MachineDetermined();
             
             var newStates = currentSplitting.Select(category => new { State = new State("{" + string.Join(",",category.Select(state => state.Id)) + "}", category.Any(state => state.IsFinal)), Category = category}).ToList();
-            var renameDict = newStates
-                .Select(x => x.State.Id)
-                .Zip(newStates.Select((_, i) => (i + 1).ToString()), (k, v) => new {Key = k, Value = v})
-                .ToDictionary(data => data.Key, data => data.Value);
 
-            var renamedStates = newStates.Select(x => new State(renameDict[x.State.Id], x.State.IsFinal)).ToList();
-            minimizedStateMachine.AddStateRange(renamedStates);
+            minimizedStateMachine.AddStateRange(newStates.Select(state => state.State));
             
             foreach (var startPoint in newStates)
             {
@@ -99,16 +94,14 @@ namespace META_FA.StateMachine
                     .Select(x =>
                     {
                         var endPointState = newStates.Find(state => state.State.Id == x.EndPoint);
-                        var renamedStartState = renamedStates.Find(state => state.Id == renameDict[startPoint.State.Id]);
-                        var renamedEndState = renamedStates.Find(state => state.Id == renameDict[endPointState.State.Id]);
                         
-                        return new Transition(renamedStartState, x.Token, renamedEndState); // Null check??
+                        return new Transition(startPoint.State, x.Token, endPointState.State); // Null check??
                     });
                 
                 minimizedStateMachine.AddTransitionRange(ways);
             }
             
-            minimizedStateMachine.Init(renameDict[newStates.Find(x => x.Category.Contains(_initialState))?.State.Id ?? throw new InitialStateIsNullException("null", minimizedStateMachine)]);
+            minimizedStateMachine.Init(newStates.Find(x => x.Category.Contains(_initialState))?.State.Id ?? throw new InitialStateIsNullException("null", minimizedStateMachine));
 
             return minimizedStateMachine;
         }
