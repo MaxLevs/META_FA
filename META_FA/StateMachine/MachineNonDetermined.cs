@@ -132,7 +132,7 @@ namespace META_FA.StateMachine
                 closure.Add(pickedState);
 
                 var nextStates = Transitions
-                    .Where(tr => tr.IsEpsilon && tr.StartState.Equals(pickedState))
+                    .Where(tr => tr.IsEpsilon && tr.StartState.Equals(pickedState) && !closure.Contains(tr.EndState) && !buffer.Contains(tr.EndState))
                     .Select(tr => tr.EndState)
                     .ToList();
                 
