@@ -46,6 +46,30 @@ namespace META_FA.StateMachine
 
             if (isThereAnyEpsilonTransition || isThereAnyMultiVariantTokenTransition)
             {
+                var tokens = _transitions.Select(tr => tr.Token).Distinct().ToList();
+                tokens.Sort();
+                
+                var initialClosure = EpsilonClosure(_initialState);
+                var buffer = new List<List<State>> { initialClosure };
+                var newStates = new List<List<State>> {};
+
+                while (buffer.Any())
+                {
+                    var currentClosure = buffer[0];
+                    buffer.Remove(currentClosure);
+                    
+                    foreach (var token in tokens)
+                    {
+                        var newClosures = _transitions
+                            .Where(tr => !tr.IsEpsilon && currentClosure.Contains(tr.StartState) && tr.Token == token)
+                            .Select(tr => EpsilonClosure(tr.EndState));
+                        
+                        buffer.AddRange(newClosures);
+                    }
+                    
+                    newStates.Add(currentClosure);
+                }
+
                 // todo: add realisation
             }
 
@@ -74,10 +98,12 @@ namespace META_FA.StateMachine
             {
                 var pickedState = buffer[0];
                 buffer.Remove(pickedState);
+
+                var nextStates = _transitions
+                    .Where(tr => tr.IsEpsilon && tr.StartState.Equals(pickedState))
+                    .Select(tr => tr.EndState);
                 
-                buffer.AddRange(_transitions
-                    .Where(tr => tr.StartState.Equals(pickedState) && tr.IsEpsilon)
-                    .Select(tr => tr.EndState));
+                buffer.AddRange(nextStates);
                 
                 closure.Add(pickedState);
             }
