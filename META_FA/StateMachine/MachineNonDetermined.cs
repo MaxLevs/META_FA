@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using META_FA.StateMachine.Exceptions;
@@ -67,6 +68,9 @@ namespace META_FA.StateMachine
                         var newClosures = _transitions
                             .Where(tr => !tr.IsEpsilon && currentClosure.Contains(tr.StartState) && tr.Token == token)
                             .Select(tr => EpsilonClosure(tr.EndState))
+                            .Where(closure =>
+                                !newStates.Select(ClosureComparer.GetClosureName).Contains(ClosureComparer.GetClosureName(closure))
+                                && !buffer.Select(ClosureComparer.GetClosureName).Contains(ClosureComparer.GetClosureName(closure)))
                             .ToList();
                         
                         var startId = "{" + string.Join(",", currentClosure) + "}";
@@ -75,13 +79,14 @@ namespace META_FA.StateMachine
                             .Select(endId => new {StartId = startId, Token = token, EndId = endId})
                             .ToList();
                         movements.AddRange(newMovements);
-                        
+
                         buffer.AddRange(newClosures);
                     }
                     
                     newStates.Add(currentClosure);
                 }
 
+                newStates = newStates.Distinct(new ClosureComparer()).ToList();
                 var determinedStates = newStates.Select(state => new State("{" + string.Join(",", state) + "}", state.Any(x => x.IsFinal))).ToList();
                 determined.AddStateRange(determinedStates);
 
@@ -89,7 +94,11 @@ namespace META_FA.StateMachine
                 {
                     var startState = determinedStates.Find(state => state.Id == movement.StartId);
                     var endState = determinedStates.Find(state => state.Id == movement.EndId);
-                    determined.AddTransition(new Transition(startState, movement.Token, endState));
+
+                    try
+                    {
+                        determined.AddTransition(new Transition(startState, movement.Token, endState));
+                    } catch (DuplicateTransitionException) { }
                 }
 
                 determined.Init("{" + string.Join(",", initialClosure) + "}");
@@ -103,6 +112,24 @@ namespace META_FA.StateMachine
             }
 
             return determined;
+        }
+
+        internal class ClosureComparer : IEqualityComparer<List<State>>
+        {
+            public static string GetClosureName(List<State> closure)
+            {
+                return "{" + string.Join("|", closure) + "}";
+            }
+            
+            public bool Equals(List<State> x, List<State> y)
+            {
+                return GetClosureName(x) == GetClosureName(y);
+            }
+
+            public int GetHashCode(List<State> obj)
+            {
+                return HashCode.Combine(GetClosureName(obj));
+            }
         }
 
         private List<State> EpsilonClosure(State state)
@@ -123,13 +150,15 @@ namespace META_FA.StateMachine
 
                 var nextStates = _transitions
                     .Where(tr => tr.IsEpsilon && tr.StartState.Equals(pickedState))
-                    .Select(tr => tr.EndState);
+                    .Select(tr => tr.EndState)
+                    .ToList();
                 
                 buffer.AddRange(nextStates);
                 
                 closure.Add(pickedState);
             }
-            
+
+            closure.Sort((state1, state2) => string.CompareOrdinal(state1.Id, state2.Id));
             return closure;
         }
     }

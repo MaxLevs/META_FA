@@ -11,7 +11,7 @@ namespace META_FA
     {
         static void Main(string[] args)
         {
-            string optionsFilePath = "machine_arch.json";
+            string optionsFilePath = "../../../machine_arch.json";
             try
             {
                 optionsFilePath = args[1];
@@ -42,9 +42,23 @@ namespace META_FA
                 Console.WriteLine(stateMachine.ToOptions().ToDot());
                 Console.WriteLine();
 
-                Console.WriteLine("[Action] Minimize...");
+                Console.WriteLine("[Action] Determine...");
+                Console.WriteLine();
+
+                stateMachine = stateMachine.Determine();
+                
+                Console.WriteLine(stateMachine.ToOptions().ToText());
+                Console.WriteLine();
+
+                Console.WriteLine(stateMachine.ToOptions().ToTable());
                 Console.WriteLine();
                 
+                Console.WriteLine(stateMachine.ToOptions().ToDot());
+                Console.WriteLine();
+
+                Console.WriteLine("[Action] Minimize...");
+                Console.WriteLine();
+
                 stateMachine = stateMachine.Minimize();
                 
                 Console.WriteLine(stateMachine.ToOptions().ToText());

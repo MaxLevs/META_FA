@@ -13,7 +13,9 @@
         <e p="assets.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="machine_arch.json" t="Include" />
+        <e p="machine_arch.json.bak" t="Include" />
         <e p="META_FA.csproj" t="IncludeRecursive" />
+        <e p="nondermined_machine_arch.json" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
