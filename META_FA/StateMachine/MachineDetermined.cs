@@ -33,59 +33,52 @@ namespace META_FA.StateMachine
 
         public override Machine Minimize()
         {
-            var states_paris_are_not_eq = _states
-                .SelectMany(stateOne => _states, (stateOne, stateTwo) => new {stateOne, stateTwo})
-                .ToDictionary(statePair => statePair, statePair => Equals(statePair.stateOne, statePair.stateTwo));
+            var tokens = _transitions.Select(transition => transition.Token).Distinct().ToList();
+            tokens.Sort();
 
-            bool repeat;
-            do
+            var currentSplitting = _states.GroupBy(state => state.IsFinal ? "A0" : "B0").ToList();
+
+            for (int k = 1; k <= _states.Count; ++k)
             {
-                repeat = false;
-                var suspectedPairs = states_paris_are_not_eq.Where(pair => !pair.Value).ToList();
-                var flaggedPairs = states_paris_are_not_eq.Where(pair => pair.Value).ToList();
-                foreach (var suspectedPair in suspectedPairs)
+                List<IGrouping<string, State>> newSplitting = new List<IGrouping<string, State>>();
+                
+                foreach (var currentCategory in currentSplitting)
                 {
-                    var foundTransitions = _transitions
-                        .Where(tr => Equals(tr.StartState, suspectedPair.Key.stateOne))
-                        .SelectMany(
-                            trOne => _transitions.Where(tr =>
-                                Equals(tr.StartState, suspectedPair.Key.stateTwo) && tr.Token == trOne.Token),
-                            (trOne, trTwo) => new {trOne, trTwo});
-                    
-                    foreach (var transition in foundTransitions)
-                    {
-                        var newOne = transition.trOne.EndState;
-                        var newTwo = transition.trTwo.EndState;
+                    var subSplittingIntoCurrentCategory = currentCategory.GroupBy(checkedStartState => {
+                        var kLocal = k;
+                        var currentSplittingLocal = currentSplitting;
                         
-                        if (flaggedPairs.Any(pair =>
-                            Equals(pair.Key.stateOne, newOne) && Equals(pair.Key.stateTwo, newTwo)))
+                        var movementsRow = string.Join("|", tokens.Select(checkedToken =>
                         {
-                            states_paris_are_not_eq[suspectedPair.Key] = true;
-                            repeat = true;
-                            break;
-                        }
-                    }
+                            var endState = _transitions.Find(transition =>
+                                Equals(transition.StartState, checkedStartState) && transition.Token == checkedToken)?.EndState;
 
-                    if (repeat) break;
+                            if (endState == null)
+                            {
+                                return "";
+                            }
+
+                            var endCategory = currentSplittingLocal.Find(suspectedCategory => suspectedCategory.Contains(endState));
+                            var nameOfEndCategory = "{" + string.Join(",", endCategory) + "}[" + kLocal + "]";
+                            
+                            return nameOfEndCategory;
+                        }));
+
+                        return movementsRow;
+                    }).ToList();
+                    
+                    newSplitting.AddRange(subSplittingIntoCurrentCategory);
                 }
-            } while (repeat);
 
-            var some = states_paris_are_not_eq.Where(pair => !pair.Value).ToList();
-            var buffer = new List<State>();
-            foreach (var pair in some)
-            {
-                foreach (var state in _states.Where(state => state.Id == pair.Key.stateTwo.Id))
-                {
-                    if (!_states.Contains(state)) continue;
-                    buffer.Add(state);
-                    _states.Add(new State(pair.Key.stateOne.Id, state.IsFinal));
-                }
+                currentSplitting = newSplitting;
+                
+                // If current splitting ans new splitting are equal 
+                // Then break; here [todo]
             }
-
-            foreach (var state in buffer)
-            {
-                _states.Remove(state);
-            }
+            
+            // TODO:
+            // - Create States from categories
+            // - Create Transitions with this states
             
             throw new System.NotImplementedException();
         }
