@@ -1,28 +1,28 @@
 {
 	"Arch":{
-		"InitialState": "1",
-		"FinalStates": ["10"],
+		"InitialState": "q1",
+		"FinalStates": ["q10"],
 		"Transitions": [
-			{"StartState": "1", "EndState": "2", "IsEpsilon": true},
-			{"StartState": "1", "EndState": "3", "IsEpsilon": true},
-			{"StartState": "1", "EndState": "8", "IsEpsilon": true},
+			{"StartState": "q1", "EndState": "q2", "IsEpsilon": true},
+			{"StartState": "q1", "EndState": "q3", "IsEpsilon": true},
+			{"StartState": "q1", "EndState": "q8", "IsEpsilon": true},
 
-			{"StartState": "2", "Token":"a", "EndState": "4"},
+			{"StartState": "q2", "Token":"a", "EndState": "q4"},
 
-			{"StartState": "3", "Token":"b", "EndState": "5"},
+			{"StartState": "q3", "Token":"b", "EndState": "q5"},
 
-			{"StartState": "4", "Token":"b", "EndState": "6"},
+			{"StartState": "q4", "Token":"b", "EndState": "q6"},
 
-			{"StartState": "5", "Token":"c", "EndState": "7"},
+			{"StartState": "q5", "Token":"c", "EndState": "q7"},
 
-			{"StartState": "6", "EndState": "8", "IsEpsilon": true},
+			{"StartState": "q6", "EndState": "q8", "IsEpsilon": true},
 
-			{"StartState": "7", "EndState": "8", "IsEpsilon": true},
+			{"StartState": "q7", "EndState": "q8", "IsEpsilon": true},
 
-			{"StartState": "8", "Token":"c", "EndState": "9"},
-			{"StartState": "8", "EndState": "1", "IsEpsilon": true},
+			{"StartState": "q8", "Token":"c", "EndState": "q9"},
+			{"StartState": "q8", "EndState": "q1", "IsEpsilon": true},
 
-			{"StartState": "9", "Token":"b", "EndState": "10"}
+			{"StartState": "q9", "Token":"b", "EndState": "q10"}
 		]
 	},
 	"Assets": [

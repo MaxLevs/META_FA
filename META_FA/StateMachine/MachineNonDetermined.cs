@@ -142,10 +142,10 @@ namespace META_FA.StateMachine
             return "{" + string.Join(",", closure) + "}";
         }
         
-        public MachineDetermined RenameToNormalNames()
+        public new MachineDetermined RenameToNormalNames()
         {
             var renameDict = States
-                .Select((state, n) => new {NewState = new State((n+1).ToString(), state.IsFinal), OldState = state})
+                .Select((state, n) => new {NewState = new State($"q{n+1}", state.IsFinal), OldState = state})
                 .ToDictionary(x => x.OldState, x => x.NewState);
             
             var renamedMachine = new MachineDetermined();
