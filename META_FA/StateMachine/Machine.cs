@@ -175,6 +175,7 @@ namespace META_FA.StateMachine
                 }));
             
             return new SMOptions {
+                MachineId = Id.ToString(),
                 InitialState = InitialState.Id,
                 FinalStates = States.Where(state => state.IsFinal).Select(state => state.Id).ToList(),
                 Transitions = transitions

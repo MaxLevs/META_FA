@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 using GiGraph.Dot.Entities.Attributes.Enums;
 using GiGraph.Dot.Entities.Graphs;
 using GiGraph.Dot.Entities.Types.Styles;
@@ -13,6 +11,7 @@ namespace META_FA.Options
 {
     public class SMOptions
     {
+        public string MachineId { get; set; }
         public string InitialState { get; set; }
         public List<string> FinalStates { get; set; }
         public List<TransitionOptions> Transitions { get; set; }
@@ -56,7 +55,17 @@ namespace META_FA.Options
             graph.Nodes.Attributes.Style.FillStyle = DotNodeFillStyle.Normal;
             graph.Nodes.Attributes.FillColor = Color.White;
 
-            graph.Nodes.Add(InitialState, state => { state.FillColor = Color.Gray; });
+            graph.Nodes.Add(MachineId, attributes =>
+            {
+                attributes.Label = "";
+                attributes.Style.Invisible = true;
+            });
+            graph.Edges.Add(MachineId, InitialState);
+
+            graph.Nodes.Add(InitialState, state =>
+            {
+                state.FillColor = Color.Gray;
+            });
             
             graph.Nodes.AddRange(FinalStates, node =>
             {

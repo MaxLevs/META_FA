@@ -22,7 +22,7 @@ namespace META_FA.StateMachine
 
         protected override bool DoStep(string text, State currentState)
         {
-            throw new NotImplementedException("Effective move with epsilon-transition isn't implemented");
+            throw new NotImplementedException("Effective move with epsilon-transition isn't implemented for Nondetermed state machine. Please call Determine() before running");
             
             if (currentState.IsFinal && text == "")
                 return true;
@@ -35,7 +35,7 @@ namespace META_FA.StateMachine
         
         public override Machine Minimize()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException("Minimize() isn't implemented for Nondetermed state machine. Please call Determine() before");
         }
 
         public override MachineDetermined Determine()
@@ -115,12 +115,6 @@ namespace META_FA.StateMachine
         
         private List<State> EpsilonClosure(State state)
         {
-            // var closure = new List<State> {state};
-            // var buffer = _transitions
-            //     .Where(tr => tr.StartState.Equals(state) && tr.IsEpsilon)
-            //     .Select(tr => tr.EndState)
-            //     .ToList();
-
             var closure = new List<State>();
             var buffer = new List<State> {state};
             
