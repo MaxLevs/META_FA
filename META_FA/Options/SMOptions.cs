@@ -35,28 +35,29 @@ namespace META_FA.Options
 
             var pad = table
                 .GroupBy(tableCell => tableCell.Key.Token)
-                .Select(x => Math.Max(x.Key?.Length ?? 3, x.Max(cell => Math.Max(cell.Key.StartState.Length, string.Join(",", cell.Select(tr => tr.EndState)).Length))) + 4)
+                .Select(x => Math.Max(x.Key?.Length ?? 3, x.Max(cell => Math.Max(cell.Key.StartState.Length, string.Join(",", cell.Select(tr => tr.EndState)).Length))) + 2)
                 .ToList();
-            var paddings = new List<int> { " State ".Length };
+            var paddings = new List<int> { "  State".Length };
             paddings.AddRange(pad);
             var padding = paddings.Max();
             
-            string result = "State".PadLeft(padding) + string.Join("", tokens.Select(token => $"  {token ?? "[ε]"}  ".PadLeft(padding))) + "\n";
+            string result = "State".PadLeft(paddings[0]) + string.Join("", tokens.Select((token, i) => $"  {token ?? "[ε]"}".PadLeft(paddings[i+1]))) + "\n";
             foreach (var state in states)
             {
-                result += state.PadLeft(padding);
-                
+                result += state.PadLeft(paddings[0]);
+
+                var i = 1;
                 foreach (var token in tokens)
                 {
                     var cell = table.Find(x => x.Key.StartState == state && x.Key.Token == token);
 
                     if (cell == null)
                     {
-                        result += new string(' ', padding);
+                        result += "  .".PadLeft(paddings[i++]); // new string(' ', paddings[i++]);
                         continue;
                     }
 
-                    result += $" {string.Join(",", cell.Select(tr => tr.EndState))}  ".PadLeft(padding);
+                    result += $" {string.Join(",", cell.Select(tr => tr.EndState))}".PadLeft(paddings[i++]);
                 }
 
                 result += "\n";
