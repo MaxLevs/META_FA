@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using META_FA.Assets;
 using META_FA.Options;
 using META_FA.StateMachine;
+using META_FA.StateMachine.Exceptions;
 
 namespace META_FA
 {
@@ -9,29 +11,58 @@ namespace META_FA
     {
         static void Main(string[] args)
         {
-            var options = SMOptions.FromFile("../../../arthur_arch_old.json");
-            var assets = Asset.FromFile("assets.json");
-            
-            var stateMachine = Machine.GetFromOptions(options);
-            
-            Console.WriteLine($"Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
-            Console.WriteLine();
-            
-            foreach (var (text, expectedRes) in assets)
+            string optionsFilePath = "machine_arch.json";
+            try
             {
-                Console.Write($"Test \"{text}\". ");
-                Console.Write($"Expected: {expectedRes}. ");
-                Console.Write($"Result: {(stateMachine.Run(text) == expectedRes ? "Correct" : "Reject!")}");
+                optionsFilePath = args[1];
+            } catch (IndexOutOfRangeException) {}
+
+            try
+            {
+                Console.WriteLine($"[Info] Used arch file is {optionsFilePath}");
+                var options = SMOptions.FromFile(optionsFilePath);
+                var stateMachine = Machine.GetFromOptions(options);
+
+                Console.WriteLine($"[Info] Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
                 Console.WriteLine();
+
+                // var assets = Asset.FromFile("assets.json");
+                // foreach (var (text, expectedRes) in assets)
+                // {
+                //     Console.Write($"Test \"{text}\". ");
+                //     Console.Write($"Expected: {expectedRes}. ");
+                //     Console.Write($"Result: {(stateMachine.Run(text) == expectedRes ? "Correct" : "Reject!")}");
+                //     Console.WriteLine();
+                // }
+                // Console.WriteLine();
+
+                Console.WriteLine(stateMachine.ToOptions().ToTable());
+                Console.WriteLine();
+
+                Console.WriteLine(stateMachine.ToOptions().ToDot());
+                Console.WriteLine();
+
+                try
+                {
+                    stateMachine.Minimize();
+                }
+
+                catch (NotImplementedException)
+                {
+                    Console.Error.WriteLine($"[Warning] Minimize() for {stateMachine.Type} is not implemented now");
+                }
             }
-            
-            Console.WriteLine();
-            Console.WriteLine(stateMachine.ToOptions().ToTable());
-            
-            Console.WriteLine();
-            Console.WriteLine(stateMachine.ToOptions().ToDot());
-            
-            stateMachine.Minimize();
+
+            catch (FileNotFoundException)
+            {
+                Console.Error.WriteLine("[Error] Can't load configuration file");
+            }
+
+            catch (CoreSMException e)
+            {
+                Console.Error.WriteLine($"Some errors happened when machine was running:\n {e.Message}");
+            }
+
         }
     }
 }
