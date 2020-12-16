@@ -63,6 +63,8 @@ namespace META_FA.StateMachine
                     var currentClosure = buffer[0];
                     buffer.Remove(currentClosure);
                     
+                    newStates.Add(currentClosure);
+                    
                     foreach (var token in tokens)
                     {
                         var newClosures = _transitions
@@ -82,11 +84,9 @@ namespace META_FA.StateMachine
 
                         buffer.AddRange(newClosures);
                     }
-                    
-                    newStates.Add(currentClosure);
                 }
 
-                newStates = newStates.Distinct(new ClosureComparer()).ToList();
+                // newStates = newStates.Distinct(new ClosureComparer()).ToList();
                 var determinedStates = newStates.Select(state => new State("{" + string.Join(",", state) + "}", state.Any(x => x.IsFinal))).ToList();
                 determined.AddStateRange(determinedStates);
 
@@ -147,6 +147,8 @@ namespace META_FA.StateMachine
             {
                 var pickedState = buffer[0];
                 buffer.Remove(pickedState);
+                
+                closure.Add(pickedState);
 
                 var nextStates = _transitions
                     .Where(tr => tr.IsEpsilon && tr.StartState.Equals(pickedState))
@@ -154,8 +156,6 @@ namespace META_FA.StateMachine
                     .ToList();
                 
                 buffer.AddRange(nextStates);
-                
-                closure.Add(pickedState);
             }
 
             closure.Sort((state1, state2) => string.CompareOrdinal(state1.Id, state2.Id));
