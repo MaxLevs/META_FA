@@ -22,15 +22,13 @@ namespace META_FA.StateMachine
 
         protected override bool DoStep(string text, State currentState)
         {
-            throw new NotImplementedException("Effective move with epsilon-transition isn't implemented for Nondetermed state machine. Please call Determine() before running");
+            if (text.Length == 0)
+                return currentState.IsFinal;
             
-            if (currentState.IsFinal && text == "")
-                return true;
-            
+            var closure = EpsilonClosure(currentState);
             var token = text[0].ToString();
-            var ways = Transitions.Where(transition => Equals(transition.StartState, currentState) && (transition.IsEpsilon || transition.Token == token));
-
-            return ways.Any(variant => DoStep(text.Substring(1), variant.EndState));
+            
+            return Transitions.Any(tr => closure.Contains(tr.StartState) && tr.Token == token && DoStep(text.Substring(1), tr.EndState));
         }
         
         public override Machine Minimize()
