@@ -1,4 +1,4 @@
-namespace META_FA.StateMachine
+namespace StateMachineLib.StateMachine
 {
     public enum MachineType
     {

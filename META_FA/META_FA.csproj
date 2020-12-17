@@ -13,4 +13,9 @@
       <Folder Include="Output" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\META3CombParser\BFParser.csproj" />
+      <ProjectReference Include="..\StateMachineLib\StateMachineLib.csproj" />
+    </ItemGroup>
+
 </Project>

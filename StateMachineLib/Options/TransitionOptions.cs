@@ -1,4 +1,4 @@
-namespace META_FA.Options
+namespace StateMachineLib.Options
 {
     public class TransitionOptions
     {

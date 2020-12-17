@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using META_FA.Options;
-using META_FA.StateMachine;
-using META_FA.StateMachine.Exceptions;
+using StateMachineLib.Options;
+using StateMachineLib.StateMachine;
+using StateMachineLib.StateMachine.Exceptions;
 
 namespace META_FA
 {
@@ -58,7 +58,7 @@ namespace META_FA
                 if (string.IsNullOrEmpty(_regexpForParsing))
                 {
                     Console.WriteLine($"[Info] Used options file is {_optionsFilePath}");
-                    var options = Options.Options.FromFile(_optionsFilePath);
+                    var options = StateMachineLib.Options.Options.FromFile(_optionsFilePath);
                     stateMachine = Machine.GetFromOptions(options.Arch);
                     Assets.AddRange(options.Assets);
                 }
@@ -126,7 +126,7 @@ namespace META_FA
         {
             if (!string.IsNullOrEmpty(_outputPath))
             {
-                new Options.Options {Arch = stateMachine.ToOptions(), Assets = Assets}
+                new StateMachineLib.Options.Options {Arch = stateMachine.ToOptions(), Assets = Assets}
                     .ToFile(Path.Combine(_outputPath, $"{fileName}Output_{stateMachine.Id.ToString().Substring(0, 7)}.json"));
             }
         }

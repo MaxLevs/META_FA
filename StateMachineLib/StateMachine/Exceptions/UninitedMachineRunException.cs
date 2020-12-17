@@ -1,4 +1,4 @@
-namespace META_FA.StateMachine.Exceptions
+namespace StateMachineLib.StateMachine.Exceptions
 {
     public class UninitedMachineRunException : CoreSMException
     {

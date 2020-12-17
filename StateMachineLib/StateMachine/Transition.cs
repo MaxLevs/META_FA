@@ -1,6 +1,6 @@
 using System;
 
-namespace META_FA.StateMachine
+namespace StateMachineLib.StateMachine
 {
     public class Transition
     {

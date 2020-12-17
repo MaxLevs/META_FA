@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using META_FA.StateMachine.Exceptions;
+using StateMachineLib.StateMachine.Exceptions;
 
-namespace META_FA.StateMachine
+namespace StateMachineLib.StateMachine
 {
     public class MachineDetermined : Machine
     {

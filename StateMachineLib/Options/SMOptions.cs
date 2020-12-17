@@ -7,7 +7,7 @@ using GiGraph.Dot.Entities.Graphs;
 using GiGraph.Dot.Entities.Types.Styles;
 using GiGraph.Dot.Extensions;
 
-namespace META_FA.Options
+namespace StateMachineLib.Options
 {
     public class SMOptions
     {

@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using META_FA.Options;
-using META_FA.StateMachine.Exceptions;
+using StateMachineLib.Options;
+using StateMachineLib.StateMachine.Exceptions;
 
-namespace META_FA.StateMachine
+namespace StateMachineLib.StateMachine
 {
     public abstract class Machine
     {

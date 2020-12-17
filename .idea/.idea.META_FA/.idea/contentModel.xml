@@ -4,6 +4,50 @@
     <e p="$USER_HOME$/Library/Caches/JetBrains/Rider2020.2/extResources" t="IncludeRecursive" />
     <e p="$USER_HOME$/Library/Caches/JetBrains/Rider2020.2/resharper-host/local/Transient/Rider/v202/SolutionCaches/_META_FA.-98921265.00" t="ExcludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="META3CombParser" t="IncludeRecursive">
+        <e p=".gitignore" t="Include" />
+        <e p="BFParser.csproj" t="IncludeRecursive" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="DebugTools" t="Include">
+          <e p="BrainFuckVisualisation.gv" t="Include" />
+          <e p="BrainFuckVisualisationCorrect.gv" t="Include" />
+          <e p="CoreGrammarVisitor.cs" t="Include" />
+          <e p="MathExprVisualisation.gv" t="Include" />
+          <e p="MathExprVisualisation_TheBest.gv" t="Include" />
+        </e>
+        <e p="Grammar.cs" t="Include" />
+        <e p="LICENCE" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="BFParser.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Parsers" t="Include">
+          <e p="Combinators" t="Include">
+            <e p="ParserAlternative.cs" t="Include" />
+            <e p="ParserCallGrammarParser.cs" t="Include" />
+            <e p="ParserConcatenation.cs" t="Include" />
+            <e p="ParserOptional.cs" t="Include" />
+            <e p="ParserSerial.cs" t="Include" />
+          </e>
+          <e p="CoreParser.cs" t="Include" />
+          <e p="DebugTools" t="Include">
+            <e p="ConvertToDOTVisitor.cs" t="Include" />
+            <e p="CoreParserVisitor.cs" t="Include" />
+          </e>
+          <e p="ParserReg.cs" t="Include" />
+          <e p="ParserToken.cs" t="Include" />
+        </e>
+        <e p="README.md" t="Include" />
+        <e p="SyntaxTreeNode.cs" t="Include" />
+        <e p="SyntaxTreeNodeVisitors" t="Include">
+          <e p="CoreSyntaxTreeNodeVisitor.cs" t="Include" />
+          <e p="SyntaxTreeNodeClearVisitor.cs" t="Include" />
+          <e p="SyntaxTreeNodeVisualiserVisitor.cs" t="Include" />
+        </e>
+      </e>
       <e p="META_FA" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="Examples" t="Include">
@@ -24,18 +68,30 @@
             </e>
           </e>
         </e>
-        <e p="Options" t="Include">
-          <e p="Asset.cs" t="Include" />
-          <e p="Options.cs" t="Include" />
-          <e p="SMOptions.cs" t="Include" />
-          <e p="TransitionOptions.cs" t="Include" />
-        </e>
         <e p="Output" t="Include">
           <e p="DetermOutput_e9db6a9.json" t="Include" />
           <e p="MinDetermOutput_bb84905.json" t="Include" />
           <e p="NonDetermOutput_21ac363.json" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
+      </e>
+      <e p="META_FA.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="StateMachineLib" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="StateMachineLib.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Options" t="Include">
+          <e p="Asset.cs" t="Include" />
+          <e p="Options.cs" t="Include" />
+          <e p="SMOptions.cs" t="Include" />
+          <e p="TransitionOptions.cs" t="Include" />
+        </e>
         <e p="StateMachine" t="Include">
           <e p="Exceptions" t="Include">
             <e p="CoreSMException.cs" t="Include" />
@@ -55,9 +111,8 @@
           <e p="State.cs" t="Include" />
           <e p="Transition.cs" t="Include" />
         </e>
+        <e p="StateMachineLib.csproj" t="IncludeRecursive" />
       </e>
-      <e p="META_FA.sln" t="IncludeFlat" />
-      <e p="packages" t="ExcludeRecursive" />
     </e>
   </component>
 </project>

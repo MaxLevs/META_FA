@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-namespace META_FA.Options
+namespace StateMachineLib.Options
 {
     public class Options
     {

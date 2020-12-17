@@ -1,7 +1,4 @@
-using System;
-using System.Runtime.CompilerServices;
-
-namespace META_FA.StateMachine.Exceptions
+namespace StateMachineLib.StateMachine.Exceptions
 {
     public class InitialStateIsNullException : CoreSMException
     {
