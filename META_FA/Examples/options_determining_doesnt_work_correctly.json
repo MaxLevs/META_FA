@@ -1,0 +1,36 @@
+{
+	"Arch":{
+		"InitialState": "q1",
+		"FinalStates": ["q10"],
+		"Transitions": [
+			{"StartState": "q1", "EndState": "q2", "IsEpsilon": true},
+			{"StartState": "q1", "EndState": "q3", "IsEpsilon": true},
+			{"StartState": "q1", "EndState": "q8", "IsEpsilon": true},
+
+			{"StartState": "q2", "Token":"a", "EndState": "q4"},
+
+			{"StartState": "q3", "Token":"b", "EndState": "q5"},
+
+			{"StartState": "q4", "Token":"b", "EndState": "q6"},
+
+			{"StartState": "q5", "Token":"c", "EndState": "q7"},
+
+			{"StartState": "q6", "EndState": "q8", "IsEpsilon": true},
+
+			{"StartState": "q7", "EndState": "q8", "IsEpsilon": true},
+
+			{"StartState": "q8", "Token":"b", "EndState": "q9"},
+			{"StartState": "q8", "EndState": "q1", "IsEpsilon": true},
+
+			{"StartState": "q9", "Token":"b", "EndState": "q10"}
+		]
+	},
+	"Assets": [
+		{"Text": "cb", "ExpectedResult": true},
+		{"Text": "acb", "ExpectedResult": false},
+		{"Text": "abcb", "ExpectedResult": true},
+		{"Text": "bccb", "ExpectedResult": true},
+		{"Text": "abbccb", "ExpectedResult": true},
+		{"Text": "bcababcb", "ExpectedResult": true}
+	]
+}

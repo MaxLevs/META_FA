@@ -11,6 +11,7 @@
           <e p="options_Arthur_determ.json" t="Include" />
           <e p="options_Arthur_min.json" t="Include" />
           <e p="options_Arthur_nondeterm.json" t="Include" />
+          <e p="options_determining_doesnt_work_correctly.json" t="Include" />
           <e p="options_example_determ.json" t="Include" />
           <e p="options_example_nondeterm.json" t="Include" />
         </e>
