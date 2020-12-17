@@ -25,7 +25,7 @@ namespace META_FA.StateMachine
             if (text.Length == 0)
                 return currentState.IsFinal;
             
-            var closure = EpsilonClosure(currentState);
+            var closure = EpsilonClosure(new List<State>{currentState});
             var token = text[0].ToString();
             
             return Transitions.Any(tr => closure.Contains(tr.StartState) && tr.Token == token && DoStep(text.Substring(1), tr.EndState));
@@ -45,11 +45,13 @@ namespace META_FA.StateMachine
                 var tokens = Transitions.Select(tr => tr.Token).Distinct().ToList();
                 tokens.Remove(null);
                 tokens.Sort();
-                
-                var initialClosure = EpsilonClosure(InitialState);
-                var buffer = new List<List<State>> { initialClosure };
-                var newStates = new List<List<State>> {};
 
+                var initialClosure = EpsilonClosure(new List<State> {InitialState});
+                var buffer = new List<List<State>> { initialClosure };
+                var newStates = new List<List<State>>();
+
+                Console.WriteLine("ε-closure({" + InitialState.Id + "}) = " + GetClosureName(initialClosure) + "\n");
+                
                 while (buffer.Any())
                 {
                     var currentClosure = buffer[0];
@@ -59,16 +61,30 @@ namespace META_FA.StateMachine
                     
                     foreach (var token in tokens)
                     {
-                        var newClosures = Transitions
-                            .Where(tr => !tr.IsEpsilon && currentClosure.Contains(tr.StartState) && tr.Token == token)
-                            .Select(tr => EpsilonClosure(tr.EndState))
-                            .Where(closure =>
-                                !newStates.Select(GetClosureName).Contains(GetClosureName(closure))
-                                && !buffer.Select(GetClosureName).Contains(GetClosureName(closure)))
+                        var nextStops = Transitions.Where(tr =>
+                            !tr.IsEpsilon && currentClosure.Contains(tr.StartState) && tr.Token == token)
+                            .Select(tr => tr.EndState)
                             .ToList();
+
+                        var newClosure = EpsilonClosure(nextStops);
                         
-                        buffer.AddRange(newClosures);
+                        // Console.WriteLine($"{GetClosureName(currentClosure)} ==[{token}]==> ε-closure({GetClosureName(nextStops)}) = {GetClosureName(newClosure)} ");
+                        Console.Write( $"Move({GetClosureName(currentClosure)}, {token}) =  {GetClosureName(nextStops)};");
+
+                        if (!newClosure.Any()
+                            || newStates.Select(GetClosureName).Contains(GetClosureName(newClosure))
+                            || buffer.Select(GetClosureName).Contains(GetClosureName(newClosure)))
+                        {
+                            Console.WriteLine();
+                            continue;   
+                        }
+                        
+                        Console.WriteLine($"     ε-closure({GetClosureName(nextStops)}) = {GetClosureName(newClosure)}");
+                        
+                        buffer.Add(newClosure);
                     }
+                    
+                    Console.WriteLine();
                 }
 
                 var determinedStates = newStates.Select(state => new State(GetClosureName(state), state.Any(x => x.IsFinal))).ToList();
@@ -106,10 +122,10 @@ namespace META_FA.StateMachine
             return determined;
         }
         
-        private List<State> EpsilonClosure(State state)
+        private List<State> EpsilonClosure(IEnumerable<State> states)
         {
             var closure = new List<State>();
-            var buffer = new List<State> {state};
+            var buffer = new List<State>(states);
             
             while (buffer.Any())
             {
