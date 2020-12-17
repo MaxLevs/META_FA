@@ -66,6 +66,12 @@ namespace META_FA
                 else
                 {
                     // build state machine with regexp
+                    var regexpParser = RegexpGrammar.GetParser();
+                    var parseRes = regexpParser.Goal.Parse(_regexpForParsing);
+
+                    Console.WriteLine(parseRes.Dot());
+
+                    return;
                     
                     stateMachine = new MachineNonDetermined();
                     stateMachine.Init("initState");
