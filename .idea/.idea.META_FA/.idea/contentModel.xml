@@ -85,8 +85,9 @@
             <e p="CSTBuilderVisitor.cs" t="Include" />
           </e>
           <e p="CST" t="Include">
-            <e p="CSTBuilderVisitor.cs" t="Include" />
+            <e p="CSTDotVisitor.cs" t="Include" />
             <e p="CSTVisitor.cs" t="Include" />
+            <e p="StateMachineBuilderVisitor.cs" t="Include" />
           </e>
         </e>
       </e>
