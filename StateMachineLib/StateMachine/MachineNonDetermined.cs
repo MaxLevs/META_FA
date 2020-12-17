@@ -151,13 +151,13 @@ namespace StateMachineLib.StateMachine
             return "{" + string.Join(",", closure) + "}";
         }
         
-        public new MachineDetermined RenameToNormalNames()
+        public new MachineNonDetermined RenameToNormalNames()
         {
             var renameDict = States
                 .Select((state, n) => new {NewState = new State($"q{n+1}", state.IsFinal), OldState = state})
                 .ToDictionary(x => x.OldState, x => x.NewState);
             
-            var renamedMachine = new MachineDetermined();
+            var renamedMachine = new MachineNonDetermined();
             renamedMachine.AddStateRange(renameDict.Values);
             renamedMachine.AddTransitionRange(Transitions.Select(transition => transition.IsEpsilon? new Transition(renameDict[transition.StartState], renameDict[transition.EndState]) : new Transition(renameDict[transition.StartState], transition.Token, renameDict[transition.EndState])));
             renamedMachine.Init(renameDict[InitialState].Id);
