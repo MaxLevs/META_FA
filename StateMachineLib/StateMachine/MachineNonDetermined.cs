@@ -85,6 +85,11 @@ namespace StateMachineLib.StateMachine
                         
                         // Console.WriteLine($"{GetClosureName(currentClosure)} ==[{token}]==> ε-closure({GetClosureName(nextStops)}) = {GetClosureName(newClosure)} ");
                         Console.Write( $"Move({GetClosureName(currentClosure)}, {token}) =  {GetClosureName(nextStops)};");
+                        
+                        if (newClosure.Any())
+                        {
+                            tempMovements.Add(new TempTransition(GetClosureName(currentClosure), token, GetClosureName(newClosure)));
+                        }
 
                         if (!newClosure.Any()
                             || newStates.Select(GetClosureName).Contains(GetClosureName(newClosure))
@@ -97,7 +102,6 @@ namespace StateMachineLib.StateMachine
                         Console.WriteLine($"     ε-closure({GetClosureName(nextStops)}) = {GetClosureName(newClosure)}");
                         
                         buffer.Add(newClosure);
-                        tempMovements.Add(new TempTransition(GetClosureName(currentClosure), token, GetClosureName(newClosure)));
                     }
                     
                     Console.WriteLine();
