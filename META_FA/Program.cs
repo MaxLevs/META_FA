@@ -67,7 +67,6 @@ namespace META_FA
 
                 else
                 {
-                    // build state machine with regexp
                     var regexpParser = RegexpGrammar.GetParser();
                     var parseRes = regexpParser.Goal.Parse(_regexpForParsing);
 
@@ -82,9 +81,9 @@ namespace META_FA
                     var stateMachineBuilder = new StateMachineBuilderVisitor();
                     cst.Visit(stateMachineBuilder);
 
-                    stateMachine = stateMachineBuilder.Result;
+                    stateMachine = stateMachineBuilder.GetResult();
 
-                    return;
+                    // Console.WriteLine(stateMachine.ToOptions().ToDot());
                 }
 
                 Console.WriteLine($"[Info] Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
