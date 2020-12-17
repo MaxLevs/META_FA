@@ -31,7 +31,7 @@ namespace StateMachineLib.StateMachine
 
         public override string ToString()
         {
-            return $"[{Token}]{StartState} => {EndState}";
+            return $"{(string.IsNullOrEmpty(Token) ? "ε: " : "[" + Token + "]")}{StartState} => {EndState}";
         }
     }
 }
