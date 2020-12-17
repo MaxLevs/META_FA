@@ -75,6 +75,8 @@ namespace META_FA
                     var cstBuilder = new Visitors.AST.CSTBuilderVisitor();
                     cstBuilder.Visit(parseRes);
                     var cst = (RegexCST) cstBuilder.GetResult();
+                    
+                    Console.WriteLine(cst.Dot());
 
                     return;
                     

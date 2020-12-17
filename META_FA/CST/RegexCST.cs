@@ -18,5 +18,13 @@ namespace META_FA.CST
         {
             return HashCode.Combine(Id);
         }
+
+        public string Dot()
+        {
+            var dotVisitor = new CSTDotVisitor();
+            Visit(dotVisitor);
+            
+            return dotVisitor.Result;
+        }
     }
 }
