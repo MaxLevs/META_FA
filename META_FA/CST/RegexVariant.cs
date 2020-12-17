@@ -8,12 +8,12 @@ namespace META_FA.CST
     public class RegexVariant : RegexCST
     {
         public override Guid Id { get; }
-        public ReadOnlyCollection<RegexCST> Child { get; }
+        public ReadOnlyCollection<RegexCST> Children { get; }
 
-        public RegexVariant(IList<RegexCST> child)
+        public RegexVariant(IList<RegexCST> children)
         {
             Id = Guid.NewGuid();
-            Child = new ReadOnlyCollection<RegexCST>(child);
+            Children = new ReadOnlyCollection<RegexCST>(children);
         }
 
         public override void Visit(CSTVisitor visitor)

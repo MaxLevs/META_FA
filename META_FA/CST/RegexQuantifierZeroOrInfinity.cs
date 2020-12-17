@@ -6,12 +6,12 @@ namespace META_FA.CST
     public class RegexQuantifierZeroOrInfinity : RegexCST
     {
         public override Guid Id { get; }
-        public RegexCST Children { get; }
+        public RegexCST Child { get; }
 
-        public RegexQuantifierZeroOrInfinity(RegexCST children)
+        public RegexQuantifierZeroOrInfinity(RegexCST child)
         {
             Id = Guid.NewGuid();
-            Children = children;
+            Child = child;
         }
 
         public override void Visit(CSTVisitor visitor)

@@ -6,12 +6,12 @@ namespace META_FA.CST
     public class RegexQuantifierMaybe : RegexCST
     {
         public override Guid Id { get; }
-        public RegexCST Children { get; }
+        public RegexCST Child { get; }
 
-        public RegexQuantifierMaybe(RegexCST children)
+        public RegexQuantifierMaybe(RegexCST child)
         {
             Id = Guid.NewGuid();
-            Children = children;
+            Child = child;
         }
 
         public override void Visit(CSTVisitor visitor)

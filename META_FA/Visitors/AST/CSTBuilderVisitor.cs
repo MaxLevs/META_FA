@@ -72,7 +72,7 @@ namespace META_FA.Visitors.AST
 
                     if (suspectedElement is RegexVariant anotherVariants)
                     {
-                        var element = new List<RegexCST>(anotherVariants.Child);
+                        var element = new List<RegexCST>(anotherVariants.Children);
                         element.Insert(0, variantElement);
                         
                         _buffer.Add(new RegexVariant(element));
