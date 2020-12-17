@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using META_FA.Options;
 using META_FA.StateMachine;
 using META_FA.StateMachine.Exceptions;
 
@@ -27,7 +29,7 @@ namespace META_FA
 
                 PrintTable(stateMachine);
                 PrintDot(stateMachine);
-                TestAssets(options, stateMachine);
+                TestAssets(options.Assets, stateMachine);
 
                 if (stateMachine.Type != MachineType.Determined)
                 {
@@ -53,7 +55,7 @@ namespace META_FA
                 
                 PrintTable(stateMachine);
                 PrintDot(stateMachine);
-                TestAssets(options, stateMachine);
+                TestAssets(options.Assets, stateMachine);
             }
 
             catch (FileNotFoundException)
@@ -84,19 +86,20 @@ namespace META_FA
             Console.WriteLine();
         }
 
-        private static void TestAssets(Options.Options options, Machine stateMachine)
+        private static void TestAssets(IEnumerable<Asset> assets, Machine stateMachine)
         {
-            if (options.Assets.Any())
+            var enumerable = assets.ToList();
+            if (enumerable.Any())
             {
                 Console.WriteLine(new string('=', 60));
                 Console.WriteLine("[Action] Testing assets...");
                 Console.WriteLine();
 
                 // foreach (var (text, expectedRes) in options.Assets)
-                foreach (var asset in options.Assets)
+                foreach (var asset in enumerable)
                 {
                     Console.Write(new string(' ', 3));
-                    Console.Write($"Testing \"{asset.Text}\"… ".PadRight(options.Assets.Max(x => x.Text?.Length ?? 4) + 13));
+                    Console.Write($"Testing \"{asset.Text}\"… ".PadRight(enumerable.Max(x => x.Text?.Length ?? 4) + 13));
                     Console.Write($"Expected: {asset.ExpectedResult}. ".PadRight(19));
                     Console.Write($"Result: {(stateMachine.Run(asset.Text) == asset.ExpectedResult ? "Correct" : "Reject!")}"
                         .PadRight(15));
