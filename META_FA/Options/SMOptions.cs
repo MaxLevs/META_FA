@@ -90,6 +90,7 @@ namespace META_FA.Options
         {
             var graph = new DotGraph(directed: true);
             graph.Attributes.Label = "StateMachine";
+            graph.Attributes.LayoutDirection = DotLayoutDirection.LeftToRight;
             graph.Nodes.Attributes.Style.FillStyle = DotNodeFillStyle.Normal;
             graph.Nodes.Attributes.FillColor = Color.White;
 
