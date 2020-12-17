@@ -12,6 +12,12 @@ namespace StateMachineLib.StateMachine
             Id = id;
             IsFinal = isFinal;
         }
+
+        public State(bool isFinal = false)
+        {
+            Id = Guid.NewGuid().ToString().Substring(0,7);
+            IsFinal = isFinal;
+        }
         
         public override bool Equals(object? obj)
         {
