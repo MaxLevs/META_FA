@@ -60,6 +60,7 @@
           <e p="RegexVariant.cs" t="Include" />
         </e>
         <e p="Examples" t="Include">
+          <e p="NonDetermOutPut_a01332d_BreakDetermine.json" t="Include" />
           <e p="options.json" t="Include" />
           <e p="options_Arthur_determ.json" t="Include" />
           <e p="options_Arthur_min.json" t="Include" />
@@ -77,7 +78,11 @@
             </e>
           </e>
         </e>
-        <e p="Output" t="Include" />
+        <e p="Output" t="Include">
+          <e p="DetermOutput_5ad311f.json" t="Include" />
+          <e p="MinDetermOutput_d7fc514.json" t="Include" />
+          <e p="NonDetermOutput_a01332d.json" t="Include" />
+        </e>
         <e p="Program.cs" t="Include" />
         <e p="RegexpGrammar.cs" t="Include" />
         <e p="Visitors" t="Include">

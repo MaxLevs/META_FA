@@ -36,6 +36,20 @@ namespace StateMachineLib.StateMachine
             throw new NotImplementedException("Minimize() isn't implemented for Nondetermed state machine. Please call Determine() before");
         }
 
+        internal class TempTransition
+        {
+            public string Q0 { get; }
+            public string Token { get; }
+            public string Q1 { get; }
+
+            public TempTransition(string q0, string token, string q1)
+            {
+                Q0 = q0;
+                Token = token;
+                Q1 = q1;
+            }
+        }
+
         public override MachineDetermined Determine()
         {
             var determined = new MachineDetermined();
@@ -49,6 +63,7 @@ namespace StateMachineLib.StateMachine
                 var initialClosure = EpsilonClosure(new List<State> {InitialState});
                 var buffer = new List<List<State>> { initialClosure };
                 var newStates = new List<List<State>>();
+                var tempMovements = new List<TempTransition>();
 
                 Console.WriteLine("ε-closure({" + InitialState.Id + "}) = " + GetClosureName(initialClosure) + "\n");
                 
@@ -82,6 +97,7 @@ namespace StateMachineLib.StateMachine
                         Console.WriteLine($"     ε-closure({GetClosureName(nextStops)}) = {GetClosureName(newClosure)}");
                         
                         buffer.Add(newClosure);
+                        tempMovements.Add(new TempTransition(GetClosureName(currentClosure), token, GetClosureName(newClosure)));
                     }
                     
                     Console.WriteLine();
@@ -90,22 +106,18 @@ namespace StateMachineLib.StateMachine
                 var determinedStates = newStates.Select(state => new State(GetClosureName(state), state.Any(x => x.IsFinal))).ToList();
                 determined.AddStateRange(determinedStates);
 
-                foreach (var startNewState in newStates)
+                foreach (var startNewState in determinedStates)
                 {
                     foreach (var token in tokens)
                     {
-                        // Should I use Where() instead of Find()?
-                        var way = Transitions.Find(tr => startNewState.Contains(tr.StartState) && tr.Token == token);
+                        var way = tempMovements.Find(mv => mv.Q0 == startNewState.Id && mv.Token == token);
                         
-                        if (way == null) continue;
+                        if (way == null)
+                            continue;
 
-                        // Should I use Where() instead of Find()?
-                        var endNewState = newStates.Find(st => st.Contains(way.EndState));
-
-                        var startDeterminedState = determinedStates.Find(st => st.Id == GetClosureName(startNewState));
-                        var endDeterminedState = determinedStates.Find(st => st.Id == GetClosureName(endNewState));
+                        var nextStop = determinedStates.Find(st => st.Id == way.Q1);
                         
-                        determined.AddTransition(new Transition(startDeterminedState, token, endDeterminedState));
+                        determined.AddTransition(new Transition(startNewState, token, nextStop));
                     }
                 }
 
