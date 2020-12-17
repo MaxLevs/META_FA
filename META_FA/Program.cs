@@ -77,9 +77,11 @@ namespace META_FA
                 PrintTable(stateMachine);
                 PrintDot(stateMachine);
                 TestAssets(Assets, stateMachine);
+                SaveMachineIntoFile(stateMachine, "NonDeterm");
 
                 if (stateMachine.Type != MachineType.Determined)
                 {
+                    
                     Console.WriteLine();
                     Console.WriteLine(new string('=', 60));
                     Console.WriteLine("[Action] Determining...");
@@ -90,6 +92,8 @@ namespace META_FA
                     
                     PrintTable(stateMachine);
                     PrintDot(stateMachine);
+                    
+                    SaveMachineIntoFile(stateMachine,"Determ");
                 }
 
                 Console.WriteLine();
@@ -103,6 +107,7 @@ namespace META_FA
                 PrintTable(stateMachine);
                 PrintDot(stateMachine);
                 TestAssets(Assets, stateMachine);
+                SaveMachineIntoFile(stateMachine,"MinDeterm");
             }
 
             catch (FileNotFoundException)
@@ -115,6 +120,15 @@ namespace META_FA
                 Console.Error.WriteLine($"Some errors happened when machine was running:\n {e.Message}");
             }
 
+        }
+
+        private static void SaveMachineIntoFile(Machine stateMachine, string fileName)
+        {
+            if (!string.IsNullOrEmpty(_outputPath))
+            {
+                new Options.Options {Arch = stateMachine.ToOptions(), Assets = Assets}
+                    .ToFile(Path.Combine(_outputPath, $"{fileName}Output_{stateMachine.Id.ToString().Substring(0, 7)}.json"));
+            }
         }
 
         private static void PrintDot(Machine stateMachine)

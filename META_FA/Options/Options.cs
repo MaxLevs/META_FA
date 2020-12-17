@@ -8,7 +8,7 @@ namespace META_FA.Options
     {
         public SMOptions Arch { get; set; }
         public List<Asset> Assets { get; set; }
-        
+
         public static Options FromFile(string path)
         {
             using var optionsFile = File.OpenText(path);

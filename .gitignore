@@ -5,6 +5,7 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 /META_FA.sln
+**/Output
 
 # User specific
 **/.idea/**/workspace.xml

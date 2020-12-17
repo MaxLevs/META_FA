@@ -30,6 +30,11 @@
           <e p="SMOptions.cs" t="Include" />
           <e p="TransitionOptions.cs" t="Include" />
         </e>
+        <e p="Output" t="Include">
+          <e p="DetermOutput_e9db6a9.json" t="Include" />
+          <e p="MinDetermOutput_bb84905.json" t="Include" />
+          <e p="NonDetermOutput_21ac363.json" t="Include" />
+        </e>
         <e p="Program.cs" t="Include" />
         <e p="StateMachine" t="Include">
           <e p="Exceptions" t="Include">
