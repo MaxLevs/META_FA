@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using META_FA.CST;
+using META_FA.Visitors.CST;
 using StateMachineLib.Options;
 using StateMachineLib.StateMachine;
 using StateMachineLib.StateMachine.Exceptions;
@@ -76,12 +77,14 @@ namespace META_FA
                     cstBuilder.Visit(parseRes);
                     var cst = (RegexCST) cstBuilder.GetResult();
                     
-                    Console.WriteLine(cst.Dot());
+                    // Console.WriteLine(cst.Dot());
+                    
+                    var stateMachineBuilder = new StateMachineBuilderVisitor();
+                    cst.Visit(stateMachineBuilder);
+
+                    stateMachine = stateMachineBuilder.Result;
 
                     return;
-                    
-                    stateMachine = new MachineNonDetermined();
-                    stateMachine.Init("initState");
                 }
 
                 Console.WriteLine($"[Info] Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
