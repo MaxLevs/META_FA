@@ -14,7 +14,12 @@ namespace META_FA.StateMachine
         protected readonly List<Transition> Transitions = new List<Transition>();
         protected State InitialState;
         public abstract MachineType Type { get; }
+        
         protected bool IsInited;
+        protected bool IsThereAnyEpsilonTransition => Transitions.Any(transition => transition.IsEpsilon);
+        protected bool IsThereAnyMultiVariantTokenTransition => Transitions
+                                       .GroupBy(tr => new {tr.StartState, tr.Token})
+                                       .Any(gr => gr.Count() > 1);
 
         public IEnumerable<State> GetStates()
         {
@@ -78,9 +83,13 @@ namespace META_FA.StateMachine
                 throw new OblivionWayTransitionsException(this);
             }
 
+            // var unreachableStates = States
+            //     .Where(state => state.Id != initialStateId)
+            //     .Select(state => Transitions.Find(transition => transition.EndState.Id == state.Id))
+            //     .Any(foundTransition => foundTransition == null);
             var unreachableStates = States
                 .Where(state => state.Id != initialStateId)
-                .Select(state => Transitions.Find(transition => transition.EndState.Id == state.Id))
+                .Select(state => Transitions.Find(transition => Equals(transition.EndState, state) && !Equals(transition.StartState, state)))
                 .Any(foundTransition => foundTransition == null);
             if (unreachableStates)
             {

@@ -40,12 +40,7 @@ namespace META_FA.StateMachine
         {
             var determined = new MachineDetermined();
 
-            bool isThereAnyEpsilonTransition = Transitions.Any(transition => transition.IsEpsilon);
-            bool isThereAnyMultiVariantTokenTransition = Transitions
-                .GroupBy(tr => new {tr.StartState, tr.Token})
-                .Any(gr => gr.Count() > 1);
-
-            if (isThereAnyEpsilonTransition || isThereAnyMultiVariantTokenTransition)
+            if (IsThereAnyEpsilonTransition || IsThereAnyMultiVariantTokenTransition)
             {
                 var tokens = Transitions.Select(tr => tr.Token).Distinct().ToList();
                 tokens.Remove(null);
