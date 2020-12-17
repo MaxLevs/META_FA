@@ -26,11 +26,11 @@
 		]
 	},
 	"Assets": [
-		{"Text": "cb", "ExpectedResult": true},
-		{"Text": "acb", "ExpectedResult": false},
-		{"Text": "abcb", "ExpectedResult": true},
-		{"Text": "bccb", "ExpectedResult": true},
-		{"Text": "abbccb", "ExpectedResult": true},
-		{"Text": "bcababcb", "ExpectedResult": true}
+		{"Text": "bb", "ExpectedResult": true},
+		{"Text": "abb", "ExpectedResult": false},
+		{"Text": "abbb", "ExpectedResult": true},
+		{"Text": "bcbb", "ExpectedResult": true},
+		{"Text": "abbcbb", "ExpectedResult": true},
+		{"Text": "bcababbb", "ExpectedResult": true}
 	]
 }
