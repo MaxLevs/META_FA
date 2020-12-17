@@ -50,6 +50,15 @@
       </e>
       <e p="META_FA" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="CST" t="Include">
+          <e p="RegexCST.cs" t="Include" />
+          <e p="RegexQuantifierMaybe.cs" t="Include" />
+          <e p="RegexQuantifierOneOrInfinity.cs" t="Include" />
+          <e p="RegexQuantifierZeroOrInfinity.cs" t="Include" />
+          <e p="RegexString.cs" t="Include" />
+          <e p="RegexSymbol.cs" t="Include" />
+          <e p="RegexVariant.cs" t="Include" />
+        </e>
         <e p="Examples" t="Include">
           <e p="options.json" t="Include" />
           <e p="options_Arthur_determ.json" t="Include" />
@@ -68,12 +77,18 @@
             </e>
           </e>
         </e>
-        <e p="Output" t="Include">
-          <e p="DetermOutput_e9db6a9.json" t="Include" />
-          <e p="MinDetermOutput_bb84905.json" t="Include" />
-          <e p="NonDetermOutput_21ac363.json" t="Include" />
-        </e>
+        <e p="Output" t="Include" />
         <e p="Program.cs" t="Include" />
+        <e p="RegexpGrammar.cs" t="Include" />
+        <e p="Visitors" t="Include">
+          <e p="AST" t="Include">
+            <e p="CSTBuilderVisitor.cs" t="Include" />
+          </e>
+          <e p="CST" t="Include">
+            <e p="CSTBuilderVisitor.cs" t="Include" />
+            <e p="CSTVisitor.cs" t="Include" />
+          </e>
+        </e>
       </e>
       <e p="META_FA.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />
