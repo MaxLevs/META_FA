@@ -37,7 +37,7 @@ namespace META_FA.Visitors.AST
                             _buffer.Add(new RegexQuantifierOneOrInfinity(quantSubExpr));
                             break;
                         case "*":
-                            _buffer.Add(new RegexQuantifierOneOrInfinity(quantSubExpr));
+                            _buffer.Add(new RegexQuantifierZeroOrInfinity(quantSubExpr));
                             break;
                     }
                     
