@@ -135,7 +135,7 @@ namespace META_FA.Visitors.CST
             var q1 = _startNodes[^1];
             var q2 = _endNodes[^1];
 
-            new RegexQuantifierZeroOrInfinity(regexQuantifierOneOrInfinity).Visit(this);
+            new RegexQuantifierZeroOrInfinity(regexQuantifierOneOrInfinity.Child).Visit(this);
             var q3 = _startNodes[^1];
             var q4 = _endNodes[^1];
 
