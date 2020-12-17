@@ -12,21 +12,19 @@ namespace META_FA.Visitors.CST
 
         private readonly MachineNonDetermined _machine;
 
-        public MachineNonDetermined Result {
-            get
-            {
-                var finalNode = new State(isFinal: true);
-                var transition = new Transition(_endNodes[^1], finalNode);
-                
-                _machine.AddState(finalNode);
-                _machine.AddTransition(transition);
-                
-                _endNodes.Add(finalNode);
-                _transitions.Add(transition);
-                
-                _machine.Init(_startNodes[^1].Id);
-                return _machine.RenameToNormalNames();
-            }
+        public MachineNonDetermined GetResult()
+        {
+            var finalNode = new State(isFinal: true);
+            var transition = new Transition(_endNodes[^1], finalNode);
+
+            _machine.AddState(finalNode);
+            _machine.AddTransition(transition);
+
+            _endNodes.Add(finalNode);
+            _transitions.Add(transition);
+
+            _machine.Init(_startNodes[^1].Id);
+            return _machine.RenameToNormalNames();
         }
 
         public StateMachineBuilderVisitor()
@@ -189,6 +187,7 @@ namespace META_FA.Visitors.CST
 
             var transition = new Transition(q0, regexSymbol.Token, qk);
             _machine.AddTransition(transition);
+            _transitions.Add(transition);
         }
     }
 }
