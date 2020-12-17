@@ -10,26 +10,73 @@ namespace META_FA
 {
     class Program
     {
+        static string _optionsFilePath = "Examples/options.json";
+        private static string _regexpForParsing;
+        private static string _outputPath;
+        private static readonly List<Asset> Assets = new List<Asset>();
+        
         static void Main(string[] args)
         {
-            string optionsFilePath = "Examples/options.json";
+            while (args.Any())
+            {
+                var arg = args[0];
+                args = args.Where((_, i) => i != 0).ToArray();
+
+                if (arg.StartsWith("-"))
+                {
+                    switch (arg)
+                    {
+                        case "-r":
+                            _regexpForParsing = args[0];
+                            break;
+                        case "-o":
+                            var path = args[0];
+                            if (Uri.IsWellFormedUriString(path, UriKind.RelativeOrAbsolute)
+                                && Directory.Exists(path))
+                            {
+                                _outputPath = path;
+                            }
+                            break;
+                    }
+                    args = args.Where((_, i) => i != 0).ToArray();
+                }
+                else
+                {
+                    _optionsFilePath = arg;
+                }
+            }
+            
             try
             {
-                optionsFilePath = args[0];
+                _optionsFilePath = args[0];
             } catch (IndexOutOfRangeException) {}
 
             try
             {
-                Console.WriteLine($"[Info] Used options file is {optionsFilePath}");
-                var options = Options.Options.FromFile(optionsFilePath);
-                var stateMachine = Machine.GetFromOptions(options.Arch);
+                Machine stateMachine;
+
+                if (string.IsNullOrEmpty(_regexpForParsing))
+                {
+                    Console.WriteLine($"[Info] Used options file is {_optionsFilePath}");
+                    var options = Options.Options.FromFile(_optionsFilePath);
+                    stateMachine = Machine.GetFromOptions(options.Arch);
+                    Assets.AddRange(options.Assets);
+                }
+
+                else
+                {
+                    // build state machine with regexp
+                    
+                    stateMachine = new MachineNonDetermined();
+                    stateMachine.Init("initState");
+                }
 
                 Console.WriteLine($"[Info] Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
                 Console.WriteLine();
 
                 PrintTable(stateMachine);
                 PrintDot(stateMachine);
-                TestAssets(options.Assets, stateMachine);
+                TestAssets(Assets, stateMachine);
 
                 if (stateMachine.Type != MachineType.Determined)
                 {
@@ -55,7 +102,7 @@ namespace META_FA
                 
                 PrintTable(stateMachine);
                 PrintDot(stateMachine);
-                TestAssets(options.Assets, stateMachine);
+                TestAssets(Assets, stateMachine);
             }
 
             catch (FileNotFoundException)
