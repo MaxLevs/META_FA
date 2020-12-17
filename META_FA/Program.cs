@@ -25,15 +25,9 @@ namespace META_FA
                 Console.WriteLine($"[Info] Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
                 Console.WriteLine();
 
-                Console.WriteLine("Table");
-                Console.WriteLine();
-                Console.WriteLine(stateMachine.ToOptions().ToTable());
-                Console.WriteLine();
-
-                Console.WriteLine("Graph.dot");
-                Console.WriteLine();
-                Console.WriteLine(stateMachine.ToOptions().ToDot());
-                Console.WriteLine();
+                PrintTable(stateMachine);
+                PrintDot(stateMachine);
+                TestAssets(options, stateMachine);
 
                 if (stateMachine.Type != MachineType.Determined)
                 {
@@ -43,17 +37,10 @@ namespace META_FA
 
                     stateMachine = stateMachine.Determine().RenameToNormalNames();
                     Console.WriteLine($"  [Info] New id: {stateMachine.Id}");
-                    
-                    Console.WriteLine();
-                    Console.WriteLine("Table");
-                    Console.WriteLine();
-                    Console.WriteLine(stateMachine.ToOptions().ToTable());
                     Console.WriteLine();
                     
-                    Console.WriteLine("Graph.dot");
-                    Console.WriteLine();
-                    Console.WriteLine(stateMachine.ToOptions().ToDot());
-                    Console.WriteLine();
+                    PrintTable(stateMachine);
+                    PrintDot(stateMachine);
                 }
 
                 Console.WriteLine();
@@ -62,40 +49,11 @@ namespace META_FA
 
                 stateMachine = stateMachine.Minimize().RenameToNormalNames();
                 Console.WriteLine($"  [Info] New id: {stateMachine.Id}");
-                
-                Console.WriteLine();
-                Console.WriteLine("Table");
-                Console.WriteLine();
-                Console.WriteLine(stateMachine.ToOptions().ToTable());
                 Console.WriteLine();
                 
-                Console.WriteLine("Graph.dot");
-                Console.WriteLine();
-                Console.WriteLine(stateMachine.ToOptions().ToDot());
-                Console.WriteLine();
-
-                if (options.Assets.Any())
-                {
-                    Console.WriteLine(new string('=', 60));
-                    Console.WriteLine("[Action] Testing assets...");
-                    Console.WriteLine();
-                    
-                    // foreach (var (text, expectedRes) in options.Assets)
-                    foreach (var asset in options.Assets)
-                    {
-                        Console.Write(new string(' ', 3));
-                        Console.Write($"Testing \"{asset.Text}\"… ".PadRight(options.Assets.Max(x => x.Text?.Length ?? 4) + 13));
-                        Console.Write($"Expected: {asset.ExpectedResult}. ".PadRight(19));
-                        Console.Write($"Result: {(stateMachine.Run(asset.Text) == asset.ExpectedResult ? "Correct" : "Reject!")}".PadRight(15));
-                        Console.WriteLine();
-                    }
-                    Console.WriteLine();
-                }
-
-                else
-                {
-                    Console.WriteLine("[Info] Test assets are not found");
-                }
+                PrintTable(stateMachine);
+                PrintDot(stateMachine);
+                TestAssets(options, stateMachine);
             }
 
             catch (FileNotFoundException)
@@ -108,6 +66,50 @@ namespace META_FA
                 Console.Error.WriteLine($"Some errors happened when machine was running:\n {e.Message}");
             }
 
+        }
+
+        private static void PrintDot(Machine stateMachine)
+        {
+            Console.WriteLine("Graph.dot");
+            Console.WriteLine();
+            Console.WriteLine(stateMachine.ToOptions().ToDot());
+            Console.WriteLine();
+        }
+
+        private static void PrintTable(Machine stateMachine)
+        {
+            Console.WriteLine("Table");
+            Console.WriteLine();
+            Console.WriteLine(stateMachine.ToOptions().ToTable());
+            Console.WriteLine();
+        }
+
+        private static void TestAssets(Options.Options options, Machine stateMachine)
+        {
+            if (options.Assets.Any())
+            {
+                Console.WriteLine(new string('=', 60));
+                Console.WriteLine("[Action] Testing assets...");
+                Console.WriteLine();
+
+                // foreach (var (text, expectedRes) in options.Assets)
+                foreach (var asset in options.Assets)
+                {
+                    Console.Write(new string(' ', 3));
+                    Console.Write($"Testing \"{asset.Text}\"… ".PadRight(options.Assets.Max(x => x.Text?.Length ?? 4) + 13));
+                    Console.Write($"Expected: {asset.ExpectedResult}. ".PadRight(19));
+                    Console.Write($"Result: {(stateMachine.Run(asset.Text) == asset.ExpectedResult ? "Correct" : "Reject!")}"
+                        .PadRight(15));
+                    Console.WriteLine();
+                }
+
+                Console.WriteLine();
+            }
+
+            else
+            {
+                Console.WriteLine("[Info] Test assets are not found");
+            }
         }
     }
 }
