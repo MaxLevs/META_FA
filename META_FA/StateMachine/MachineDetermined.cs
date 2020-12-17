@@ -22,8 +22,8 @@ namespace META_FA.StateMachine
 
         protected override bool DoStep(string text, State currentState)
         {
-            if (currentState.IsFinal && text == "")
-                return true;
+            if (text.Length == 0)
+                return currentState.IsFinal;
             
             var token = text[0].ToString();
             var way = Transitions.Find(transition => Equals(currentState, transition.StartState) && token == transition.Token);
