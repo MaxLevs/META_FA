@@ -14,10 +14,11 @@
           <e p="options_determining_doesnt_work_correctly.json" t="Include" />
           <e p="options_example_determ.json" t="Include" />
           <e p="options_example_nondeterm.json" t="Include" />
+          <e p="output_example.txt" t="Include" />
         </e>
         <e p="META_FA.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
+          <e p="Release" t="Include">
             <e p="netcoreapp3.1" t="Include">
               <e p="META_FA.AssemblyInfo.cs" t="Include" />
             </e>

@@ -1,0 +1,144 @@
+[Info] Used options file is Examples/options.json
+[Info] Type: NonDetermined, MachineId: a846f523-0c5e-44df-a7de-873d8fb980fa
+
+Table
+
+  State       [ε]   a    b   c
+     q1  q2,q3,q8   .    .   .
+     q6        q8   .    .   .
+     q7        q8   .    .   .
+     q8        q1   .    .  q9
+     q2         .  q4    .   .
+     q3         .   .   q5   .
+     q4         .   .   q6   .
+     q5         .   .    .  q7
+     q9         .   .  q10   .
+    q10         .   .    .   .
+
+
+Graph.dot
+
+digraph
+{
+    label = StateMachine
+
+    node [ fillcolor = white, style = filled ]
+
+    "a846f523-0c5e-44df-a7de-873d8fb980fa" [ label = "", style = invis ]
+    q1 [ fillcolor = gray ]
+    q10 [ fillcolor = gray, shape = doublecircle ]
+
+    "a846f523-0c5e-44df-a7de-873d8fb980fa" -> q1
+    q1 -> q2 [ label = "[ε]" ]
+    q1 -> q3 [ label = "[ε]" ]
+    q1 -> q8 [ label = "[ε]" ]
+    q6 -> q8 [ label = "[ε]" ]
+    q7 -> q8 [ label = "[ε]" ]
+    q8 -> q1 [ label = "[ε]" ]
+    q2 -> q4 [ label = a ]
+    q3 -> q5 [ label = b ]
+    q4 -> q6 [ label = b ]
+    q5 -> q7 [ label = c ]
+    q8 -> q9 [ label = c ]
+    q9 -> q10 [ label = b ]
+}
+
+============================================================
+[Action] Testing assets...
+
+   Testing "cb"…        Expected: True.    Result: Correct
+   Testing "acb"…       Expected: False.   Result: Correct
+   Testing "abcb"…      Expected: True.    Result: Correct
+   Testing "bccb"…      Expected: True.    Result: Correct
+   Testing "abbccb"…    Expected: True.    Result: Correct
+   Testing "bcababcb"…  Expected: True.    Result: Correct
+
+
+============================================================
+[Action] Determining...
+  [Info] New id: e6c174be-718d-42f7-995b-3f89abeeab95
+
+Table
+
+  State   a   b   c
+     q1  q2  q3  q4
+     q2   .  q5   .
+     q3   .   .  q6
+     q4   .  q7   .
+     q5  q2  q3  q4
+     q6  q2  q3  q4
+     q7   .   .   .
+
+
+Graph.dot
+
+digraph
+{
+    label = StateMachine
+
+    node [ fillcolor = white, style = filled ]
+
+    "e6c174be-718d-42f7-995b-3f89abeeab95" [ label = "", style = invis ]
+    q1 [ fillcolor = gray ]
+    q7 [ fillcolor = gray, shape = doublecircle ]
+
+    "e6c174be-718d-42f7-995b-3f89abeeab95" -> q1
+    q1 -> q2 [ label = a ]
+    q1 -> q3 [ label = b ]
+    q1 -> q4 [ label = c ]
+    q2 -> q5 [ label = b ]
+    q3 -> q6 [ label = c ]
+    q4 -> q7 [ label = b ]
+    q5 -> q2 [ label = a ]
+    q5 -> q3 [ label = b ]
+    q5 -> q4 [ label = c ]
+    q6 -> q2 [ label = a ]
+    q6 -> q3 [ label = b ]
+    q6 -> q4 [ label = c ]
+}
+
+
+============================================================
+[Action] Minimizing...
+  [Info] New id: 3aed1696-5043-46e0-b059-f9d0f4de6e27
+
+Table
+
+  State   a   b   c
+     q1  q2  q3  q4
+     q2   .  q1   .
+     q3   .   .  q1
+     q4   .  q5   .
+     q5   .   .   .
+
+
+Graph.dot
+
+digraph
+{
+    label = StateMachine
+
+    node [ fillcolor = white, style = filled ]
+
+    "3aed1696-5043-46e0-b059-f9d0f4de6e27" [ label = "", style = invis ]
+    q1 [ fillcolor = gray ]
+    q5 [ fillcolor = gray, shape = doublecircle ]
+
+    "3aed1696-5043-46e0-b059-f9d0f4de6e27" -> q1
+    q1 -> q2 [ label = a ]
+    q1 -> q3 [ label = b ]
+    q1 -> q4 [ label = c ]
+    q2 -> q1 [ label = b ]
+    q3 -> q1 [ label = c ]
+    q4 -> q5 [ label = b ]
+}
+
+============================================================
+[Action] Testing assets...
+
+   Testing "cb"…        Expected: True.    Result: Correct
+   Testing "acb"…       Expected: False.   Result: Correct
+   Testing "abcb"…      Expected: True.    Result: Correct
+   Testing "bccb"…      Expected: True.    Result: Correct
+   Testing "abbccb"…    Expected: True.    Result: Correct
+   Testing "bcababcb"…  Expected: True.    Result: Correct
