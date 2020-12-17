@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using META_FA.CST;
 using StateMachineLib.Options;
 using StateMachineLib.StateMachine;
 using StateMachineLib.StateMachine.Exceptions;
@@ -58,7 +59,7 @@ namespace META_FA
                 if (string.IsNullOrEmpty(_regexpForParsing))
                 {
                     Console.WriteLine($"[Info] Used options file is {_optionsFilePath}");
-                    var options = StateMachineLib.Options.Options.FromFile(_optionsFilePath);
+                    var options = Options.FromFile(_optionsFilePath);
                     stateMachine = Machine.GetFromOptions(options.Arch);
                     Assets.AddRange(options.Assets);
                 }
@@ -69,7 +70,11 @@ namespace META_FA
                     var regexpParser = RegexpGrammar.GetParser();
                     var parseRes = regexpParser.Goal.Parse(_regexpForParsing);
 
-                    Console.WriteLine(parseRes.Dot());
+                    // Console.WriteLine(parseRes.Dot());
+                    
+                    var cstBuilder = new Visitors.AST.CSTBuilderVisitor();
+                    cstBuilder.Visit(parseRes);
+                    var cst = (RegexCST) cstBuilder.GetResult();
 
                     return;
                     
@@ -132,7 +137,7 @@ namespace META_FA
         {
             if (!string.IsNullOrEmpty(_outputPath))
             {
-                new StateMachineLib.Options.Options {Arch = stateMachine.ToOptions(), Assets = Assets}
+                new Options {Arch = stateMachine.ToOptions(), Assets = Assets}
                     .ToFile(Path.Combine(_outputPath, $"{fileName}Output_{stateMachine.Id.ToString().Substring(0, 7)}.json"));
             }
         }
