@@ -20,114 +20,97 @@ namespace META_FA.Visitors.CST
                 return _graph.Build();
             }
         }
-        
-        public override void Apply(RegexCST cstNode)
+
+        public override void Apply(RegexVariant regexVariant)
         {
-            switch (cstNode)
+            var nodes = new List<DotNode>();
+            foreach (var child in regexVariant.Children)
             {
-                case RegexSymbol regexSymbol:
-                {
-                    var node = new DotNode(regexSymbol.Id.ToString());
-                    node.Attributes.Label = regexSymbol.Token;
-                    _graph.Nodes.Add(node);
-                    _nodes.Add(node);
-                    break;
-                }
-
-                case RegexQuantifierMaybe regexQuantifierMaybe:
-                {
-                    regexQuantifierMaybe.Child.Visit(this);
-                    
-                    var node = new DotNode(regexQuantifierMaybe.Id.ToString());
-                    node.Attributes.Label = "[Maybe]";
-                    _graph.Nodes.Add(node);
-
-                    var edge = new DotEdge(node.Id, _nodes[^1].Id);
-                    _graph.Edges.Add(edge);
-                    
-                    _nodes.Add(node);
-                    
-                    break;
-                }
-
-                case RegexQuantifierOneOrInfinity regexQuantifierOneOrInfinity:
-                {
-                    regexQuantifierOneOrInfinity.Child.Visit(this);
-                    
-                    var node = new DotNode(regexQuantifierOneOrInfinity.Id.ToString());
-                    node.Attributes.Label = "[One or Infinity]";
-                    _graph.Nodes.Add(node);
-
-                    var edge = new DotEdge(node.Id, _nodes[^1].Id);
-                    _graph.Edges.Add(edge);
-                    
-                    _nodes.Add(node);
-                    
-                    break;
-                }
-
-                case RegexQuantifierZeroOrInfinity regexQuantifierZeroOrInfinity:
-                {
-                    regexQuantifierZeroOrInfinity.Child.Visit(this);
-                    
-                    var node = new DotNode(regexQuantifierZeroOrInfinity.Id.ToString());
-                    node.Attributes.Label = "[Zero Or Infinity]";
-                    _graph.Nodes.Add(node);
-
-                    var edge = new DotEdge(node.Id, _nodes[^1].Id);
-                    _graph.Edges.Add(edge);
-                    
-                    _nodes.Add(node);
-                    
-                    break;
-                }
-
-                case RegexString regexString:
-                {
-                    var nodes = new List<DotNode>();
-                    foreach (var child in regexString.Children)
-                    {
-                        child.Visit(this);
-                        nodes.Add(_nodes[^1]);
-                    }
-                    
-                    var currentNode = new DotNode(regexString.Id.ToString());
-                    currentNode.Attributes.Label = "{String}";
-                    _graph.Nodes.Add(currentNode);
-
-                    foreach (var node in nodes)
-                    {
-                        _graph.Edges.Add(new DotEdge(currentNode.Id, node.Id));
-                    }
-                    
-                    _nodes.Add(currentNode);
-                    
-                    break;
-                }
-
-                case RegexVariant regexVariant:
-                {
-                    var nodes = new List<DotNode>();
-                    foreach (var child in regexVariant.Children)
-                    {
-                        child.Visit(this);
-                        nodes.Add(_nodes[^1]);
-                    }
-                    
-                    var currentNode = new DotNode(regexVariant.Id.ToString());
-                    currentNode.Attributes.Label = "{Variant}";
-                    _graph.Nodes.Add(currentNode);
-
-                    foreach (var node in nodes)
-                    {
-                        _graph.Edges.Add(new DotEdge(currentNode.Id, node.Id));
-                    }
-                    
-                    _nodes.Add(currentNode);
-                    
-                    break;
-                }
+                child.Visit(this);
+                nodes.Add(_nodes[^1]);
             }
+
+            var currentNode = new DotNode(regexVariant.Id.ToString());
+            currentNode.Attributes.Label = "{Variant}";
+            _graph.Nodes.Add(currentNode);
+
+            foreach (var node in nodes)
+            {
+                _graph.Edges.Add(new DotEdge(currentNode.Id, node.Id));
+            }
+
+            _nodes.Add(currentNode);
+        }
+
+        public override void Apply(RegexString regexString)
+        {
+            var nodes = new List<DotNode>();
+            foreach (var child in regexString.Children)
+            {
+                child.Visit(this);
+                nodes.Add(_nodes[^1]);
+            }
+
+            var currentNode = new DotNode(regexString.Id.ToString());
+            currentNode.Attributes.Label = "{String}";
+            _graph.Nodes.Add(currentNode);
+
+            foreach (var node in nodes)
+            {
+                _graph.Edges.Add(new DotEdge(currentNode.Id, node.Id));
+            }
+
+            _nodes.Add(currentNode);
+        }
+
+        public override void Apply(RegexQuantifierZeroOrInfinity regexQuantifierZeroOrInfinity)
+        {
+            regexQuantifierZeroOrInfinity.Child.Visit(this);
+
+            var node = new DotNode(regexQuantifierZeroOrInfinity.Id.ToString());
+            node.Attributes.Label = "[Zero Or Infinity]";
+            _graph.Nodes.Add(node);
+
+            var edge = new DotEdge(node.Id, _nodes[^1].Id);
+            _graph.Edges.Add(edge);
+
+            _nodes.Add(node);
+        }
+
+        public override void Apply(RegexQuantifierOneOrInfinity regexQuantifierOneOrInfinity)
+        {
+            regexQuantifierOneOrInfinity.Child.Visit(this);
+
+            var node = new DotNode(regexQuantifierOneOrInfinity.Id.ToString());
+            node.Attributes.Label = "[One or Infinity]";
+            _graph.Nodes.Add(node);
+
+            var edge = new DotEdge(node.Id, _nodes[^1].Id);
+            _graph.Edges.Add(edge);
+
+            _nodes.Add(node);
+        }
+
+        public override void Apply(RegexQuantifierMaybe regexQuantifierMaybe)
+        {
+            regexQuantifierMaybe.Child.Visit(this);
+
+            var node = new DotNode(regexQuantifierMaybe.Id.ToString());
+            node.Attributes.Label = "[Maybe]";
+            _graph.Nodes.Add(node);
+
+            var edge = new DotEdge(node.Id, _nodes[^1].Id);
+            _graph.Edges.Add(edge);
+
+            _nodes.Add(node);
+        }
+
+        public override void Apply(RegexSymbol regexSymbol)
+        {
+            var node = new DotNode(regexSymbol.Id.ToString());
+            node.Attributes.Label = regexSymbol.Token;
+            _graph.Nodes.Add(node);
+            _nodes.Add(node);
         }
     }
 }
