@@ -7,17 +7,25 @@ namespace META_FA
 {
     public static class RegexpGrammar
     {
+        // Rule names
+        public const string Symbol = "symbol";
+        public const string Quantifier = "quantifier";
+        public const string Element = "element";
+        public const string Variant = "variant";
+        public const string Str = "str";
+
         public static Grammar GetParser()
         {
-            var gram = new Grammar("string")
+            var gram = new Grammar(Str)
             {
-                {"symbol", P.RE(@".")},
-                {"quantifier", P.C("element") + P.T("?") |
-                               P.C("element") + P.T("*") |
-                               P.C("element")},
-                {"element", P.T("(") + P.C("variant") + P.T(")")},
-                {"variant", P.C("string") + P.T("|") + P.C("variant") | P.C("string")},
-                {"string", P.OI(P.C("quantifier"))}
+                {Symbol, P.RE(@"[^*?()+|]")},
+                {Quantifier, P.C(Element) + P.T("?") |
+                             P.C(Element) + P.T("*") |
+                             P.C(Element) + P.T("+") |
+                             P.C(Element)},
+                {Element, P.T("(") + P.C(Variant) + P.T(")") | P.C(Symbol)},
+                {Variant, P.C(Str) + P.T("|") + P.C(Variant) | P.C(Str)},
+                {Str, P.OI(P.C(Quantifier))}
             };
             gram.InitGrammar();
         
