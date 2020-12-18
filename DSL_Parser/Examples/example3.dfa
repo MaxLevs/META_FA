@@ -1,0 +1,39 @@
+Declare Dfa1
+    States = (m1, m2, m3, m4, m5)
+    Initial = m1
+    Finals = (m5)
+    Table = (
+        <m1 a m2>
+        <m1 b m3>
+        <m1 c m4>
+        <m2 b m1>
+        <m3 c m1>
+        <m4 b m5>
+    )
+End Declare
+
+Declare Dfa2
+    Initial = s1
+    Finals = (s7)
+    Table = (
+        <s1 a s2>
+        <s1 b s3>
+        <s1 c s4>
+        <s2 a s5>
+        <s3 c s6>
+        <s4 b s7>
+        <s5 a s2>
+        <s5 b s3>
+        <s5 c s4>
+        <s6 a s2>
+        <s6 b s3>
+        <s6 c s4>
+    )
+End Declare
+
+Run(Dfa1, "cb")
+Run(Dfa1, "acb")
+Run(Dfa2, "abcb")
+Run(Dfa2, "bccb")
+Run(Dfa1, "abbccb")
+Run(Dfa1, "bcababcb")
