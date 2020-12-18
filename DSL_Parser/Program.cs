@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace DSL_Parser
 {
@@ -6,8 +7,16 @@ namespace DSL_Parser
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("DSL Parser Lib");
+            Console.WriteLine("DSL Parser Lib\n");
             var dslParser = DSLGrammar.GetParser();
+
+            using (var dfaExplanation = File.OpenText("../../../Examples/example1.dfa"))
+            {
+                var dfaText = dfaExplanation.ReadToEnd();
+                var ast = dslParser.Goal.Parse(dfaText);
+                
+                Console.WriteLine(ast?.Dot() ?? "[NULL PARSE RESULT]");
+            }
         }
     }
 }

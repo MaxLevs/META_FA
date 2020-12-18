@@ -11,7 +11,9 @@
         </e>
         <e p="DSL_Parser.csproj" t="IncludeRecursive" />
         <e p="DSLGrammar.cs" t="Include" />
-        <e p="Examples" t="Include" />
+        <e p="Examples" t="Include">
+          <e p="example1.dfa" t="Include" />
+        </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">

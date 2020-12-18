@@ -1,0 +1,12 @@
+Declare Dfa1
+Initial = m1
+Finals = (m5)
+Table = (
+<m1 a m2>
+<m1 b m3>
+<m1 c m4>
+<m2 b m1>
+<m3 c m1>
+<m4 b m5>
+)
+End Declare
