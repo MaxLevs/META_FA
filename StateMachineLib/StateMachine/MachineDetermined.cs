@@ -112,9 +112,26 @@ namespace StateMachineLib.StateMachine
 
         public new MachineDetermined RenameToNormalNames()
         {
-            var renameDict = States
-                .Select((state, n) => new {NewState = new State($"q{n+1}", state.IsFinal), OldState = state})
-                .ToDictionary(x => x.OldState, x => x.NewState);
+            var renameDict = new Dictionary<State, State>();
+
+            var buffer = new List<State> { InitialState };
+
+            var n = 1;
+            while (buffer.Any())
+            {
+                var currentNode = buffer[0];
+
+                var nextStops = Transitions.Where(tr => Equals(tr.StartState, currentNode) && !buffer.Contains(tr.EndState) && !renameDict.Keys.Contains(tr.EndState)).Select(tr=>tr.EndState).Distinct(new StatesComparer()).ToList();
+
+                if (nextStops.Any())
+                {
+                    buffer.AddRange(nextStops);
+                }
+                
+                buffer.Remove(currentNode);
+                renameDict.Add(currentNode, new State($"q{n}", currentNode.IsFinal));
+                n++;
+            }
             
             var renamedMachine = new MachineDetermined();
             renamedMachine.AddStateRange(renameDict.Values);

@@ -67,6 +67,7 @@
           <e p="options_Arthur_nondeterm.json" t="Include" />
           <e p="options_determining_doesnt_work_correctly.json" t="Include" />
           <e p="options_example_determ.json" t="Include" />
+          <e p="options_example_meh.json" t="Include" />
           <e p="options_example_nondeterm.json" t="Include" />
           <e p="output_example.txt" t="Include" />
         </e>
@@ -80,8 +81,11 @@
         </e>
         <e p="Output" t="Include">
           <e p="DetermOutput_5ad311f.json" t="Include" />
+          <e p="DetermOutput_b24f96b.json" t="Include" />
+          <e p="MinDetermOutput_64d3ea1.json" t="Include" />
           <e p="MinDetermOutput_d7fc514.json" t="Include" />
           <e p="NonDetermOutput_a01332d.json" t="Include" />
+          <e p="NonDetermOutput_b178414.json" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
         <e p="RegexpGrammar.cs" t="Include" />
@@ -130,6 +134,7 @@
           <e p="MachineNonDetermined.cs" t="Include" />
           <e p="MachineType.cs" t="Include" />
           <e p="State.cs" t="Include" />
+          <e p="StatesComparer.cs" t="Include" />
           <e p="Transition.cs" t="Include" />
         </e>
         <e p="StateMachineLib.csproj" t="IncludeRecursive" />

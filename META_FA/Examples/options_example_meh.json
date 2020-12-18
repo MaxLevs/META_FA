@@ -1,0 +1,80 @@
+{
+  "Arch": {
+    "MachineId": "64d3ea19-d5c4-4ac1-8f50-908906573665",
+    "InitialState": "q1",
+    "FinalStates": [
+      "q5"
+    ],
+    "Transitions": [
+      {
+        "StartState": "q1",
+        "Token": "a",
+        "EndState": "q2",
+        "IsEpsilon": false
+      },
+      {
+        "StartState": "q2",
+        "Token": "a",
+        "EndState": "q2",
+        "IsEpsilon": false
+      },
+      {
+        "StartState": "q2",
+        "Token": "b",
+        "EndState": "q3",
+        "IsEpsilon": false
+      },
+      {
+        "StartState": "q3",
+        "Token": "a",
+        "EndState": "q2",
+        "IsEpsilon": false
+      },
+      {
+        "StartState": "q3",
+        "Token": "b",
+        "EndState": "q3",
+        "IsEpsilon": false
+      },
+      {
+        "StartState": "q3",
+        "Token": "c",
+        "EndState": "q5",
+        "IsEpsilon": false
+      },
+      {
+        "StartState": "q4",
+        "Token": "b",
+        "EndState": "q4",
+        "IsEpsilon": false
+      },
+      {
+        "StartState": "q4",
+        "Token": "c",
+        "EndState": "q5",
+        "IsEpsilon": false
+      },
+      {
+        "StartState": "q5",
+        "Token": "b",
+        "EndState": "q4",
+        "IsEpsilon": false
+      },
+      {
+        "StartState": "q5",
+        "Token": "c",
+        "EndState": "q5",
+        "IsEpsilon": false
+      }
+    ]
+  },
+  "Assets": [
+    {"Text": "cb", "ExpectedResult": false},
+    {"Text": "ab", "ExpectedResult": false},
+    {"Text": "abc", "ExpectedResult": true},
+    {"Text": "abbc", "ExpectedResult": true},
+    {"Text": "abcc", "ExpectedResult": true},
+    {"Text": "abccbbc", "ExpectedResult": true},
+    {"Text": "aaabaabc", "ExpectedResult": true}
+  ]
+}
