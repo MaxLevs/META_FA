@@ -4,16 +4,16 @@ using DSL_Parser.CST;
 
 namespace DSL_Parser.Visitors.AST
 {
-    public class CSTBuilderVisitor : IAstCoreVisitor<CSTCoreNode>
+    public class CstBuilderVisitor : AstCoreVisitor
     {
-        private Stack<CSTCoreNode> nodes;
+        private Stack<CstCoreNode> nodes;
 
-        public CSTBuilderVisitor()
+        public CstBuilderVisitor()
         {
-            nodes = new Stack<CSTCoreNode>();
+            nodes = new Stack<CstCoreNode>();
         }
 
-        public void Apply(SyntaxTreeNode syntaxTreeNode)
+        public override void Apply(SyntaxTreeNode syntaxTreeNode)
         {
             switch (syntaxTreeNode.RuleName)
             {
@@ -98,8 +98,8 @@ namespace DSL_Parser.Visitors.AST
                 }
             }
         }
-
-        public CSTCoreNode GetResult()
+        
+        public override object GetResult()
         {
             throw new System.NotImplementedException();
         }
