@@ -83,7 +83,6 @@ namespace StateMachineLib.StateMachine
 
                         var newClosure = EpsilonClosure(nextStops);
                         
-                        // Console.WriteLine($"{GetClosureName(currentClosure)} ==[{token}]==> ε-closure({GetClosureName(nextStops)}) = {GetClosureName(newClosure)} ");
                         Console.Write( $"Move({GetClosureName(currentClosure)}, {token}) =  {GetClosureName(nextStops)};");
                         
                         if (newClosure.Any())
@@ -151,7 +150,11 @@ namespace StateMachineLib.StateMachine
                 closure.Add(pickedState);
 
                 var nextStates = Transitions
-                    .Where(tr => tr.IsEpsilon && tr.StartState.Equals(pickedState) && !closure.Contains(tr.EndState) && !buffer.Contains(tr.EndState))
+                    .Where(tr => 
+                                    tr.IsEpsilon 
+                                 && tr.StartState.Id == pickedState.Id
+                                 && !closure.Contains(tr.EndState)
+                                 && !buffer.Contains(tr.EndState))
                     .Select(tr => tr.EndState)
                     .ToList();
                 
@@ -192,7 +195,7 @@ namespace StateMachineLib.StateMachine
             
             var renamedMachine = new MachineNonDetermined();
             renamedMachine.AddStateRange(renameDict.Values);
-            renamedMachine.AddTransitionRange(Transitions.Select(transition => new Transition(renameDict[transition.StartState], transition.Token, renameDict[transition.EndState])));
+            renamedMachine.AddTransitionRange(Transitions.Select(transition => transition.IsEpsilon ? new Transition(renameDict[transition.StartState], renameDict[transition.EndState]) : new Transition(renameDict[transition.StartState], transition.Token, renameDict[transition.EndState])));
             renamedMachine.Init(renameDict[InitialState].Id);
 
             return renamedMachine;

@@ -83,10 +83,6 @@ namespace StateMachineLib.StateMachine
                 throw new OblivionWayTransitionsException(this);
             }
 
-            // var unreachableStates = States
-            //     .Where(state => state.Id != initialStateId)
-            //     .Select(state => Transitions.Find(transition => transition.EndState.Id == state.Id))
-            //     .Any(foundTransition => foundTransition == null);
             var unreachableStates = States
                 .Where(state => state.Id != initialStateId)
                 .Select(state => Transitions.Find(transition => Equals(transition.EndState, state) && !Equals(transition.StartState, state)))
