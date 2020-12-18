@@ -17,5 +17,11 @@
       <ProjectReference Include="..\META3CombParser\BFParser.csproj" />
       <ProjectReference Include="..\StateMachineLib\StateMachineLib.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <Content Include="Examples/**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 
 </Project>

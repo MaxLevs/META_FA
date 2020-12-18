@@ -12,5 +12,11 @@
     <ItemGroup>
       <Folder Include="Examples" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <Content Include="Examples/**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 
 </Project>

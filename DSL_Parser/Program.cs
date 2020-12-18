@@ -11,7 +11,7 @@ namespace DSL_Parser
             Console.WriteLine("DSL Parser Lib\n");
             var dslParser = DSLGrammar.GetParser();
 
-            using var dfaExplanation = File.OpenText("../../../Examples/example3.dfa");
+            using var dfaExplanation = File.OpenText("Examples/example3.dfa");
             var dfaText = PrepareData(dfaExplanation.ReadToEnd());
             var ast = dslParser.Goal.Parse(dfaText);
                 
