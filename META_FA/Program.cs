@@ -76,6 +76,8 @@ namespace META_FA
 
                 else
                 {
+                    Console.WriteLine($"[Info] Generating state machine with regex \"{_regexpForParsing}\"");
+                    
                     var regexpParser = RegexpGrammar.GetParser();
                     var parseRes = regexpParser.Goal.Parse(_regexpForParsing);
 
