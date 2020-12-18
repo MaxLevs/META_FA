@@ -7,7 +7,7 @@
       <e p="DSL_Parser" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="CST" t="Include">
-          <e p="CSTCore.cs" t="Include" />
+          <e p="CSTCoreNode.cs" t="Include" />
         </e>
         <e p="DSL_Parser.csproj" t="IncludeRecursive" />
         <e p="DSLGrammar.cs" t="Include" />
@@ -39,6 +39,7 @@
         <e p="Visitors" t="Include">
           <e p="AST" t="Include">
             <e p="CSTBuilderVisitor.cs" t="Include" />
+            <e p="IAstCoreVisitor.cs" t="Include" />
           </e>
           <e p="CST" t="Include">
             <e p="CSTDotVisitor.cs" t="Include" />
