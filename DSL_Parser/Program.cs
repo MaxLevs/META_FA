@@ -7,6 +7,7 @@ namespace DSL_Parser
         static void Main(string[] args)
         {
             Console.WriteLine("DSL Parser Lib");
+            var dslParser = DSLGrammar.GetParser();
         }
     }
 }
