@@ -31,6 +31,38 @@ Declare Dfa2
     )
 End Declare
 
+Declare Dfa3
+    Initial = q1
+    Finals = (q22)
+    Table = (
+        <q1 q2>
+        <q2 q3>
+        <q2 q4>
+        <q3 q5>
+        <q3 q6>
+        <q4 c q7>
+        <q5 q8>
+        <q6 q9>
+        <q7 q10>
+        <q8 a q11>
+        <q9 b q12>
+        <q10 q13>
+        <q11 q14>
+        <q12 q15>
+        <q13 b q16>
+        <q14 b q17>
+        <q15 c q18>
+        <q16 q19>
+        <q17 q20>
+        <q18 q21>
+        <q19 q22>
+        <q20 q23>
+        <q21 q23>
+        <q23 q3>
+        <q23 q4>
+    )
+End Declare
+
 Run(Dfa1, "cb")
 Run(Dfa1, "acb")
 Run(Dfa2, "abcb")

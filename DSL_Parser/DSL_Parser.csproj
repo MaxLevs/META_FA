@@ -8,10 +8,6 @@
     <ItemGroup>
       <ProjectReference Include="..\META3CombParser\BFParser.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Examples" />
-    </ItemGroup>
     
     <ItemGroup>
         <Content Include="Examples/**">
