@@ -202,12 +202,12 @@ namespace StateMachineLib.StateMachine
         public abstract Machine Minimize();
         public abstract MachineDetermined Determine();
 
-        public Machine RenameToNormalNames()
+        public Machine RenameToNormalNames(string startsWith)
         {
             return Type switch
             {
-                MachineType.Determined => ((MachineDetermined)this).RenameToNormalNames(),
-                MachineType.NonDetermined => ((MachineNonDetermined)this).RenameToNormalNames(),
+                MachineType.Determined => ((MachineDetermined)this).RenameToNormalNames(startsWith),
+                MachineType.NonDetermined => ((MachineNonDetermined)this).RenameToNormalNames(startsWith),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

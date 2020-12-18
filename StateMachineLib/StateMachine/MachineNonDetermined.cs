@@ -170,8 +170,10 @@ namespace StateMachineLib.StateMachine
             return "{" + string.Join(",", closure) + "}";
         }
         
-        public new MachineNonDetermined RenameToNormalNames()
+        public new MachineNonDetermined RenameToNormalNames(string startsWith = null)
         {
+            startsWith ??= "q";
+            
             var renameDict = new Dictionary<State, State>();
 
             var buffer = new List<State> { InitialState };
@@ -189,7 +191,7 @@ namespace StateMachineLib.StateMachine
                 }
                 
                 buffer.Remove(currentNode);
-                renameDict.Add(currentNode, new State($"q{n}", currentNode.IsFinal));
+                renameDict.Add(currentNode, new State($"{startsWith}{n}", currentNode.IsFinal));
                 n++;
             }
             

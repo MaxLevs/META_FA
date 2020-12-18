@@ -112,7 +112,7 @@ namespace META_FA
                     Console.WriteLine(new string('=', 60));
                     Console.WriteLine("[Action] Determining...");
 
-                    stateMachine = stateMachine.Determine().RenameToNormalNames();
+                    stateMachine = stateMachine.Determine().RenameToNormalNames("s");
                     Console.WriteLine($"  [Info] New id: {stateMachine.Id}");
                     Console.WriteLine();
                     
@@ -128,7 +128,7 @@ namespace META_FA
                     Console.WriteLine(new string('=', 60));
                     Console.WriteLine("[Action] Minimizing...");
 
-                    stateMachine = stateMachine.Minimize().RenameToNormalNames();
+                    stateMachine = stateMachine.Minimize().RenameToNormalNames("m");
                     Console.WriteLine($"  [Info] New id: {stateMachine.Id}");
                     Console.WriteLine();
                     

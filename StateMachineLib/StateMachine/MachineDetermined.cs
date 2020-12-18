@@ -67,6 +67,7 @@ namespace StateMachineLib.StateMachine
                         });
                         
                         var movementsRow = string.Join("|", movementCategories);
+                        
                         return movementsRow;
                     }).ToList();
                     
@@ -110,8 +111,10 @@ namespace StateMachineLib.StateMachine
             return this;
         }
 
-        public new MachineDetermined RenameToNormalNames()
+        public new MachineDetermined RenameToNormalNames(string startsWith)
         {
+            startsWith ??= "q";
+            
             var renameDict = new Dictionary<State, State>();
 
             var buffer = new List<State> { InitialState };
@@ -129,7 +132,7 @@ namespace StateMachineLib.StateMachine
                 }
                 
                 buffer.Remove(currentNode);
-                renameDict.Add(currentNode, new State($"q{n}", currentNode.IsFinal));
+                renameDict.Add(currentNode, new State($"{startsWith}{n}", currentNode.IsFinal));
                 n++;
             }
             
