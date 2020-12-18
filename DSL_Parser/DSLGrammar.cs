@@ -6,24 +6,27 @@ namespace DSL_Parser
     public static class DSLGrammar
     {
         // Rule names
-        public const string Symbol = "symbol";
-        public const string Quantifier = "quantifier";
-        public const string Element = "element";
-        public const string Variant = "variant";
+        public const string Dsl = "dsl";
+        public const string DeclareArea = "declare_area";
+        public const string DeclareBody = "declare_body";
+        public const string StatesBlock = "states_block";
+        public const string FinalsBlock = "finals_block";
+        public const string TableBlock = "table_block";
+        public const string AssetsArea = "assets_area";
+        public const string AssetRule = "asset_rule";
+        public const string AssetArgs = "asset_args";
+        public const string Identity = "identity";
         public const string Str = "str";
 
         public static Grammar GetParser()
         {
-            var gram = new Grammar(Str)
+            var gram = new Grammar(Dsl)
             {
-                {Symbol, P.RE(@"[^*?()+|]")},
-                {Quantifier, P.C(Element) + P.T("?") |
-                             P.C(Element) + P.T("*") |
-                             P.C(Element) + P.T("+") |
-                             P.C(Element)},
-                {Element, P.T("(") + P.C(Variant) + P.T(")") | P.C(Symbol)},
-                {Variant, P.C(Str) + P.T("|") + P.C(Variant) | P.C(Str)},
-                {Str, P.OI(P.C(Quantifier))}
+                {AssetRule, P.T("Run") + P.T("(") + P.C(AssetArgs) + P.T(")")},
+                {AssetArgs, P.C(Identity) + P.T(",") + P.C(Str)},
+                {Identity, P.RE(@"[A-Z][a-z]*[0-9]*")},
+                {Str, P.RE("\\\"[^\"]*\\\"")},
+                {AssetsArea, P.OI(AssetRule)},
             };
             gram.InitGrammar();
         
