@@ -12,7 +12,7 @@ namespace DSL_Parser
 
             using (var dfaExplanation = File.OpenText("../../../Examples/example1.dfa"))
             {
-                var dfaText = dfaExplanation.ReadToEnd();
+                var dfaText = dfaExplanation.ReadToEnd().Replace(Environment.NewLine, " ");
                 var ast = dslParser.Goal.Parse(dfaText);
                 
                 Console.WriteLine(ast?.Dot() ?? "[NULL PARSE RESULT]");
