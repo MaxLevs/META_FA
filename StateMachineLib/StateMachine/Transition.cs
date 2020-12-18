@@ -29,6 +29,21 @@ namespace StateMachineLib.StateMachine
             IsEpsilon = true;
         }
 
+        public Transition ChangeStartState(State newState)
+        {
+            return IsEpsilon ? new Transition(newState, EndState) : new Transition(newState, Token, EndState);
+        }
+
+        public Transition ChangeEndState(State newState)
+        {
+            return IsEpsilon ? new Transition(StartState, newState) : new Transition(StartState, Token, newState);
+        }
+
+        public Transition ChangeToken(string newToken)
+        {
+            return IsEpsilon ? this : new Transition(StartState, newToken, EndState);
+        }
+
         public override string ToString()
         {
             return $"{(string.IsNullOrEmpty(Token) ? "ε: " : "[" + Token + "]")}{StartState} => {EndState}";

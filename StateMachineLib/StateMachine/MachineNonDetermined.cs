@@ -36,7 +36,7 @@ namespace StateMachineLib.StateMachine
             throw new NotImplementedException("Minimize() isn't implemented for Nondetermed state machine. Please call Determine() before");
         }
 
-        internal class TempTransition
+        private class TempTransition
         {
             public string Q0 { get; }
             public string Token { get; }
@@ -195,7 +195,7 @@ namespace StateMachineLib.StateMachine
             
             var renamedMachine = new MachineNonDetermined();
             renamedMachine.AddStateRange(renameDict.Values);
-            renamedMachine.AddTransitionRange(Transitions.Select(transition => transition.IsEpsilon ? new Transition(renameDict[transition.StartState], renameDict[transition.EndState]) : new Transition(renameDict[transition.StartState], transition.Token, renameDict[transition.EndState])));
+            renamedMachine.AddTransitionRange(Transitions.Select(transition => transition.ChangeStartState(renameDict[transition.StartState]).ChangeEndState(renameDict[transition.EndState])));
             renamedMachine.Init(renameDict[InitialState].Id);
 
             return renamedMachine;
