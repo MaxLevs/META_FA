@@ -14,6 +14,7 @@
         <e p="Examples" t="Include">
           <e p="example1.dfa" t="Include" />
           <e p="example2.dfa" t="Include" />
+          <e p="example2_ast.dot" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
