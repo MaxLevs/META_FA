@@ -62,6 +62,18 @@ namespace StateMachineLib.StateMachine
                 AddTransition(transition);
             }
         }
+
+        public void RemoveState(State node)
+        {
+            IsInited = false;
+            States.Remove(node);
+        }
+
+        public void RemoveTransition(Transition transition)
+        {
+            IsInited = false;
+            Transitions.Remove(transition);
+        }
         
         public void Init(string initialStateId)
         {
