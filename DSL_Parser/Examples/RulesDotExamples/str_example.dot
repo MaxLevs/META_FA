@@ -1,0 +1,7 @@
+digraph
+{
+    label = "Abstract Syntax Tree"
+    splines = ortho
+
+    "27c9f3d" [ label = "SyntaxTreeNode[str]{ \"some string\" }{ [[NULL]] }", shape = box, style = filled ]
+}

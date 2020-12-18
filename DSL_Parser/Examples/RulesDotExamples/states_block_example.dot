@@ -1,0 +1,36 @@
+digraph
+{
+    label = "Abstract Syntax Tree"
+    splines = ortho
+
+    c118a99 [ label = "SyntaxTreeNode[states_block]{ States }{  = ( st1, st2, st3, st4 ) }", shape = box, style = filled ]
+    "42ce994" [ label = "SyntaxTreeNode[states_block]{ = }{  ( st1, st2, st3, st4 ) }", shape = box, style = filled ]
+    "7cb389b" [ label = "SyntaxTreeNode[states_block]{ ( }{  st1, st2, st3, st4 ) }", shape = box, style = filled ]
+    "0175ceb" [ label = "SyntaxTreeNode[state_name]{ st1 }{ , st2, st3, st4 ) }", shape = box, style = filled ]
+    d65f079 [ label = "SyntaxTreeNode[states_list]{ , }{  st2, st3, st4 ) }", shape = box, style = filled ]
+    "6a3e9ee" [ label = "SyntaxTreeNode[state_name]{ st2 }{ , st3, st4 ) }", shape = box, style = filled ]
+    "5649d54" [ label = "SyntaxTreeNode[states_list]{ , }{  st3, st4 ) }", shape = box, style = filled ]
+    "0b2a452" [ label = "SyntaxTreeNode[state_name]{ st3 }{ , st4 ) }", shape = box, style = filled ]
+    "736e5b8" [ label = "SyntaxTreeNode[states_list]{ , }{  st4 ) }", shape = box, style = filled ]
+    "4667c27" [ label = "SyntaxTreeNode[state_name]{ st4 }{  ) }", shape = box, style = filled ]
+    bc90fa8 [ label = "SyntaxTreeNode[states_list]{  st3, st4 }{  ) }", shape = box, style = filled ]
+    "4d32475" [ label = "SyntaxTreeNode[states_list]{  st2, st3, st4 }{  ) }", shape = box, style = filled ]
+    2184967 [ label = "SyntaxTreeNode[states_list]{  st1, st2, st3, st4 }{  ) }", shape = box, style = filled ]
+    "1ed302e" [ label = "SyntaxTreeNode[states_block]{ ) }{ [[NULL]] }", shape = box, style = filled ]
+    "49d38d5" [ label = "SyntaxTreeNode[states_block]{ States = ( st1, st2, st3, st4 ) }{ [[NULL]] }", shape = box, style = filled ]
+
+    bc90fa8 -> "0b2a452" [ label = 0 ]
+    bc90fa8 -> "736e5b8" [ label = 1 ]
+    bc90fa8 -> "4667c27" [ label = 2 ]
+    "4d32475" -> "6a3e9ee" [ label = 0 ]
+    "4d32475" -> "5649d54" [ label = 1 ]
+    "4d32475" -> bc90fa8 [ label = 2 ]
+    2184967 -> "0175ceb" [ label = 0 ]
+    2184967 -> d65f079 [ label = 1 ]
+    2184967 -> "4d32475" [ label = 2 ]
+    "49d38d5" -> c118a99 [ label = 0 ]
+    "49d38d5" -> "42ce994" [ label = 1 ]
+    "49d38d5" -> "7cb389b" [ label = 2 ]
+    "49d38d5" -> 2184967 [ label = 3 ]
+    "49d38d5" -> "1ed302e" [ label = 4 ]
+}

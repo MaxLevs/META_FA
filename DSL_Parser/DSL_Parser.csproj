@@ -14,5 +14,9 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Examples\RulesDotExamples" />
+    </ItemGroup>
 
 </Project>
