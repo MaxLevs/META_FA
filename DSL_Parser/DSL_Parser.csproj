@@ -2,10 +2,15 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\META3CombParser\BFParser.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Examples" />
     </ItemGroup>
 
 </Project>
