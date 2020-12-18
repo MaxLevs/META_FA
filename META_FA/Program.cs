@@ -16,6 +16,8 @@ namespace META_FA
         private static string _regexpForParsing;
         private static string _outputPath;
         private static readonly List<Asset> Assets = new List<Asset>();
+        private static bool _noMinimize;
+        private static bool _noDeterm;
         
         static void Main(string[] args)
         {
@@ -38,6 +40,13 @@ namespace META_FA
                             {
                                 _outputPath = path;
                             }
+                            break;
+                        case "-M":
+                            _noMinimize = true;
+                            break;
+                        
+                        case "-D":
+                            _noDeterm = true;
                             break;
                     }
                     args = args.Where((_, i) => i != 0).ToArray();
@@ -94,7 +103,7 @@ namespace META_FA
                 TestAssets(Assets, stateMachine);
                 SaveMachineIntoFile(stateMachine, "NonDeterm");
 
-                if (stateMachine.Type != MachineType.Determined)
+                if (!_noDeterm && stateMachine.Type != MachineType.Determined)
                 {
                     
                     Console.WriteLine();
@@ -111,18 +120,21 @@ namespace META_FA
                     SaveMachineIntoFile(stateMachine,"Determ");
                 }
 
-                Console.WriteLine();
-                Console.WriteLine(new string('=', 60));
-                Console.WriteLine("[Action] Minimizing...");
+                if (!_noMinimize)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(new string('=', 60));
+                    Console.WriteLine("[Action] Minimizing...");
 
-                stateMachine = stateMachine.Minimize().RenameToNormalNames();
-                Console.WriteLine($"  [Info] New id: {stateMachine.Id}");
-                Console.WriteLine();
-                
-                PrintTable(stateMachine);
-                PrintDot(stateMachine);
-                TestAssets(Assets, stateMachine);
-                SaveMachineIntoFile(stateMachine,"MinDeterm");
+                    stateMachine = stateMachine.Minimize().RenameToNormalNames();
+                    Console.WriteLine($"  [Info] New id: {stateMachine.Id}");
+                    Console.WriteLine();
+                    
+                    PrintTable(stateMachine);
+                    PrintDot(stateMachine);
+                    TestAssets(Assets, stateMachine);
+                    SaveMachineIntoFile(stateMachine,"MinDeterm");
+                }
             }
 
             catch (FileNotFoundException)
