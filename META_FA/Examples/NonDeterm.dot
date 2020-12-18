@@ -1,0 +1,25 @@
+digraph
+{
+    label = StateMachine
+    rankdir=LR
+
+    node [ fillcolor = white, style = filled ]
+
+    "a846f523-0c5e-44df-a7de-873d8fb980fa" [ label = "", style = invis ]
+    q1 [ fillcolor = gray ]
+    q10 [ fillcolor = gray, shape = doublecircle ]
+
+    "a846f523-0c5e-44df-a7de-873d8fb980fa" -> q1
+    q1 -> q2 [ label = "[ε]" ]
+    q1 -> q3 [ label = "[ε]" ]
+    q1 -> q8 [ label = "[ε]" ]
+    q6 -> q8 [ label = "[ε]" ]
+    q7 -> q8 [ label = "[ε]" ]
+    q8 -> q1 [ label = "[ε]" ]
+    q2 -> q4 [ label = a ]
+    q3 -> q5 [ label = b ]
+    q4 -> q6 [ label = b ]
+    q5 -> q7 [ label = c ]
+    q8 -> q9 [ label = c ]
+    q9 -> q10 [ label = b ]
+}

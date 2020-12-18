@@ -92,6 +92,9 @@
           <e p="RegexVariant.cs" t="Include" />
         </e>
         <e p="Examples" t="Include">
+          <e p="Determ.dot" t="Include" />
+          <e p="MinDeterm.dot" t="Include" />
+          <e p="nonDeterm.dot" t="Include" />
           <e p="NonDetermOutPut_a01332d_BreakDetermine.json" t="Include" />
           <e p="options.json" t="Include" />
           <e p="options_Arthur_determ.json" t="Include" />
