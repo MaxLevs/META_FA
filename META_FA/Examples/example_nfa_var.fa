@@ -7,10 +7,10 @@ Declare Nfavar
         <q2 q4>
         <q3 q5>
         <q3 q6>
-        <q4 c q7>
+        <q4 q7>
         <q5 q8>
         <q6 q9>
-        <q7 q10>
+        <q7 c q10>
         <q8 a q11>
         <q9 b q12>
         <q10 q13>
@@ -30,9 +30,9 @@ Declare Nfavar
     )
 End Declare
 
-Run(Nfavar, "cb")
-Run(Nfavar, "acb")
-Run(Nfavar, "abcb")
-Run(Nfavar, "bccb")
-Run(Nfavar, "abbccb")
-Run(Nfavar, "bcababcb")
+Asset(Nfavar, "cb")
+Asset(Nfavar, "acb")
+Asset(Nfavar, "abcb")
+Asset(Nfavar, "bccb")
+Asset(Nfavar, "abbccb")
+Asset(Nfavar, "bcababcb")
