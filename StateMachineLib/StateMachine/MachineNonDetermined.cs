@@ -22,13 +22,18 @@ namespace StateMachineLib.StateMachine
 
         protected override bool DoStep(string text, State currentState)
         {
-            if (text.Length == 0)
-                return currentState.IsFinal;
-            
             var closure = EpsilonClosure(new List<State>{currentState});
-            var token = text[0].ToString();
+
+            if (text.Length == 0)
+                return closure.Any(st => st.IsFinal);
             
-            return Transitions.Any(tr => closure.Contains(tr.StartState) && tr.Token == token && DoStep(text.Substring(1), tr.EndState));
+            var token = text[0].ToString();
+
+            var suspectedEndStates = Transitions.Where(tr => closure.Contains(tr.StartState) && tr.Token == token)
+                .Select(tr => tr.EndState).ToList();
+
+            var result = suspectedEndStates.Any(nextState => DoStep(text.Substring(1), nextState));
+            return result;
         }
         
         public override Machine Minimize()
