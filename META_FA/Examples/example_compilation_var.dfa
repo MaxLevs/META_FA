@@ -1,0 +1,85 @@
+Declare Mindfavar
+    States = (m1, m2, m3, m4, m5)
+    Initial = m1
+    Finals = (m5)
+    Table = (
+        <m1 a m2>
+        <m1 b m3>
+        <m1 c m4>
+        <m2 b m1>
+        <m3 c m1>
+        <m4 b m5>
+    )
+End Declare
+
+Declare Dfavar
+    Initial = s1
+    Finals = (s7)
+    Table = (
+        <s1 a s2>
+        <s1 b s3>
+        <s1 c s4>
+        <s2 a s5>
+        <s3 c s6>
+        <s4 b s7>
+        <s5 a s2>
+        <s5 b s3>
+        <s5 c s4>
+        <s6 a s2>
+        <s6 b s3>
+        <s6 c s4>
+    )
+End Declare
+
+Declare Nfavar
+    Initial = q1
+    Finals = (q22)
+    Table = (
+        <q1 q2>
+        <q2 q3>
+        <q2 q4>
+        <q3 q5>
+        <q3 q6>
+        <q4 c q7>
+        <q5 q8>
+        <q6 q9>
+        <q7 q10>
+        <q8 a q11>
+        <q9 b q12>
+        <q10 q13>
+        <q11 q14>
+        <q12 q15>
+        <q13 b q16>
+        <q14 b q17>
+        <q15 c q18>
+        <q16 q19>
+        <q17 q20>
+        <q18 q21>
+        <q19 q22>
+        <q20 q23>
+        <q21 q23>
+        <q23 q3>
+        <q23 q4>
+    )
+End Declare
+
+Run( Mindfavar, "cb")
+Run( Mindfavar, "acb")
+Run( Mindfavar, "abcb")
+Run( Mindfavar, "bccb")
+Run( Mindfavar, "abbccb")
+Run( Mindfavar, "bcababcb")
+
+Run( Dfavar, "cb")
+Run( Dfavar, "acb")
+Run( Dfavar, "abcb")
+Run( Dfavar, "bccb")
+Run( Dfavar, "abbccb")
+Run( Dfavar, "bcababcb")
+
+Run( Nfavar, "cb")
+Run( Nfavar, "acb")
+Run( Nfavar, "abcb")
+Run( Nfavar, "bccb")
+Run( Nfavar, "abbccb")
+Run( Nfavar, "bcababcb")

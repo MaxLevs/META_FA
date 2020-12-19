@@ -110,7 +110,10 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Examples" t="Include">
           <e p="Determ.dot" t="Include" />
-          <e p="example1.fa" t="Include" />
+          <e p="example_compilation_var.dfa" t="Include" />
+          <e p="example_dfa_var.fa" t="Include" />
+          <e p="example_min_dfa_var.fa" t="Include" />
+          <e p="example_nfa_var.fa" t="Include" />
           <e p="MinDeterm.dot" t="Include" />
           <e p="nonDeterm.dot" t="Include" />
           <e p="NonDetermOutPut_a01332d_BreakDetermine.json" t="Include" />

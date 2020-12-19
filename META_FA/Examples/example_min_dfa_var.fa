@@ -1,4 +1,4 @@
-Declare Dfa1
+Declare Mindfavar
     Initial = m1
     Finals = (m5)
     Table = (
@@ -11,9 +11,9 @@ Declare Dfa1
     )
 End Declare
 
-Run(Dfa1, "cb")
-Run(Dfa1, "acb")
-Run(Dfa1, "abcb")
-Run(Dfa1, "bccb")
-Run(Dfa1, "abbccb")
-Run(Dfa1, "bcababcb")
+Run(Mindfavar, "cb")
+Run(Mindfavar, "acb")
+Run(Mindfavar, "abcb")
+Run(Mindfavar, "bccb")
+Run(Mindfavar, "abbccb")
+Run(Mindfavar, "bcababcb")

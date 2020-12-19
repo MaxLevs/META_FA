@@ -1,0 +1,25 @@
+Declare Dfavar
+    Initial = s1
+    Finals = (s7)
+    Table = (
+        <s1 a s2>
+        <s1 b s3>
+        <s1 c s4>
+        <s2 a s5>
+        <s3 c s6>
+        <s4 b s7>
+        <s5 a s2>
+        <s5 b s3>
+        <s5 c s4>
+        <s6 a s2>
+        <s6 b s3>
+        <s6 c s4>
+    )
+End Declare
+
+Run(Dfavar, "cb")
+Run(Dfavar, "acb")
+Run(Dfavar, "abcb")
+Run(Dfavar, "bccb")
+Run(Dfavar, "abbccb")
+Run(Dfavar, "bcababcb")
