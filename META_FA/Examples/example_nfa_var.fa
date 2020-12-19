@@ -30,9 +30,9 @@ Declare Nfavar
     )
 End Declare
 
-Asset(Nfavar, "cb")
-Asset(Nfavar, "acb")
-Asset(Nfavar, "abcb")
-Asset(Nfavar, "bccb")
-Asset(Nfavar, "abbccb")
-Asset(Nfavar, "bcababcb")
+Asset(Nfavar, "cb", true)
+Asset(Nfavar, "acb", false)
+Asset(Nfavar, "abcb", true)
+Asset(Nfavar, "bccb", true)
+Asset(Nfavar, "abbccb", true)
+Asset(Nfavar, "bcababcb", true)

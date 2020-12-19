@@ -20,6 +20,7 @@ namespace DSL_Parser
         public const string AssetArgs = "asset_args";
         public const string Identity = "identity";
         public const string Str = "str";
+        public const string Bool = "bool";
         public const string TableRow = "table_row";
         public const string Symbol = "symbol";
 
@@ -30,6 +31,7 @@ namespace DSL_Parser
                 {Identity, P.RE(@"[A-Z][a-z_]*[0-9_]*")},
                 {Symbol, P.RE(@"[a-zA-Z0-9]")},
                 {Str, P.RE("\\\"[^\"]*\\\"")},
+                {Bool, P.T("true") | P.T("false")},
                 {StateName, P.RE(@"[a-z]+[0-9]*")},
                 {StatesList, P.C(StateName) + P.T(",") + P.C(StatesList) | P.C(StateName)},
                 {DeclareArea, P.T("Declare") + P.C(Identity) + P.C(DeclareBody) + P.T(new[] {"End", "Declare"})},
@@ -40,8 +42,8 @@ namespace DSL_Parser
                 {TableBlock, P.T(new[] {"Table", "=", "("}) + P.OI(TableRow) + P.T(")")},
                 {TableRow, P.T("<") + ((P.C(StateName) + P.C(Symbol) + P.C(StateName)) | P.C(StateName) + P.C(StateName)) + P.T(">")},
                 {AssetsArea, P.OI(AssetRule)},
-                {AssetRule, P.T(new[] {"Run", "("}) + P.C(AssetArgs) + P.T(")")},
-                {AssetArgs, P.C(Identity) + P.T(",") + P.C(Str)},
+                {AssetRule, P.T(new[] {"Asset", "("}) + P.C(AssetArgs) + P.T(")")},
+                {AssetArgs, P.C(Identity) + P.T(",") + P.C(Str) + P.T(",") + P.C(Bool)},
                 {Dsl, P.OI(DeclareArea) + P.MB(AssetsArea)},
             };
             gram.InitGrammar();
