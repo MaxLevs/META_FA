@@ -26,7 +26,7 @@ namespace DSL_Parser
             cstBuilder.Apply(ast);
             var cstDsl = (CstDsl) cstBuilder.GetResult();
             
-            Console.WriteLine(cstDsl.ToString());
+            Console.WriteLine(cstDsl?.Dot() ?? "[NULL]");
         }
 
         static void UpdateRuleDotExamples()
