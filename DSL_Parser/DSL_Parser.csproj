@@ -8,14 +8,14 @@
       <ProjectReference Include="..\META3CombParser\BFParser.csproj" />
     </ItemGroup>
     
-    <ItemGroup>
-        <Content Include="Examples/**">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+<!--    <ItemGroup>-->
+<!--        <Content Include="Examples/**">-->
+<!--            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>-->
+<!--        </Content>-->
+<!--    </ItemGroup>-->
     
-    <ItemGroup>
-      <Folder Include="Examples\RulesDotExamples" />
-    </ItemGroup>
+<!--    <ItemGroup>-->
+<!--      <Folder Include="Examples\RulesDotExamples" />-->
+<!--    </ItemGroup>-->
 
 </Project>
