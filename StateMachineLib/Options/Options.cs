@@ -6,6 +6,7 @@ using System.Text.Json;
 using DSL_Parser;
 using DSL_Parser.CST;
 using DSL_Parser.Visitors.AST;
+using StateMachineLib.Options.Exception;
 
 namespace StateMachineLib.Options
 {
@@ -19,10 +20,11 @@ namespace StateMachineLib.Options
             using var file = File.OpenText(path);
             var text = file.ReadToEnd();
             file.Close();
+
+            var grammar = DSLGrammar.Build();
+            var ast = grammar.Goal.Parse(text);
             
-            var ast = DSLGrammar.GetParser().Goal.Parse(text);
-            
-            if (ast == null) throw new NotImplementedException("Implement custom exception: Config read error");
+            if (ast == null) throw new LoadFromFileException(grammar, grammar.Goal, text);
             
             var cstBuilder = new CstBuilderVisitor();
             cstBuilder.Apply(ast);

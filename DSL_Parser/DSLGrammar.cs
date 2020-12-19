@@ -24,7 +24,7 @@ namespace DSL_Parser
         public const string TableRow = "table_row";
         public const string Symbol = "symbol";
 
-        public static Grammar GetParser()
+        public static Grammar Build()
         {
             var gram = new Grammar(Dsl)
             {

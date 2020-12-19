@@ -14,7 +14,7 @@ namespace DSL_Parser
             Console.WriteLine("DSL Parser Lib\n");
             // UpdateRuleDotExamples(); return;
             
-            var dslParser = DSLGrammar.GetParser();
+            var dslParser = DSLGrammar.Build();
 
             using var dfaExplanation = File.OpenText("Examples/example2.dfa");
             var dfaText = PrepareData(dfaExplanation.ReadToEnd());
@@ -32,7 +32,7 @@ namespace DSL_Parser
         static void UpdateRuleDotExamples()
         {
             // RulesDotExamples
-            var dslParser = DSLGrammar.GetParser();
+            var dslParser = DSLGrammar.Build();
 
             var assets = new Dictionary<string, string>
             {

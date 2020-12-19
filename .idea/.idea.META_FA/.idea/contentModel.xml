@@ -111,7 +111,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Examples" t="Include">
           <e p="Determ.dot" t="Include" />
-          <e p="example_compilation_var.dfa" t="Include" />
+          <e p="example_compilation_var.fa" t="Include" />
           <e p="example_dfa_var.fa" t="Include" />
           <e p="example_min_dfa_var.fa" t="Include" />
           <e p="example_nfa_var.fa" t="Include" />
@@ -192,6 +192,10 @@
         </e>
         <e p="Options" t="Include">
           <e p="Asset.cs" t="Include" />
+          <e p="Exception" t="Include">
+            <e p="CoreOptionsException.cs" t="Include" />
+            <e p="LoadFromFileException.cs" t="Include" />
+          </e>
           <e p="Options.cs" t="Include" />
           <e p="SMOptions.cs" t="Include" />
           <e p="TransitionOptions.cs" t="Include" />

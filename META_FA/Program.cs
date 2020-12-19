@@ -6,6 +6,7 @@ using Regex_Parser;
 using Regex_Parser.CST;
 using Regex_Parser.Visitors.AST;
 using StateMachineLib.Options;
+using StateMachineLib.Options.Exception;
 using StateMachineLib.StateMachine;
 using StateMachineLib.StateMachine.Exceptions;
 
@@ -78,18 +79,18 @@ namespace META_FA
                 else
                 {
                     Console.WriteLine($"[Info] Generating state machine with regex \"{_regexpForParsing}\"");
-                    
+
                     var regexpParser = RegexpGrammar.GetParser();
                     var parseRes = regexpParser.Goal.Parse(_regexpForParsing);
 
                     // Console.WriteLine(parseRes.Dot()); return;
-                    
+
                     var cstBuilder = new CSTBuilderVisitor();
                     cstBuilder.Visit(parseRes);
                     var cst = (RegexCST) cstBuilder.GetResult();
-                    
+
                     // Console.WriteLine(cst.Dot()); return;
-                    
+
                     var stateMachineBuilder = new RegexStateMachineBuilderVisitor();
                     cst.Visit(stateMachineBuilder);
 
@@ -108,7 +109,7 @@ namespace META_FA
 
                 if (!_noDeterm && stateMachine.Type != MachineType.Determined)
                 {
-                    
+
                     Console.WriteLine();
                     Console.WriteLine(new string('=', 60));
                     Console.WriteLine("[Action] Determining...");
@@ -116,11 +117,11 @@ namespace META_FA
                     stateMachine = stateMachine.Determine().RenameToNormalNames("s");
                     Console.WriteLine($"  [Info] New id: {stateMachine.Id}");
                     Console.WriteLine();
-                    
+
                     PrintTable(stateMachine);
                     PrintDot(stateMachine);
-                    
-                    SaveMachineIntoFile(stateMachine,"Determ");
+
+                    SaveMachineIntoFile(stateMachine, "Determ");
                 }
 
                 if (!_noMinimize)
@@ -132,17 +133,22 @@ namespace META_FA
                     stateMachine = stateMachine.Minimize().RenameToNormalNames("m");
                     Console.WriteLine($"  [Info] New id: {stateMachine.Id}");
                     Console.WriteLine();
-                    
+
                     PrintTable(stateMachine);
                     PrintDot(stateMachine);
                     TestAssets(Assets, stateMachine);
-                    SaveMachineIntoFile(stateMachine,"MinDeterm");
+                    SaveMachineIntoFile(stateMachine, "MinDeterm");
                 }
             }
 
             catch (FileNotFoundException)
             {
                 Console.Error.WriteLine("[Error] Can't load configuration file");
+            }
+
+            catch (LoadFromFileException ex)
+            {
+                Console.Error.WriteLine("[Error] " + ex.Message);
             }
 
             catch (CoreSMException e)
