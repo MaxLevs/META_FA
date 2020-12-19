@@ -108,6 +108,7 @@
       </e>
       <e p="META_FA" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="DslStateMachineOptionsBuilder.cs" t="Include" />
         <e p="Examples" t="Include">
           <e p="Determ.dot" t="Include" />
           <e p="MinDeterm.dot" t="Include" />
