@@ -18,7 +18,6 @@ namespace DSL_Parser.Visitors.CST
         public CstDotVisitor()
         {
             _graph = new DotGraph(true);
-            _graph.Attributes.Style.FillStyle = DotClusterFillStyle.Normal;
             _graph.Attributes.Label = "State machine DSL CST";
             _graph.Attributes.EdgeShape = DotEdgeShape.Orthogonal;
             // _graph.Nodes.Attributes.Style.FillStyle = DotNodeFillStyle.Normal;

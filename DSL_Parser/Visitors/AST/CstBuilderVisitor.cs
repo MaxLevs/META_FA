@@ -47,7 +47,7 @@ namespace DSL_Parser.Visitors.AST
                 case DSLGrammar.Str:
                 {
                     var @string = syntaxTreeNode.ParsedText;
-                    var stringNode = new CstString(@string);
+                    var stringNode = new CstString(@string[1..^1]); // Delete "
                     
                     _nodes.Push(stringNode);
                     
