@@ -71,6 +71,7 @@ namespace DSL_Parser.Visitors.AST
                     
                     var astDeclareAreas = syntaxTreeNode.Children[0].Children;
                     
+                    // Take declarations
                     foreach (var astDeclareArea in astDeclareAreas)
                     {
                         Apply(astDeclareArea); // DeclareArea
@@ -79,7 +80,7 @@ namespace DSL_Parser.Visitors.AST
 
                         if (isStatesBlockThere)
                         {
-                            var transitionsCount = astDeclareArea.Children[2].Children[3].Children.Count;
+                            var transitionsCount = astDeclareArea.Children[2].Children[3].Children[3].Children.Count;
                             
                             var transitions = new List<CstTransition>();
                             
@@ -125,16 +126,18 @@ namespace DSL_Parser.Visitors.AST
                         }
                     }
 
-                    
-                    // todo: is this correct?
+                    // Take assets
                     if (syntaxTreeNode.Children[1].ParsedText != null)
                     {
-                        throw new NotImplementedException();
-                        var astAssets = syntaxTreeNode.Children[1].Children;
+                        var astAssets = syntaxTreeNode.Children[1].Children[0].Children;
                         
-                        foreach (var asset in astAssets)
+                        foreach (var astAsset in astAssets)
                         {
-                            Apply(asset); // AssetRule
+                            Apply(astAsset); // AssetRule
+                            
+                            var asset = (CstAsset) _nodes.Pop();
+                            
+                            assets.Add(asset);
                         }
                     }
                     
