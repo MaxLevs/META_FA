@@ -1,4 +1,6 @@
-﻿using BFParser;
+﻿using System;
+using System.Collections.Generic;
+using BFParser;
 using BFParser.Parsers;
 
 namespace DSL_Parser
@@ -46,6 +48,8 @@ namespace DSL_Parser
                 {AssetArgs, P.C(Identity) + P.T(",") + P.C(Str) + P.T(",") + P.C(Bool)},
                 {Dsl, P.OI(DeclareArea) + P.MB(AssetsArea)},
             };
+
+            gram.CommentDefinition = new List<string> { @"/\*.*\*/", $"//.*{Environment.NewLine}?" };
             gram.InitGrammar();
         
             return gram;

@@ -22,7 +22,7 @@ namespace StateMachineLib.Options
             file.Close();
 
             var grammar = DSLGrammar.Build();
-            var ast = grammar.Goal.Parse(text);
+            var ast = grammar.Parse(text);
             
             if (ast == null) throw new LoadFromFileException(grammar, grammar.Goal, text);
             

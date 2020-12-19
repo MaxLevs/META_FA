@@ -11,6 +11,11 @@ Declare Dfa
     )
 End Declare
 
+// (a?bc+)*a
+/*
+ (a?bc+)*a
+*/
+
 Declare Nfa
     States = (s1, s2, s3)
     Initial = s1
@@ -31,5 +36,3 @@ Asset(Dfa, "bca", true)
 Asset(Dfa, "abca", true)
 Asset(Dfa, "a", true)
 Asset(Dfa, "ca", true)
-
-(a?bc+)*a
