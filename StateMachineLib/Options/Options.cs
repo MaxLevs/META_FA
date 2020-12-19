@@ -1,6 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
+using DSL_Parser;
+using DSL_Parser.CST;
+using DSL_Parser.Visitors.AST;
 
 namespace StateMachineLib.Options
 {
@@ -9,22 +14,36 @@ namespace StateMachineLib.Options
         public SMOptions Arch { get; set; }
         public List<Asset> Assets { get; set; }
 
-        public static Options FromFile(string path)
+        public static List<Options> FromFile(string path)
         {
-            using var optionsFile = File.OpenText(path);
-            return JsonSerializer.Deserialize<Options>(optionsFile.ReadToEnd());
+            using var file = File.OpenText(path);
+            var text = file.ReadToEnd();
+            file.Close();
+            
+            var ast = DSLGrammar.GetParser().Goal.Parse(text);
+            
+            if (ast == null) throw new NotImplementedException("Implement custom exception: Config read error");
+            
+            var cstBuilder = new CstBuilderVisitor();
+            cstBuilder.Apply(ast);
+            var cst = (CstDsl) cstBuilder.GetResult();
+            
+            var optionsBuilder = new DslStateMachineOptionsBuilderVisitor();
+            cst.Visit(optionsBuilder);
+            
+            var options = (Dictionary<string, Options>) optionsBuilder.GetResult();
+
+            return options.Values.ToList();
         }
 
         public string ToText()
         {
-            return JsonSerializer.Serialize(this, GetType());
+            throw new NotImplementedException();
         }
 
         public void ToFile(string path)
         {
-            using var optionsFile = File.OpenWrite(path);
-            optionsFile.Write(JsonSerializer.SerializeToUtf8Bytes(this, GetType()));
-            optionsFile.Close();
+            throw new NotImplementedException();
         }
     }
 }

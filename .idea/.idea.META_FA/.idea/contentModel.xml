@@ -108,9 +108,9 @@
       </e>
       <e p="META_FA" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
-        <e p="DslStateMachineOptionsBuilder.cs" t="Include" />
         <e p="Examples" t="Include">
           <e p="Determ.dot" t="Include" />
+          <e p="example1.fa" t="Include" />
           <e p="MinDeterm.dot" t="Include" />
           <e p="nonDeterm.dot" t="Include" />
           <e p="NonDetermOutPut_a01332d_BreakDetermine.json" t="Include" />
@@ -178,6 +178,7 @@
       </e>
       <e p="StateMachineLib" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="DslStateMachineOptionsBuilderVisitor.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">

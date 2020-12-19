@@ -4,16 +4,16 @@ using DSL_Parser.CST;
 using DSL_Parser.Visitors.CST;
 using StateMachineLib.Options;
 
-namespace META_FA
+namespace StateMachineLib
 {
-    public class DslStateMachineOptionsBuilder : CstCoreVisitor
+    public class DslStateMachineOptionsBuilderVisitor : CstCoreVisitor
     {
-        private readonly Dictionary<string, Options> _options;
+        private readonly Dictionary<string, Options.Options> _options;
         private readonly Stack<object> _buffer;
 
-        public DslStateMachineOptionsBuilder()
+        public DslStateMachineOptionsBuilderVisitor()
         {
-            _options = new Dictionary<string, Options>();
+            _options = new Dictionary<string, Options.Options>();
             _buffer = new Stack<object>();
         }
 
@@ -135,7 +135,7 @@ namespace META_FA
             {
                 declaration.Visit(this);
 
-                var options = new Options {Arch = ((SMOptions) _buffer.Pop()), Assets = new List<Asset>()};
+                var options = new Options.Options {Arch = ((SMOptions) _buffer.Pop()), Assets = new List<Asset>()};
                 _options.Add(options.Arch.MachineId, options);
             }
             

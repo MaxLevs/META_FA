@@ -8,4 +8,8 @@
       <PackageReference Include="GiGraph.Dot" Version="1.6.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\DSL_Parser\DSL_Parser.csproj" />
+    </ItemGroup>
+
 </Project>

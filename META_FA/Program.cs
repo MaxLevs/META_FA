@@ -13,7 +13,7 @@ namespace META_FA
 {
     class Program
     {
-        static string _optionsFilePath = "Examples/options.json";
+        static string _optionsFilePath = "Examples/example1.fa";
         private static string _regexpForParsing;
         private static string _outputPath;
         private static readonly List<Asset> Assets = new List<Asset>();
@@ -70,7 +70,7 @@ namespace META_FA
                 if (string.IsNullOrEmpty(_regexpForParsing))
                 {
                     Console.WriteLine($"[Info] Used options file is {_optionsFilePath}");
-                    var options = Options.FromFile(_optionsFilePath);
+                    var options = Options.FromFile(_optionsFilePath)[0];
                     stateMachine = Machine.GetFromOptions(options.Arch);
                     Assets.AddRange(options.Assets);
                 }
