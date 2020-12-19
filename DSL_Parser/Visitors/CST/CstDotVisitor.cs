@@ -24,7 +24,7 @@ namespace DSL_Parser.Visitors.CST
             throw new System.NotImplementedException();
         }
 
-        public override void Apply(CstState cstState)
+        public override void Apply(CstStateName cstStateName)
         {
             throw new System.NotImplementedException();
         }
