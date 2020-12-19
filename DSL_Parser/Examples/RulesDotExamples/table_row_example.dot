@@ -3,16 +3,18 @@ digraph
     label = "Abstract Syntax Tree"
     splines = ortho
 
-    "209e157" [ label = "SyntaxTreeNode[table_row]{ < }{ s1 s2> }", shape = box, style = filled ]
-    "3c7de4c" [ label = "SyntaxTreeNode[state_name]{ s1 }{  s2> }", shape = box, style = filled ]
-    c6bef60 [ label = "SyntaxTreeNode[state_name]{ s2 }{ > }", shape = box, style = filled ]
-    e817173 [ label = "SyntaxTreeNode[table_row]{ s1 s2 }{ > }", shape = box, style = filled ]
-    "31ecfe0" [ label = "SyntaxTreeNode[table_row]{ > }{ [[NULL]] }", shape = box, style = filled ]
-    b32f6f4 [ label = "SyntaxTreeNode[table_row]{ <s1 s2> }{ [[NULL]] }", shape = box, style = filled ]
+    ece1a69 [ label = "SyntaxTreeNode[table_row]{ < }{ s1 f s2> }", shape = box, style = filled ]
+    a191120 [ label = "SyntaxTreeNode[state_name]{ s1 }{  f s2> }", shape = box, style = filled ]
+    c9cb643 [ label = "SyntaxTreeNode[symbol]{ f }{  s2> }", shape = box, style = filled ]
+    "1303e5b" [ label = "SyntaxTreeNode[state_name]{ s2 }{ > }", shape = box, style = filled ]
+    "0a31213" [ label = "SyntaxTreeNode[table_row]{ s1 f s2 }{ > }", shape = box, style = filled ]
+    "6381ab9" [ label = "SyntaxTreeNode[table_row]{ > }{ [[NULL]] }", shape = box, style = filled ]
+    c8aa8cf [ label = "SyntaxTreeNode[table_row]{ <s1 f s2> }{ [[NULL]] }", shape = box, style = filled ]
 
-    e817173 -> "3c7de4c" [ label = 0 ]
-    e817173 -> c6bef60 [ label = 1 ]
-    b32f6f4 -> "209e157" [ label = 0 ]
-    b32f6f4 -> e817173 [ label = 1 ]
-    b32f6f4 -> "31ecfe0" [ label = 2 ]
+    "0a31213" -> a191120 [ label = 0 ]
+    "0a31213" -> c9cb643 [ label = 1 ]
+    "0a31213" -> "1303e5b" [ label = 2 ]
+    c8aa8cf -> ece1a69 [ label = 0 ]
+    c8aa8cf -> "0a31213" [ label = 1 ]
+    c8aa8cf -> "6381ab9" [ label = 2 ]
 }

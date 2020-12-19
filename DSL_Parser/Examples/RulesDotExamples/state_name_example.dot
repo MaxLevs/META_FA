@@ -3,5 +3,5 @@ digraph
     label = "Abstract Syntax Tree"
     splines = ortho
 
-    "2f4fd0f" [ label = "SyntaxTreeNode[state_name]{ state14 }{ [[NULL]] }", shape = box, style = filled ]
+    afa4752 [ label = "SyntaxTreeNode[state_name]{ state14 }{ [[NULL]] }", shape = box, style = filled ]
 }

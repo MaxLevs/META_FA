@@ -1,0 +1,18 @@
+digraph
+{
+    label = "Abstract Syntax Tree"
+    splines = ortho
+
+    cbde902 [ label = "SyntaxTreeNode[finals_block]{ Finals }{  = (m5) }", shape = box, style = filled ]
+    d40d127 [ label = "SyntaxTreeNode[finals_block]{ = }{  (m5) }", shape = box, style = filled ]
+    "5bcfebf" [ label = "SyntaxTreeNode[finals_block]{ ( }{ m5) }", shape = box, style = filled ]
+    "5ab3a0d" [ label = "SyntaxTreeNode[state_name]{ m5 }{ ) }", shape = box, style = filled ]
+    "517d664" [ label = "SyntaxTreeNode[finals_block]{ ) }{ [[NULL]] }", shape = box, style = filled ]
+    bd27f93 [ label = "SyntaxTreeNode[finals_block]{ Finals = (m5) }{ [[NULL]] }", shape = box, style = filled ]
+
+    bd27f93 -> cbde902 [ label = 0 ]
+    bd27f93 -> d40d127 [ label = 1 ]
+    bd27f93 -> "5bcfebf" [ label = 2 ]
+    bd27f93 -> "5ab3a0d" [ label = 3 ]
+    bd27f93 -> "517d664" [ label = 4 ]
+}
