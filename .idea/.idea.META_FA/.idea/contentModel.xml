@@ -115,6 +115,7 @@
           <e p="example_dfa_var.fa" t="Include" />
           <e p="example_min_dfa_var.fa" t="Include" />
           <e p="example_nfa_var.fa" t="Include" />
+          <e p="future_example.fa" t="Include" />
           <e p="MinDeterm.dot" t="Include" />
           <e p="nonDeterm.dot" t="Include" />
           <e p="NonDetermOutPut_a01332d_BreakDetermine.json" t="Include" />

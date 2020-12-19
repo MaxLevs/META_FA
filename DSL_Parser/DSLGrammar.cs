@@ -28,7 +28,7 @@ namespace DSL_Parser
         {
             var gram = new Grammar(Dsl)
             {
-                {Identity, P.RE(@"[A-Z][a-z_]*[0-9_]*")},
+                {Identity, P.RE(@"(([A-Z][a-z_]+)+|[A-Z])[0-9_]*")}, // M, MinMax, MinMax_release, Some9
                 {Symbol, P.RE(@"[a-zA-Z0-9]")},
                 {Str, P.RE("\\\"[^\"]*\\\"")},
                 {Bool, P.T("true") | P.T("false")},

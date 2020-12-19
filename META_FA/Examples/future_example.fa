@@ -1,0 +1,35 @@
+Declare Dfa
+    States = (s1, s2, s3)
+    Initial = s1
+    Finals = (s3)
+    Table = (
+        <s1 a s3>
+        <s1 b s2>
+        <s1 c s1>
+        <s2 c s1>
+        <s3 b s2>
+    )
+End Declare
+
+Declare Nfa
+    States = (s1, s2, s3)
+    Initial = s1
+    Finals = (s3)
+    Table = (
+        <s1 a s3>
+        <s1 b s2>
+        <s1 c s1>
+        <s2 c s1>
+        <s3 b s2>
+    )
+End Declare
+
+Asset(Dfa, "ccca", true)
+Asset(Dfa, "abca", true)
+Asset(Dfa, "abcbcbcabca", true)
+Asset(Dfa, "bca", true)
+Asset(Dfa, "abca", true)
+Asset(Dfa, "a", true)
+Asset(Dfa, "ca", true)
+
+(a?bc+)*a
