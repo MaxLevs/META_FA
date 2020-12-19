@@ -23,7 +23,7 @@ namespace Regex_Parser
                              P.C(Element)},
                 {Element, P.T("(") + P.C(Variant) + P.T(")") | P.C(Symbol)},
                 {Variant, P.C(Str) + P.T("|") + P.C(Variant) | P.C(Str)},
-                {Str, P.OI(P.C(Quantifier))}
+                {Str, P.OI(Quantifier)}
             };
             gram.InitGrammar();
         

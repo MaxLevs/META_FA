@@ -82,20 +82,20 @@ namespace META_FA
                     var regexpParser = RegexpGrammar.GetParser();
                     var parseRes = regexpParser.Goal.Parse(_regexpForParsing);
 
-                    // Console.WriteLine(parseRes.Dot());
+                    // Console.WriteLine(parseRes.Dot()); return;
                     
                     var cstBuilder = new CSTBuilderVisitor();
                     cstBuilder.Visit(parseRes);
                     var cst = (RegexCST) cstBuilder.GetResult();
                     
-                    // Console.WriteLine(cst.Dot());
+                    // Console.WriteLine(cst.Dot()); return;
                     
                     var stateMachineBuilder = new RegexStateMachineBuilderVisitor();
                     cst.Visit(stateMachineBuilder);
 
                     stateMachine = stateMachineBuilder.GetResult();
 
-                    // Console.WriteLine(stateMachine.ToOptions().ToDot());
+                    // Console.WriteLine(stateMachine.ToOptions().ToDot()); return;
                 }
 
                 Console.WriteLine($"[Info] Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");
