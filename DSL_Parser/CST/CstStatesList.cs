@@ -15,7 +15,7 @@ namespace DSL_Parser.CST
         
         public override void Visit(CstCoreVisitor visitor)
         {
-            throw new System.NotImplementedException();
+            visitor.Apply(this);
         }
     }
 }
