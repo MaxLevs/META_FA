@@ -1,14 +1,14 @@
 using System;
-using META_FA.Visitors.CST;
+using Regex_Parser.Visitors.CST;
 
-namespace META_FA.CST
+namespace Regex_Parser.CST
 {
-    public class RegexQuantifierOneOrInfinity : RegexCST
+    public class RegexQuantifierMaybe : RegexCST
     {
         public override Guid Id { get; }
         public RegexCST Child { get; }
 
-        public RegexQuantifierOneOrInfinity(RegexCST child)
+        public RegexQuantifierMaybe(RegexCST child)
         {
             Id = Guid.NewGuid();
             Child = child;

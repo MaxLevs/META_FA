@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BFParser;
 using BFParser.SyntaxTreeNodeVisitors;
-using META_FA.CST;
+using Regex_Parser.CST;
 
-namespace META_FA.Visitors.AST
+namespace Regex_Parser.Visitors.AST
 {
     public class CSTBuilderVisitor : CoreSyntaxTreeNodeVisitor
     {
@@ -19,7 +19,14 @@ namespace META_FA.Visitors.AST
                     break;
                 
                 case RegexpGrammar.Element:
-                    Visit(syntaxTreeNode.Children[0].Children[1]);
+                    if (syntaxTreeNode.Children.Count == 1)
+                    {
+                        Visit(syntaxTreeNode.Children[0]);
+                    }
+                    else
+                    {
+                        Visit(syntaxTreeNode.Children[1]);
+                    }
                     break;
                 
                 case RegexpGrammar.Quantifier:
@@ -60,12 +67,12 @@ namespace META_FA.Visitors.AST
                     break;
                 
                 case RegexpGrammar.Variant:
-                    Visit(syntaxTreeNode.Children[0].Children[0]);
+                    Visit(syntaxTreeNode.Children[0]);
                     
                     var variantElement = _buffer[^1];
                     _buffer.Remove(variantElement);
                     
-                    Visit(syntaxTreeNode.Children[1]);
+                    Visit(syntaxTreeNode.Children[2]);
 
                     var suspectedElement = _buffer[^1];
                     _buffer.Remove(suspectedElement);

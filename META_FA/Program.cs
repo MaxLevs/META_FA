@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using META_FA.CST;
-using META_FA.Visitors.CST;
+using Regex_Parser;
+using Regex_Parser.CST;
+using Regex_Parser.Visitors.AST;
 using StateMachineLib.Options;
 using StateMachineLib.StateMachine;
 using StateMachineLib.StateMachine.Exceptions;
@@ -81,20 +82,20 @@ namespace META_FA
                     var regexpParser = RegexpGrammar.GetParser();
                     var parseRes = regexpParser.Goal.Parse(_regexpForParsing);
 
-                    // Console.WriteLine(parseRes.Dot());
+                    // Console.WriteLine(parseRes.Dot()); return;
                     
-                    var cstBuilder = new Visitors.AST.CSTBuilderVisitor();
+                    var cstBuilder = new CSTBuilderVisitor();
                     cstBuilder.Visit(parseRes);
                     var cst = (RegexCST) cstBuilder.GetResult();
                     
-                    // Console.WriteLine(cst.Dot());
+                    // Console.WriteLine(cst.Dot()); return;
                     
-                    var stateMachineBuilder = new StateMachineBuilderVisitor();
+                    var stateMachineBuilder = new RegexStateMachineBuilderVisitor();
                     cst.Visit(stateMachineBuilder);
 
                     stateMachine = stateMachineBuilder.GetResult();
 
-                    // Console.WriteLine(stateMachine.ToOptions().ToDot());
+                    // Console.WriteLine(stateMachine.ToOptions().ToDot()); return;
                 }
 
                 Console.WriteLine($"[Info] Type: {stateMachine.Type}, MachineId: {stateMachine.Id}");

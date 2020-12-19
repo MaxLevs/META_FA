@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using BFParser;
 using BFParser.Parsers;
-using BFParser.Parsers.Combinators;
 
-namespace META_FA
+namespace Regex_Parser
 {
     public static class RegexpGrammar
     {
@@ -25,7 +23,7 @@ namespace META_FA
                              P.C(Element)},
                 {Element, P.T("(") + P.C(Variant) + P.T(")") | P.C(Symbol)},
                 {Variant, P.C(Str) + P.T("|") + P.C(Variant) | P.C(Str)},
-                {Str, P.OI(P.C(Quantifier))}
+                {Str, P.OI(Quantifier)}
             };
             gram.InitGrammar();
         

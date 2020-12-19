@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\META3CombParser\BFParser.csproj" />
+      <ProjectReference Include="..\Regex_Parser\Regex_Parser.csproj" />
       <ProjectReference Include="..\StateMachineLib\StateMachineLib.csproj" />
     </ItemGroup>
     

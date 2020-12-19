@@ -1,7 +1,7 @@
 using System;
-using META_FA.Visitors.CST;
+using Regex_Parser.Visitors.CST;
 
-namespace META_FA.CST
+namespace Regex_Parser.CST
 {
     public class RegexQuantifierZeroOrInfinity : RegexCST
     {
