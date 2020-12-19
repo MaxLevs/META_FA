@@ -1,4 +1,4 @@
-Declare Nfavar
+Declare NfaVar
     Initial = q1
     Finals = (q22)
     Table = (
@@ -30,9 +30,9 @@ Declare Nfavar
     )
 End Declare
 
-Asset(Nfavar, "cb", true)
-Asset(Nfavar, "acb", false)
-Asset(Nfavar, "abcb", true)
-Asset(Nfavar, "bccb", true)
-Asset(Nfavar, "abbccb", true)
-Asset(Nfavar, "bcababcb", true)
+Asset(NfaVar, "cb", true)
+Asset(NfaVar, "acb", false)
+Asset(NfaVar, "abcb", true)
+Asset(NfaVar, "bccb", true)
+Asset(NfaVar, "abbccb", true)
+Asset(NfaVar, "bcababcb", true)

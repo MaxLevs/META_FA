@@ -1,4 +1,4 @@
-Declare Mindfavar
+Declare MinDfaVar
     Initial = m1
     Finals = (m5)
     Table = (
@@ -11,9 +11,10 @@ Declare Mindfavar
     )
 End Declare
 
-Run(Mindfavar, "cb")
-Run(Mindfavar, "acb")
-Run(Mindfavar, "abcb")
-Run(Mindfavar, "bccb")
-Run(Mindfavar, "abbccb")
-Run(Mindfavar, "bcababcb")
+Asset(MinDfaVar, "cb", true)
+Asset(MinDfaVar, "acb", false)
+Asset(MinDfaVar, "abcb", true)
+Asset(MinDfaVar, "bccb", true)
+Asset(MinDfaVar, "abbccb", true)
+Asset(MinDfaVar, "bcababcb", true)
+

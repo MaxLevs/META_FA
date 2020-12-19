@@ -1,4 +1,4 @@
-Declare Dfavar
+Declare DfaVar
     Initial = s1
     Finals = (s7)
     Table = (
@@ -17,9 +17,9 @@ Declare Dfavar
     )
 End Declare
 
-Run(Dfavar, "cb")
-Run(Dfavar, "acb")
-Run(Dfavar, "abcb")
-Run(Dfavar, "bccb")
-Run(Dfavar, "abbccb")
-Run(Dfavar, "bcababcb")
+Asset(DfaVar, "cb", true)
+Asset(DfaVar, "acb", false)
+Asset(DfaVar, "abcb", true)
+Asset(DfaVar, "bccb", true)
+Asset(DfaVar, "abbccb", true)
+Asset(DfaVar, "bcababcb", true)
