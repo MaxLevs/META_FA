@@ -7,11 +7,13 @@ namespace DSL_Parser.CST
     {
         public CstIdentity Identity { get; }
         public string @String { get; }
+        public bool ExpectedResult { get; }
 
-        public CstAsset(CstIdentity identity, string @string)
+        public CstAsset(CstIdentity identity, string @string, bool expectedResult)
         {
             Identity = identity;
             String = @string;
+            ExpectedResult = expectedResult;
         }
 
         public override void Visit(CstCoreVisitor visitor)

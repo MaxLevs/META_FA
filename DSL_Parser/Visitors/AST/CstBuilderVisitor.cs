@@ -53,6 +53,22 @@ namespace DSL_Parser.Visitors.AST
                     
                     break;
                 }
+
+                case DSLGrammar.Bool:
+                {
+                    var @bool = syntaxTreeNode.ParsedText switch
+                    {
+                        "true" => true,
+                        "false" => false,
+                        _ => throw new ArgumentException("DSLGrammar.Bool result must be either true or false")
+                    };
+                    
+                    var boolNode = new CstBool(@bool);
+                    
+                    _nodes.Push(boolNode);
+                        
+                    break;
+                }
                 
                 case DSLGrammar.StateName:
                 {
@@ -152,6 +168,7 @@ namespace DSL_Parser.Visitors.AST
                 {
                     Apply(syntaxTreeNode.Children[0]); // Identity
                     Apply(syntaxTreeNode.Children[2]); // Str
+                    Apply(syntaxTreeNode.Children[4]); // Bool
                     
                     break;
                 }
@@ -160,10 +177,11 @@ namespace DSL_Parser.Visitors.AST
                 {
                     Apply(syntaxTreeNode.Children[2]); // AssetArgs
 
+                    var boolNode = (CstBool) _nodes.Pop();
                     var stringNode = (CstString) _nodes.Pop();
                     var identityNode = (CstIdentity) _nodes.Pop();
                     
-                    var assetNode = new CstAsset(identityNode, stringNode.Data);
+                    var assetNode = new CstAsset(identityNode, stringNode.Data, boolNode.Data);
                     
                     _nodes.Push(assetNode);
                     

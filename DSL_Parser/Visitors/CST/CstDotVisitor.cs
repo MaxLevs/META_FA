@@ -51,6 +51,11 @@ namespace DSL_Parser.Visitors.CST
             _graph.Nodes.Add(node);
         }
 
+        public override void Apply(CstBool cstBool)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Apply(CstStateName cstStateName)
         {
             var node = new DotNode(cstStateName.IdShort);
@@ -151,7 +156,7 @@ namespace DSL_Parser.Visitors.CST
         public override void Apply(CstAsset cstAsset)
         {
             var node = new DotNode(cstAsset.IdShort);
-            node.Attributes.Label = $"Asset.{cstAsset.Identity.Name}[\"{cstAsset.String}\"]";
+            node.Attributes.Label = $"Asset.{cstAsset.Identity.Name}[\"{cstAsset.String}\" => {cstAsset.ExpectedResult}]";
             _graph.Nodes.Add(node);
             
             cstAsset.Identity.Visit(this);

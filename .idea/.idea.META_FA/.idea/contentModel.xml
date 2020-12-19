@@ -8,6 +8,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="CST" t="Include">
           <e p="CstAsset.cs" t="Include" />
+          <e p="CstBool.cs" t="Include" />
           <e p="CSTCoreNode.cs" t="Include" />
           <e p="CstDeclaration.cs" t="Include" />
           <e p="CstDsl.cs" t="Include" />

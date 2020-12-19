@@ -37,6 +37,11 @@ namespace StateMachineLib
             _buffer.Push(cstString.Data);
         }
 
+        public override void Apply(CstBool cstBool)
+        {
+            _buffer.Push(cstBool.Data);
+        }
+
         public override void Apply(CstStateName cstStateName)
         {
             _buffer.Push(cstStateName.Name);
@@ -125,7 +130,7 @@ namespace StateMachineLib
         {
             cstAsset.Identity.Visit(this); // What machine own it
 
-            var asset = new Asset {Text = cstAsset.String, ExpectedResult = true};
+            var asset = new Asset { Text = cstAsset.String, ExpectedResult = cstAsset.ExpectedResult };
             _buffer.Push(asset);
         }
 

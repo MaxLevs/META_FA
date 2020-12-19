@@ -9,6 +9,7 @@ namespace DSL_Parser.Visitors.CST
         public abstract void Apply(CstIdentity cstIdentity);
         public abstract void Apply(CstSymbol cstSymbol);
         public abstract void Apply(CstString cstString);
+        public abstract void Apply(CstBool cstBool);
         public abstract void Apply(CstStateName cstStateName);
         public abstract void Apply(CstStatesList cstStatesList);
         public abstract void Apply(CstTransition cstTransition);
