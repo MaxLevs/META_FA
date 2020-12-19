@@ -179,21 +179,37 @@ namespace META_FA
 
         private static void TestAssets(IEnumerable<Asset> assets, Machine stateMachine)
         {
-            var enumerable = assets.ToList();
-            if (enumerable.Any())
+            var assetsList = assets.ToList();
+            
+            if (assetsList.Any())
             {
                 Console.WriteLine(new string('=', 60));
                 Console.WriteLine("[Action] Testing assets...");
                 Console.WriteLine();
+                
+                var results = assetsList.ToDictionary(asset => asset, asset => stateMachine.Run(asset.Text) == asset.ExpectedResult);
 
                 // foreach (var (text, expectedRes) in options.Assets)
-                foreach (var asset in enumerable)
+                foreach (var (asset, result) in results)
                 {
                     Console.Write(new string(' ', 3));
-                    Console.Write($"Testing \"{asset.Text}\"… ".PadRight(enumerable.Max(x => x.Text?.Length ?? 4) + 13));
+                    Console.Write($"Testing \"{asset.Text}\"… ".PadRight(results.Max(pair => pair.Key.Text?.Length ?? 4) + 13));
                     Console.Write($"Expected: {asset.ExpectedResult}. ".PadRight(19));
-                    Console.Write($"Result: {(stateMachine.Run(asset.Text) == asset.ExpectedResult ? "Correct" : "Reject!")}"
-                        .PadRight(15));
+                    Console.Write("Result: "); 
+                    
+                    if (result)
+                    {
+                        Console.Write("Correct".PadRight(15));
+                    }
+                    
+                    else
+                    {
+                        var color = Console.ForegroundColor;
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("Reject!".PadRight(15));
+                        Console.ForegroundColor = color;
+                    }
+                    
                     Console.WriteLine();
                 }
 
