@@ -16,7 +16,7 @@ namespace DSL_Parser.CST
         public CstDeclaration(CstIdentity identity, IList<CstStateName> states, CstStateName initialStateName, IList<CstStateName> finals, IList<CstTransition> trancitions)
         {
             Identity = identity;
-            States = new ReadOnlyCollection<CstStateName>(states); // does it work with states = NULL?
+            States = states == null ? null : new ReadOnlyCollection<CstStateName>(states);
             InitialStateName = initialStateName;
             Finals = new ReadOnlyCollection<CstStateName>(finals);
             Trancitions = new ReadOnlyCollection<CstTransition>(trancitions);
