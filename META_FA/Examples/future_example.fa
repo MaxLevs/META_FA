@@ -12,6 +12,7 @@ Declare Dfa
 End Declare
 
 // (a?bc+)*a
+
 /*
  (a?bc+)*a
 */
@@ -36,3 +37,16 @@ Asset(Dfa, "bca", true)
 Asset(Dfa, "abca", true)
 Asset(Dfa, "a", true)
 Asset(Dfa, "ca", true)
+
+// function ==> "Function" -- [identity] -- "(" -- [func_args] -- ")" -- [function_body]? -- "End" -- "Function"
+// function_body ==> [statement]+
+// func_args ==> [variable] -- "," -- [func_args_list]
+// func_args_list ==> [variable_type] -- [variable_name] -- [func_args_list]
+// func_args_list ==> [variable_type] -- [variable_name]
+// variable_name ==> r"[a-z_]?[a-z]+"
+// str => r"\"[^\"]\""
+
+Function SomeFunc (env, int a, bool b, string c) 
+
+End Function
+    
