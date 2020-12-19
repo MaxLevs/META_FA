@@ -12,3 +12,5 @@ Declare Dfa1
 End Declare
 
 Run(Dfa1, "cb")
+Run(Dfa1, "acb")
+Run(Dfa2, "abcb")

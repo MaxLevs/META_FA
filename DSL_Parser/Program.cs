@@ -16,7 +16,7 @@ namespace DSL_Parser
             
             var dslParser = DSLGrammar.GetParser();
 
-            using var dfaExplanation = File.OpenText("Examples/example3.dfa");
+            using var dfaExplanation = File.OpenText("Examples/example2.dfa");
             var dfaText = PrepareData(dfaExplanation.ReadToEnd());
             var ast = dslParser.Goal.Parse(dfaText);
                 

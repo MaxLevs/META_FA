@@ -20,8 +20,10 @@ namespace DSL_Parser.Visitors.CST
             _graph = new DotGraph(true);
             _graph.Attributes.Style.FillStyle = DotClusterFillStyle.Normal;
             _graph.Attributes.Label = "State machine DSL CST";
-            // _graph.Attributes.EdgeShape = DotEdgeShape.Orthogonal;
-            _graph.Nodes.Attributes.FillColor = Color.DarkGray;
+            _graph.Attributes.EdgeShape = DotEdgeShape.Orthogonal;
+            // _graph.Nodes.Attributes.Style.FillStyle = DotNodeFillStyle.Normal;
+            _graph.Nodes.Attributes.Shape = DotNodeShape.Box;
+            // _graph.Nodes.Attributes.FillColor = Color.DarkGray;
         }
 
         public override object GetResult()
@@ -104,9 +106,7 @@ namespace DSL_Parser.Visitors.CST
 
             if (cstDeclaration.States != null)
             {
-                var statesBlockNode = new DotNode(Guid.NewGuid().ToString().Substring(0,7));
-                statesBlockNode.Attributes.Label = nameof(cstDeclaration.States);
-                statesBlockNode.Attributes.Shape = DotNodeShape.Rectangle;
+                var statesBlockNode = CreateAttributeNode(nameof(cstDeclaration.States));
                 _graph.Nodes.Add(statesBlockNode);
                 
                 foreach (var state in cstDeclaration.States)
@@ -117,19 +117,16 @@ namespace DSL_Parser.Visitors.CST
 
                 _graph.Edges.Add(node.Id, statesBlockNode.Id);
             }
-            
-            var initialBlockNode = new DotNode(Guid.NewGuid().ToString().Substring(0, 7));
-            initialBlockNode.Attributes.Label = nameof(cstDeclaration.InitialStateName);
-            initialBlockNode.Attributes.Shape = DotNodeShape.Rectangle;
+
+            var initialBlockNode = CreateAttributeNode(nameof(cstDeclaration.InitialStateName));
             _graph.Nodes.Add(initialBlockNode);
             
             cstDeclaration.InitialStateName.Visit(this);
 
             _graph.Edges.Add(initialBlockNode.Id, cstDeclaration.InitialStateName.IdShort);
-            
-            var finalBlockNode = new DotNode(Guid.NewGuid().ToString().Substring(0,7));
-            finalBlockNode.Attributes.Label = nameof(cstDeclaration.Finals);
-            finalBlockNode.Attributes.Shape = DotNodeShape.Rectangle;
+            _graph.Edges.Add(node.Id, initialBlockNode.Id);
+
+            var finalBlockNode = CreateAttributeNode(nameof(cstDeclaration.Finals));
             _graph.Nodes.Add(finalBlockNode);
             
             foreach (var final in cstDeclaration.Finals)
@@ -139,10 +136,8 @@ namespace DSL_Parser.Visitors.CST
             }
 
             _graph.Edges.Add(node.Id, finalBlockNode.Id);
-            
-            var tableBlockNode = new DotNode(Guid.NewGuid().ToString().Substring(0,7));
-            tableBlockNode.Attributes.Label = nameof(cstDeclaration.Trancitions);
-            tableBlockNode.Attributes.Shape = DotNodeShape.Rectangle;
+
+            var tableBlockNode = CreateAttributeNode(nameof(cstDeclaration.Trancitions));
             _graph.Nodes.Add(tableBlockNode);
 
             foreach (var transition in cstDeclaration.Trancitions)
@@ -158,6 +153,7 @@ namespace DSL_Parser.Visitors.CST
         {
             var node = new DotNode(cstAsset.IdShort);
             node.Attributes.Label = $"Asset.{cstAsset.Identity.Name}[\"{cstAsset.String}\"]";
+            _graph.Nodes.Add(node);
             
             cstAsset.Identity.Visit(this);
 
@@ -170,27 +166,37 @@ namespace DSL_Parser.Visitors.CST
             node.Attributes.Label = "DSL";
             _graph.Nodes.Add(node);
 
-            var declarationAreaNode = new DotNode(Guid.NewGuid().ToString().Substring(0,7));
-            declarationAreaNode.Attributes.Label = nameof(cstDsl.Declarations);
-            _graph.Edges.Add(node.Id, declarationAreaNode.Id);
+            var declarationAreaNode = CreateAttributeNode(nameof(cstDsl.Declarations));
+            _graph.Nodes.Add(declarationAreaNode);
             
             foreach (var declaration in cstDsl.Declarations)
             {
                 declaration.Visit(this);
                 _graph.Edges.Add(declarationAreaNode.Id, declaration.IdShort);
             }
+            
+            _graph.Edges.Add(node.Id, declarationAreaNode.Id);
 
             if (!cstDsl.Assets.Any()) return;
-            
-            var assetsAreaNode = new DotNode(Guid.NewGuid().ToString().Substring(0,7));
-            assetsAreaNode.Attributes.Label = nameof(cstDsl.Assets);
-            _graph.Edges.Add(node.Id, assetsAreaNode.Id);
+
+            var assetsAreaNode = CreateAttributeNode(nameof(cstDsl.Assets));
+            _graph.Nodes.Add(assetsAreaNode);
             
             foreach (var asset in cstDsl.Assets)
             {
                 asset.Visit(this);
                 _graph.Edges.Add(assetsAreaNode.Id, asset.IdShort);
             }
+            
+            _graph.Edges.Add(node.Id, assetsAreaNode.Id);
+        }
+
+        public static DotNode CreateAttributeNode(string label)
+        {
+            var node =new DotNode(Guid.NewGuid().ToString().Substring(0,7));
+            node.Attributes.Label = label;
+            node.Attributes.Shape = DotNodeShape.Ellipse;
+            return node;
         }
     }
 }
