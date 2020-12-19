@@ -1,3 +1,4 @@
+using System;
 using DSL_Parser.Visitors.CST;
 
 namespace DSL_Parser.CST
@@ -27,6 +28,27 @@ namespace DSL_Parser.CST
         public override void Visit(CstCoreVisitor visitor)
         {
             visitor.Apply(this);
+        }
+
+        protected bool Equals(CstTransition other)
+        {
+            return Equals(StartStateName, other.StartStateName)
+                && Equals(Token, other.Token) 
+                && Equals(EndStateName, other.EndStateName) 
+                && IsEpsilon == other.IsEpsilon;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((CstTransition) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(StartStateName, Token, EndStateName, IsEpsilon);
         }
     }
 }

@@ -16,5 +16,23 @@ namespace DSL_Parser.CST
         {
             visitor.Apply(this);
         }
+
+        protected bool Equals(CstString other)
+        {
+            return Data == other.Data;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((CstString) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Data != null ? Data.GetHashCode() : 0);
+        }
     }
 }

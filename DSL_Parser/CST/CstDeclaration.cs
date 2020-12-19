@@ -26,5 +26,27 @@ namespace DSL_Parser.CST
         {
             visitor.Apply(this);
         }
+
+        protected bool Equals(CstDeclaration other)
+        {
+            return Equals(Identity, other.Identity)
+                && Equals(InitialStateName, other.InitialStateName) 
+                && Equals(States, other.States) 
+                && Equals(Finals, other.Finals) 
+                && Equals(Trancitions, other.Trancitions);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((CstDeclaration) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Identity, InitialStateName, States, Finals, Trancitions);
+        }
     }
 }
