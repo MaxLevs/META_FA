@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using META_FA.CST;
-using META_FA.Visitors.CST;
+using Regex_Parser;
+using Regex_Parser.CST;
+using Regex_Parser.Visitors.AST;
 using StateMachineLib.Options;
 using StateMachineLib.StateMachine;
 using StateMachineLib.StateMachine.Exceptions;
@@ -83,13 +84,13 @@ namespace META_FA
 
                     // Console.WriteLine(parseRes.Dot());
                     
-                    var cstBuilder = new Visitors.AST.CSTBuilderVisitor();
+                    var cstBuilder = new CSTBuilderVisitor();
                     cstBuilder.Visit(parseRes);
                     var cst = (RegexCST) cstBuilder.GetResult();
                     
                     // Console.WriteLine(cst.Dot());
                     
-                    var stateMachineBuilder = new StateMachineBuilderVisitor();
+                    var stateMachineBuilder = new RegexStateMachineBuilderVisitor();
                     cst.Visit(stateMachineBuilder);
 
                     stateMachine = stateMachineBuilder.GetResult();

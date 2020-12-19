@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFParser", "META3CombParser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateMachineLib", "StateMachineLib\StateMachineLib.csproj", "{32238EB7-2506-4CC9-A640-46EC0B35ED95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Regex_Parser", "Regex_Parser\Regex_Parser.csproj", "{1A199CF3-0595-4F09-8F67-7875A19B8B99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{32238EB7-2506-4CC9-A640-46EC0B35ED95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32238EB7-2506-4CC9-A640-46EC0B35ED95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32238EB7-2506-4CC9-A640-46EC0B35ED95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A199CF3-0595-4F09-8F67-7875A19B8B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A199CF3-0595-4F09-8F67-7875A19B8B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A199CF3-0595-4F09-8F67-7875A19B8B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A199CF3-0595-4F09-8F67-7875A19B8B99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

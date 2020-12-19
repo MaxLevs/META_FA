@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using BFParser;
 using BFParser.SyntaxTreeNodeVisitors;
-using META_FA.CST;
+using Regex_Parser.CST;
 
-namespace META_FA.Visitors.AST
+namespace Regex_Parser.Visitors.AST
 {
     public class CSTBuilderVisitor : CoreSyntaxTreeNodeVisitor
     {

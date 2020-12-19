@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using META_FA.CST;
+using Regex_Parser.CST;
+using Regex_Parser.Visitors.CST;
 using StateMachineLib.StateMachine;
 
-namespace META_FA.Visitors.CST
+namespace META_FA
 {
-    public class StateMachineBuilderVisitor : CSTVisitor
+    public class RegexStateMachineBuilderVisitor : CSTVisitor
     {
         private readonly List<State> _startNodes = new List<State>();
         private readonly List<State> _endNodes = new List<State>();
@@ -27,7 +28,7 @@ namespace META_FA.Visitors.CST
             return _machine.RenameToNormalNames();
         }
 
-        public StateMachineBuilderVisitor()
+        public RegexStateMachineBuilderVisitor()
         {
             _machine = new MachineNonDetermined();
         }

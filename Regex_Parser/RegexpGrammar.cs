@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using BFParser;
 using BFParser.Parsers;
-using BFParser.Parsers.Combinators;
 
-namespace META_FA
+namespace Regex_Parser
 {
     public static class RegexpGrammar
     {

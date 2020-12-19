@@ -1,6 +1,6 @@
-using META_FA.CST;
+using Regex_Parser.CST;
 
-namespace META_FA.Visitors.CST
+namespace Regex_Parser.Visitors.CST
 {
     public abstract class CSTVisitor
     {

@@ -3,9 +3,9 @@ using GiGraph.Dot.Entities.Edges;
 using GiGraph.Dot.Entities.Graphs;
 using GiGraph.Dot.Entities.Nodes;
 using GiGraph.Dot.Extensions;
-using META_FA.CST;
+using Regex_Parser.CST;
 
-namespace META_FA.Visitors.CST
+namespace Regex_Parser.Visitors.CST
 {
     public class CSTDotVisitor : CSTVisitor
     {

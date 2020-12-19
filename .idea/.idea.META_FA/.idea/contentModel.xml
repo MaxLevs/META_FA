@@ -50,15 +50,6 @@
       </e>
       <e p="META_FA" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
-        <e p="CST" t="Include">
-          <e p="RegexCST.cs" t="Include" />
-          <e p="RegexQuantifierMaybe.cs" t="Include" />
-          <e p="RegexQuantifierOneOrInfinity.cs" t="Include" />
-          <e p="RegexQuantifierZeroOrInfinity.cs" t="Include" />
-          <e p="RegexString.cs" t="Include" />
-          <e p="RegexSymbol.cs" t="Include" />
-          <e p="RegexVariant.cs" t="Include" />
-        </e>
         <e p="Examples" t="Include">
           <e p="NonDetermOutPut_a01332d_BreakDetermine.json" t="Include" />
           <e p="options.json" t="Include" />
@@ -88,6 +79,30 @@
           <e p="NonDetermOutput_b178414.json" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="RegexStateMachineBuilderVisitor.cs" t="Include" />
+      </e>
+      <e p="META_FA.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Regex_Parser" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="CST" t="Include">
+          <e p="RegexCST.cs" t="Include" />
+          <e p="RegexQuantifierMaybe.cs" t="Include" />
+          <e p="RegexQuantifierOneOrInfinity.cs" t="Include" />
+          <e p="RegexQuantifierZeroOrInfinity.cs" t="Include" />
+          <e p="RegexString.cs" t="Include" />
+          <e p="RegexSymbol.cs" t="Include" />
+          <e p="RegexVariant.cs" t="Include" />
+        </e>
+        <e p="Examples" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Regex_Parser.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Regex_Parser.csproj" t="IncludeRecursive" />
         <e p="RegexpGrammar.cs" t="Include" />
         <e p="Visitors" t="Include">
           <e p="AST" t="Include">
@@ -96,12 +111,9 @@
           <e p="CST" t="Include">
             <e p="CSTDotVisitor.cs" t="Include" />
             <e p="CSTVisitor.cs" t="Include" />
-            <e p="StateMachineBuilderVisitor.cs" t="Include" />
           </e>
         </e>
       </e>
-      <e p="META_FA.sln" t="IncludeFlat" />
-      <e p="packages" t="ExcludeRecursive" />
       <e p="StateMachineLib" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
