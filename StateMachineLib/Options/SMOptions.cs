@@ -12,6 +12,7 @@ namespace StateMachineLib.Options
     public class SMOptions
     {
         public string MachineId { get; set; }
+        public List<string> States { get; set; }
         public string InitialState { get; set; }
         public List<string> FinalStates { get; set; }
         public List<TransitionOptions> Transitions { get; set; }
