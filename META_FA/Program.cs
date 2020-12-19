@@ -72,7 +72,7 @@ namespace META_FA
                     Console.WriteLine($"[Info] Used options file is {_optionsFilePath}");
                     var options = Options.FromFile(_optionsFilePath)[0];
                     stateMachine = Machine.GetFromOptions(options.Arch);
-                    Assets.AddRange(options.Assets);
+                    if (options.Assets != null) Assets.AddRange(options.Assets);
                 }
 
                 else
