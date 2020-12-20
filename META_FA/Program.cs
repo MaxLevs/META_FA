@@ -18,8 +18,11 @@ namespace META_FA
         private static string _regexpForParsing;
         private static string _outputPath;
         private static readonly List<Asset> Assets = new List<Asset>();
-        private static bool _noMinimize;
-        private static bool _noDeterm;
+        
+        private static bool _determ;
+        private static bool _minimize;
+        private static bool _printTable;
+        private static bool _printDot;
         
         static void Main(string[] args)
         {
@@ -33,25 +36,53 @@ namespace META_FA
                     switch (arg)
                     {
                         case "-r":
+                        case "--regex":
                             _regexpForParsing = args[0];
+                            args = args.Where((_, i) => i != 0).ToArray();
+                            
                             break;
+                        
                         case "-o":
+                        case "--out":
                             var path = args[0];
+                            args = args.Where((_, i) => i != 0).ToArray();
+                            
                             if (Uri.IsWellFormedUriString(path, UriKind.RelativeOrAbsolute)
                                 && Directory.Exists(path))
                             {
                                 _outputPath = path;
                             }
                             break;
+                        
                         case "-M":
-                            _noMinimize = true;
+                        case "--minimize":
+                            _minimize = true;
                             break;
                         
                         case "-D":
-                            _noDeterm = true;
+                        case "--determine":
+                            _determ = true;
+                            break;
+                        
+                        case "--table":
+                            _printTable = true;
+                            break;
+                        
+                        case "--dot":
+                            _printDot = true;
+                            break;
+                        
+                        case "--asset":
+                        case "--asset:true":
+                            Assets.Add(new Asset {Text = args[0], ExpectedResult = true});
+                            args = args.Where((_, i) => i != 0).ToArray();
+                            break;
+                        
+                        case "--asset:false":
+                            Assets.Add(new Asset {Text = args[0], ExpectedResult = false});
+                            args = args.Where((_, i) => i != 0).ToArray();
                             break;
                     }
-                    args = args.Where((_, i) => i != 0).ToArray();
                 }
                 else
                 {
@@ -107,7 +138,7 @@ namespace META_FA
                 TestAssets(Assets, stateMachine);
                 SaveMachineIntoFile(stateMachine, "NonDeterm");
 
-                if (!_noDeterm && stateMachine.Type != MachineType.Determined)
+                if (_determ && stateMachine.Type != MachineType.Determined)
                 {
 
                     Console.WriteLine();
@@ -124,7 +155,7 @@ namespace META_FA
                     SaveMachineIntoFile(stateMachine, "Determ");
                 }
 
-                if (!_noMinimize)
+                if (_minimize)
                 {
                     Console.WriteLine();
                     Console.WriteLine(new string('=', 60));
@@ -169,6 +200,8 @@ namespace META_FA
 
         private static void PrintDot(Machine stateMachine)
         {
+            if (!_printDot) return;
+            
             Console.WriteLine("Graph.dot");
             Console.WriteLine();
             Console.WriteLine(stateMachine.ToOptions().ToDot());
@@ -177,6 +210,8 @@ namespace META_FA
 
         private static void PrintTable(Machine stateMachine)
         {
+            if(!_printTable) return;
+            
             Console.WriteLine("Table");
             Console.WriteLine();
             Console.WriteLine(stateMachine.ToOptions().ToTable());
