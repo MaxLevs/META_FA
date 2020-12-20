@@ -12,9 +12,13 @@ namespace DSL_Parser
         static void Main(string[] args)
         {
             Console.WriteLine("DSL Parser Lib\n");
+            Console.WriteLine();
+            
             // UpdateRuleDotExamples(); return;
             
             var dslParser = DSLGrammar.Build();
+            
+            Console.WriteLine(dslParser.PrintGrammar() + "\n\n"); return;
 
             using var dfaExplanation = File.OpenText("Examples/example2.dfa");
             var dfaText = PrepareData(dfaExplanation.ReadToEnd());

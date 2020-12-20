@@ -49,4 +49,29 @@ Asset(Dfa, "ca", true)
 Function SomeFunc (env, int a, bool b, string c) 
 
 End Function
+
+/* 
+    Current DSL Grammar
+    
+    Goal: [dsl]
+
+    identity      ==> r"(([A-Z][a-z_]+)+|[A-Z])[0-9_]*"
+    symbol        ==> r"[a-zA-Z0-9]"
+    str           ==> r"\\"[^\"]*\\""
+    bool          ==> "true" | "false"
+    state_name    ==> r"[a-z]+[0-9]*"
+    states_list   ==> [state_name] + "," + [states_list] | [state_name]
+    declare_area  ==> "Declare" + [identity] + [declare_body] + "End" + "Declare"
+    declare_body  ==> [states_block]? + [initial_block] + [finals_block] + [table_block]
+    states_block  ==> "States" + "=" + "(" + [states_list] + ")"
+    initial_block ==> "Initial" + "=" + [state_name]
+    finals_block  ==> "Finals" + "=" + "(" + [states_list] + ")"
+    table_block   ==> "Table" + "=" + "(" + ([table_row]+) + ")"
+    table_row     ==> "<" + ([state_name] + [symbol] + [state_name] | [state_name] + [state_name]) + ">"
+    assets_area   ==> [asset_rule]+
+    asset_rule    ==> "Asset" + "(" + [asset_args] + ")"
+    asset_args    ==> [identity] + "," + [str] + "," + [bool]
+    dsl           ==> ([declare_area]+) + [assets_area]?
+    
+*/
     
