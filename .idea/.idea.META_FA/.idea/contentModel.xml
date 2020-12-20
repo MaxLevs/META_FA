@@ -54,7 +54,6 @@
         <e p="Program.cs" t="Include" />
         <e p="Visitors" t="Include">
           <e p="AST" t="Include">
-            <e p="AstCoreVisitor.cs" t="Include" />
             <e p="CSTBuilderVisitor.cs" t="Include" />
           </e>
           <e p="CST" t="Include">

@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using BFParser;
+using BFParser.SyntaxTreeNodeVisitors;
 using DSL_Parser.CST;
 
 namespace DSL_Parser.Visitors.AST
 {
-    public class CstBuilderVisitor : AstCoreVisitor
+    public class CstBuilderVisitor : CoreSyntaxTreeNodeVisitor
     {
         private readonly Stack<CstCoreNode> _nodes;
         
-        public override object GetResult()
+        public override dynamic GetResult()
         {
             _nodes.TryPeek(out var result);
             return result;
@@ -90,7 +91,7 @@ namespace DSL_Parser.Visitors.AST
                     // Take declarations
                     foreach (var astDeclareArea in astDeclareAreas)
                     {
-                        Apply(astDeclareArea); // DeclareArea
+                        astDeclareArea.Visit(this); // DeclareArea
 
                         var isStatesBlockThere = astDeclareArea.Children[2].Children[0].ParsedText != null;
 
@@ -149,7 +150,7 @@ namespace DSL_Parser.Visitors.AST
                         
                         foreach (var astAsset in astAssets)
                         {
-                            Apply(astAsset); // AssetRule
+                            astAsset.Visit(this); // AssetRule
                             
                             var asset = (CstAsset) _nodes.Pop();
                             
@@ -166,16 +167,16 @@ namespace DSL_Parser.Visitors.AST
 
                 case DSLGrammar.AssetArgs:
                 {
-                    Apply(syntaxTreeNode.Children[0]); // Identity
-                    Apply(syntaxTreeNode.Children[2]); // Str
-                    Apply(syntaxTreeNode.Children[4]); // Bool
+                    syntaxTreeNode.Children[0].Visit(this); // Identity
+                    syntaxTreeNode.Children[2].Visit(this); // Str
+                    syntaxTreeNode.Children[4].Visit(this); // Bool
                     
                     break;
                 }
 
                 case DSLGrammar.AssetRule:
                 {
-                    Apply(syntaxTreeNode.Children[2]); // AssetArgs
+                    syntaxTreeNode.Children[2].Visit(this); // AssetArgs
 
                     var boolNode = (CstBool) _nodes.Pop();
                     var stringNode = (CstString) _nodes.Pop();
@@ -194,7 +195,7 @@ namespace DSL_Parser.Visitors.AST
                     
                     foreach (var asset in astAssets)
                     {
-                        Apply(asset); // Asset
+                        asset.Visit(this); // Asset
                     }
                     
                     break;
@@ -202,8 +203,8 @@ namespace DSL_Parser.Visitors.AST
 
                 case DSLGrammar.DeclareArea:
                 {
-                    Apply(syntaxTreeNode.Children[1]); // Identity
-                    Apply(syntaxTreeNode.Children[2]); // DeclareBody
+                    syntaxTreeNode.Children[1].Visit(this); // Identity
+                    syntaxTreeNode.Children[2].Visit(this); // DeclareBody
 
                     break;
                 }
@@ -214,17 +215,17 @@ namespace DSL_Parser.Visitors.AST
 
                     if (isStateBlockThere)
                     {
-                        Apply(syntaxTreeNode.Children[0].Children[0]); // StatesBlock
-                        Apply(syntaxTreeNode.Children[1]); // InitialBlock
-                        Apply(syntaxTreeNode.Children[2]); // FinalsBlock
-                        Apply(syntaxTreeNode.Children[3]); // TableBlock
+                        syntaxTreeNode.Children[0].Children[0].Visit(this); // StatesBlock
+                        syntaxTreeNode.Children[1].Visit(this); // InitialBlock
+                        syntaxTreeNode.Children[2].Visit(this); // FinalsBlock
+                        syntaxTreeNode.Children[3].Visit(this); // TableBlock
                     }
 
                     else
                     {
-                        Apply(syntaxTreeNode.Children[1]); // InitialBlock
-                        Apply(syntaxTreeNode.Children[2]); // FinalsBlock
-                        Apply(syntaxTreeNode.Children[3]); // TableBlock
+                        syntaxTreeNode.Children[1].Visit(this); // InitialBlock
+                        syntaxTreeNode.Children[2].Visit(this); // FinalsBlock
+                        syntaxTreeNode.Children[3].Visit(this); // TableBlock
                     }
                     
                     break;
@@ -232,7 +233,7 @@ namespace DSL_Parser.Visitors.AST
                 
                 case DSLGrammar.FinalsBlock:
                 {
-                    Apply(syntaxTreeNode.Children[3]); // StateList or StateName
+                    syntaxTreeNode.Children[3].Visit(this); // StateList or StateName
 
                     _nodes.TryPop(out var resNode);
                     
@@ -253,14 +254,14 @@ namespace DSL_Parser.Visitors.AST
                 
                 case DSLGrammar.InitialBlock:
                 {
-                    Apply(syntaxTreeNode.Children[2]); // StateName
+                    syntaxTreeNode.Children[2].Visit(this); // StateName
                     
                     break;
                 }
                 
                 case DSLGrammar.StatesBlock:
                 {
-                    Apply(syntaxTreeNode.Children[3]); // StateList
+                    syntaxTreeNode.Children[3].Visit(this); // StateList
                     
                     _nodes.TryPop(out var resNode);
                     
@@ -281,8 +282,8 @@ namespace DSL_Parser.Visitors.AST
                 
                 case DSLGrammar.StatesList:
                 {
-                    Apply(syntaxTreeNode.Children[0]); // StateName
-                    Apply(syntaxTreeNode.Children[2]); // StateList or StateName
+                    syntaxTreeNode.Children[0].Visit(this); // StateName
+                    syntaxTreeNode.Children[2].Visit(this); // StateList or StateName
 
                     var lastListElement = _nodes.Pop();
 
@@ -317,7 +318,7 @@ namespace DSL_Parser.Visitors.AST
                     
                     foreach (var astRow in astRows)
                     {
-                        Apply(astRow); // TableRow
+                        astRow.Visit(this); // TableRow
                     }
                     
                     break;
@@ -329,8 +330,8 @@ namespace DSL_Parser.Visitors.AST
 
                     if (isEpsilon)
                     {
-                        Apply(syntaxTreeNode.Children[1].Children[0]); // NodeName: StartState
-                        Apply(syntaxTreeNode.Children[1].Children[1]); // NodeName: EndState
+                        syntaxTreeNode.Children[1].Children[0].Visit(this); // NodeName: StartState
+                        syntaxTreeNode.Children[1].Children[1].Visit(this); // NodeName: EndState
 
                         var endState = (CstStateName) _nodes.Pop();
                         var startState = (CstStateName) _nodes.Pop();
@@ -342,9 +343,9 @@ namespace DSL_Parser.Visitors.AST
 
                     else
                     {
-                        Apply(syntaxTreeNode.Children[1].Children[0]); //NodeName: StartState
-                        Apply(syntaxTreeNode.Children[1].Children[1]); //Str: Token
-                        Apply(syntaxTreeNode.Children[1].Children[2]); //NodeName: EndState
+                        syntaxTreeNode.Children[1].Children[0].Visit(this); //NodeName: StartState
+                        syntaxTreeNode.Children[1].Children[1].Visit(this); //Str: Token
+                        syntaxTreeNode.Children[1].Children[2].Visit(this); //NodeName: EndState
                         
                         var endState = (CstStateName) _nodes.Pop();
                         var token = (CstSymbol) _nodes.Pop();

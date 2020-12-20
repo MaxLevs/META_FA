@@ -10,7 +10,7 @@ namespace Regex_Parser.Visitors.AST
     {
         private readonly List<RegexCST> _buffer = new List<RegexCST>();
         
-        public override void Visit(SyntaxTreeNode syntaxTreeNode)
+        public override void Apply(SyntaxTreeNode syntaxTreeNode)
         {
             switch (syntaxTreeNode.RuleName)
             {
@@ -21,16 +21,16 @@ namespace Regex_Parser.Visitors.AST
                 case RegexpGrammar.Element:
                     if (syntaxTreeNode.Children.Count == 1)
                     {
-                        Visit(syntaxTreeNode.Children[0]);
+                        Apply(syntaxTreeNode.Children[0]);
                     }
                     else
                     {
-                        Visit(syntaxTreeNode.Children[1]);
+                        Apply(syntaxTreeNode.Children[1]);
                     }
                     break;
                 
                 case RegexpGrammar.Quantifier:
-                    Visit(syntaxTreeNode.Children[0]);
+                    Apply(syntaxTreeNode.Children[0]);
                     
                     var quantSubExpr = _buffer[^1];
                     _buffer.Remove(quantSubExpr);
@@ -53,7 +53,7 @@ namespace Regex_Parser.Visitors.AST
                 case RegexpGrammar.Str:
                     foreach (var node in syntaxTreeNode.Children)
                     {
-                        Visit(node);
+                        Apply(node);
                     }
 
                     if (syntaxTreeNode.Children.Count > 1)
@@ -71,12 +71,12 @@ namespace Regex_Parser.Visitors.AST
                     break;
                 
                 case RegexpGrammar.Variant:
-                    Visit(syntaxTreeNode.Children[0]);
+                    Apply(syntaxTreeNode.Children[0]);
                     
                     var variantElement = _buffer[^1];
                     _buffer.Remove(variantElement);
                     
-                    Visit(syntaxTreeNode.Children[2]);
+                    Apply(syntaxTreeNode.Children[2]);
 
                     var suspectedElement = _buffer[^1];
                     _buffer.Remove(suspectedElement);
@@ -98,7 +98,7 @@ namespace Regex_Parser.Visitors.AST
             }
         }
 
-        public override object GetResult()
+        public override dynamic GetResult()
         {
             return !_buffer.Any() ? null : _buffer[0];
         }

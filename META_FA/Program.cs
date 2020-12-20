@@ -129,8 +129,8 @@ namespace META_FA
                     // Console.WriteLine(parseRes.Dot()); return;
 
                     var cstBuilder = new CSTBuilderVisitor();
-                    cstBuilder.Visit(parseRes);
-                    var cst = (RegexCST) cstBuilder.GetResult();
+                    cstBuilder.Apply(parseRes);
+                    var cst = cstBuilder.GetResult();
 
                     // Console.WriteLine(cst.Dot()); return;
 
