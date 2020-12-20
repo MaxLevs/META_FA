@@ -106,6 +106,7 @@
           <e p="SyntaxTreeNodeClearVisitor.cs" t="Include" />
           <e p="SyntaxTreeNodeVisualiserVisitor.cs" t="Include" />
         </e>
+        <e p="TextPosition.cs" t="Include" />
       </e>
       <e p="META_FA" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />

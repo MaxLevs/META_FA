@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using GiGraph.Dot.Entities.Attributes.Enums;
 using GiGraph.Dot.Entities.Graphs;
 using GiGraph.Dot.Entities.Types.Styles;
@@ -31,6 +32,8 @@ namespace StateMachineLib.Options
             var tokens = Transitions.Select(tr => tr.Token).Distinct().ToList();
             
             var states = GetStates().ToList();
+            // states.Sort();
+            states = OrderByAlphaNumeric(states, s => s.ToString()).ToList();
 
             var table = Transitions.GroupBy(tr => new {tr.StartState, tr.Token}).ToList();
 
@@ -65,26 +68,12 @@ namespace StateMachineLib.Options
             }
 
             return result;
-
-            // var states = GetStates().ToList();
-            // var padding = Math.Max(states.Max(s => s.Length), Transitions.Max(tr => tr.Token?.Length ?? 1)) + 2;
-            // if (Transitions.Any(tr => tr.IsEpsilon))
-            // {
-            //     padding = Math.Max(padding, 3 + 2);
-            // }
-            // var headline = states.Aggregate(">".PadLeft(padding), (result, stateCol) => result + stateCol.PadLeft(padding));
-            // return states.Aggregate(headline, (resultRow, stateRow) => resultRow + "\n" + states.Aggregate(stateRow.PadLeft(padding),
-            //     (resultCol, stateCol) =>
-            //     {
-            //         var tr = Transitions.Find(tr => tr.StartState == stateCol && tr.EndState == stateRow);
-            //         
-            //         if (tr == null)
-            //         {
-            //             return resultCol + ".".PadLeft(padding);
-            //         }
-            //         
-            //         return resultCol + (tr.Token ?? (tr.IsEpsilon ? "[ε]" : ".")).PadLeft(padding);
-            //     }));
+        }
+        
+        public static IEnumerable<T> OrderByAlphaNumeric<T>(IEnumerable<T> source, Func<T, string> selector)
+        {
+            int max = source.SelectMany(i => Regex.Matches(selector(i), @"\d+").Cast<Match>().Select(m => (int?)m.Value.Length)).Max() ?? 0;
+            return source.OrderBy(i => Regex.Replace(selector(i), @"\d+", m => m.Value.PadLeft(max, '0')));
         }
 
         public string ToDot()

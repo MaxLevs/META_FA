@@ -22,7 +22,7 @@ namespace DSL_Parser
 
             using var dfaExplanation = File.OpenText("Examples/example2.dfa");
             var dfaText = PrepareData(dfaExplanation.ReadToEnd());
-            var ast = dslParser.Goal.Parse(dfaText);
+            var ast = dslParser.Parse(dfaText);
                 
             // Console.WriteLine(ast?.Dot() ?? "[NULL PARSE RESULT]");
             
@@ -57,7 +57,7 @@ namespace DSL_Parser
 
             foreach (var (asset, ruleName) in assets)
             {
-                var ast = dslParser[ruleName].Parse(asset);
+                var ast = dslParser.Parse(asset, ruleName);
                 using var resFile = File.CreateText(Path.Join("../../../Examples/RulesDotExamples", $"{ruleName}_example.dot"));
                 var astDot = ast?.Dot();
                 resFile.Write(astDot ?? "[NULL]");

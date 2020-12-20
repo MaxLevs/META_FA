@@ -124,7 +124,7 @@ namespace META_FA
                     Console.WriteLine($"[Info] Generating state machine with regex \"{_regexpForParsing}\"");
 
                     var regexpParser = RegexpGrammar.GetParser();
-                    var parseRes = regexpParser.Goal.Parse(_regexpForParsing);
+                    var parseRes = regexpParser.Parse(_regexpForParsing);
 
                     // Console.WriteLine(parseRes.Dot()); return;
 
@@ -178,7 +178,7 @@ namespace META_FA
                     Console.WriteLine("[Action] Minimizing...");
 
                     stateMachine = stateMachine.Minimize().RenameToNormalNames("m");
-                    Console.WriteLine($"  [Info] New id: {stateMachine.Id}");
+                    Console.WriteLine($"[Info] New id: {stateMachine.Id}");
                     Console.WriteLine();
 
                     PrintTable(stateMachine);
