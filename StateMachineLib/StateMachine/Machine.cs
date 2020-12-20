@@ -200,7 +200,7 @@ namespace StateMachineLib.StateMachine
         }
 
         public abstract Machine Minimize();
-        public abstract MachineDetermined Determine();
+        public abstract MachineDetermined Determine(bool verbose = false);
 
         public Machine RenameToNormalNames(string startsWith)
         {

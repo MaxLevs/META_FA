@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using StateMachineLib.StateMachine.Exceptions;
@@ -106,8 +107,9 @@ namespace StateMachineLib.StateMachine
             return minimizedStateMachine;
         }
 
-        public override MachineDetermined Determine()
+        public override MachineDetermined Determine(bool verbose = false)
         {
+            if (verbose) Console.WriteLine($"[Info] Machine {Id} is already determined");
             return this;
         }
 

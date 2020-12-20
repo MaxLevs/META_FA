@@ -23,6 +23,7 @@ namespace META_FA
         private static bool _minimize;
         private static bool _printTable;
         private static bool _printDot;
+        private static bool _dverbose;
         
         static void Main(string[] args)
         {
@@ -62,7 +63,15 @@ namespace META_FA
                         case "-D":
                         case "--determine":
                             _determ = true;
+                            _dverbose = false;
                             break;
+                        
+                        case "-D:verbose":
+                        case "--determine:verbose":
+                            _determ = true;
+                            _dverbose = true;
+                            break;
+                        
                         
                         case "--table":
                             _printTable = true;
@@ -81,6 +90,9 @@ namespace META_FA
                         case "--asset:false":
                             Assets.Add(new Asset {Text = args[0], ExpectedResult = false});
                             args = args.Where((_, i) => i != 0).ToArray();
+                            break;
+                        
+                        default:
                             break;
                     }
                 }
@@ -135,7 +147,6 @@ namespace META_FA
 
                 PrintTable(stateMachine);
                 PrintDot(stateMachine);
-                TestAssets(Assets, stateMachine);
                 SaveMachineIntoFile(stateMachine, "NonDeterm");
 
                 if (_determ && stateMachine.Type != MachineType.Determined)
@@ -145,8 +156,13 @@ namespace META_FA
                     Console.WriteLine(new string('=', 60));
                     Console.WriteLine("[Action] Determining...");
 
-                    stateMachine = stateMachine.Determine().RenameToNormalNames("s");
-                    Console.WriteLine($"  [Info] New id: {stateMachine.Id}");
+                    stateMachine = stateMachine.Determine(_dverbose).RenameToNormalNames("s");
+                    if (_dverbose)
+                    {
+                        Console.WriteLine(new string('=', 60));
+                        Console.WriteLine("[Info] State machine was determined");
+                    }
+                    Console.WriteLine($"[Info] New id: {stateMachine.Id}");
                     Console.WriteLine();
 
                     PrintTable(stateMachine);
@@ -167,9 +183,10 @@ namespace META_FA
 
                     PrintTable(stateMachine);
                     PrintDot(stateMachine);
-                    TestAssets(Assets, stateMachine);
                     SaveMachineIntoFile(stateMachine, "MinDeterm");
                 }
+                
+                TestAssets(Assets, stateMachine);
             }
 
             catch (FileNotFoundException)

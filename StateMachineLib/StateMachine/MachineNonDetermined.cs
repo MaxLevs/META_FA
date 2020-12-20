@@ -55,7 +55,7 @@ namespace StateMachineLib.StateMachine
             }
         }
 
-        public override MachineDetermined Determine()
+        public override MachineDetermined Determine(bool verbose = false)
         {
             var determined = new MachineDetermined();
 
@@ -70,7 +70,7 @@ namespace StateMachineLib.StateMachine
                 var newStates = new List<List<State>>();
                 var tempMovements = new List<TempTransition>();
 
-                Console.WriteLine("ε-closure({" + InitialState.Id + "}) = " + GetClosureName(initialClosure) + "\n");
+                if (verbose) Console.WriteLine("ε-closure({" + InitialState.Id + "}) = " + GetClosureName(initialClosure) + "\n");
                 
                 while (buffer.Any())
                 {
@@ -88,7 +88,7 @@ namespace StateMachineLib.StateMachine
 
                         var newClosure = EpsilonClosure(nextStops);
                         
-                        Console.Write( $"Move({GetClosureName(currentClosure)}, {token}) =  {GetClosureName(nextStops)};");
+                        if (verbose) Console.Write( $"Move({GetClosureName(currentClosure)}, {token}) =  {GetClosureName(nextStops)};");
                         
                         if (newClosure.Any())
                         {
@@ -99,16 +99,16 @@ namespace StateMachineLib.StateMachine
                             || newStates.Select(GetClosureName).Contains(GetClosureName(newClosure))
                             || buffer.Select(GetClosureName).Contains(GetClosureName(newClosure)))
                         {
-                            Console.WriteLine();
+                            if (verbose) Console.WriteLine();
                             continue;   
                         }
                         
-                        Console.WriteLine($"     ε-closure({GetClosureName(nextStops)}) = {GetClosureName(newClosure)}");
+                        if (verbose) Console.WriteLine($"     ε-closure({GetClosureName(nextStops)}) = {GetClosureName(newClosure)}");
                         
                         buffer.Add(newClosure);
                     }
                     
-                    Console.WriteLine();
+                    if (verbose) Console.WriteLine();
                 }
 
                 var determinedStates = newStates.Select(state => new State(GetClosureName(state), state.Any(x => x.IsFinal))).ToList();
