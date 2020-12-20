@@ -58,10 +58,14 @@ namespace Regex_Parser.Visitors.AST
 
                     if (syntaxTreeNode.Children.Count > 1)
                     {
-                        var strSubExprs = _buffer.GetRange(_buffer.Count - syntaxTreeNode.Children.Count, syntaxTreeNode.Children.Count);
-                        _buffer.RemoveRange(_buffer.Count - syntaxTreeNode.Children.Count, syntaxTreeNode.Children.Count);
+                        // var strSubExprs = _buffer.ToArray()[^syntaxTreeNode.Children.Count..]
+                        var rangeStart = _buffer.Count - syntaxTreeNode.Children.Count;
+                        var rangeCount = syntaxTreeNode.Children.Count;
+
+                        var strSubExpressions = _buffer.GetRange(rangeStart, rangeCount);
+                        _buffer.RemoveRange(rangeStart, rangeCount);
                         
-                        _buffer.Add(new RegexString(strSubExprs));
+                        _buffer.Add(new RegexString(strSubExpressions));
                     }
                     
                     break;

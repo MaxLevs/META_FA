@@ -14,7 +14,7 @@ namespace META_FA
 {
     class Program
     {
-        static string _optionsFilePath = "Examples/example_nfa_var.fa";
+        static string _optionsFilePath = "Examples/example_min_dfa_var.fa";
         private static string _regexpForParsing;
         private static string _outputPath;
         private static readonly List<Asset> Assets = new List<Asset>();
