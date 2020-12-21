@@ -49,7 +49,7 @@ namespace DSL_Parser
                 {Dsl, P.OI(DeclareArea) + P.MB(AssetsArea)},
             };
 
-            gram.CommentDefinition = new List<string> { @"/\*.*\*/", $"//.*{Environment.NewLine}?" };
+            gram.CommentDefinition = new List<string> { @"/\*.*\*/", $"//[^\n]*\n" };
             gram.InitGrammar();
         
             return gram;

@@ -1,4 +1,5 @@
 Declare NfaVar
+    // States = (q1 q3 q5)
     Initial = q1
     Finals = (q22)
     Table = (
@@ -29,6 +30,7 @@ Declare NfaVar
         <q23 q4>
     )
 End Declare
+
 
 Asset(NfaVar, "cb", true)
 Asset(NfaVar, "acb", false)
