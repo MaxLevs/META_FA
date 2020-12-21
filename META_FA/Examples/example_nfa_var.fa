@@ -1,5 +1,5 @@
 Declare NfaVar
-    // States = (q1 q3 q5)
+    States = (q1, q3, q5)
     Initial = q1
     Finals = (q22)
     Table = (

@@ -33,37 +33,6 @@ namespace DSL_Parser
             Console.WriteLine(cstDsl?.Dot() ?? "[NULL]");
         }
 
-        static void UpdateRuleDotExamples()
-        {
-            // RulesDotExamples
-            var dslParser = DSLGrammar.Build();
-
-            var assets = new Dictionary<string, string>
-            {
-                {"Dfa1", DSLGrammar.Identity},
-                {"\"some string\"", DSLGrammar.String},
-                {"q", DSLGrammar.Symbol},
-                {"state14", DSLGrammar.StateName},
-                {"<s1 f s2>", DSLGrammar.TableRow},
-                {"States = ( st1, st2, st3, st4 )", DSLGrammar.StatesBlock},
-                {"Initial = m1", DSLGrammar.InitialBlock},
-                {"Finals = (m5)", DSLGrammar.FinalsBlock},
-                {"Table = ( <m1 a m2> <m1 b m3> <m1 c m4> <m2 b m1> <m3 c m1> <m4 b m5> )", DSLGrammar.TableBlock},
-                {"Declare Dfa1 Initial = m1 Finals = (m5) Table = ( <m1 a m2> <m1 b m3> <m1 c m4> <m2 b m1> <m3 c m1> <m4 b m5> ) End Declare", DSLGrammar.InitialBlock},
-                {"Run(Dfa1, \"cb\")", DSLGrammar.AssetRule},
-                {"Run(Dfa1, \"cb\") Run(Dfa1, \"acb\") Run(Dfa1, \"abcb\")", DSLGrammar.AssetsArea},
-                {"Declare Dfa1 Initial = m1 Finals = (m5) Table = ( <m1 a m2> <m1 b m3> <m1 c m4> <m2 b m1> <m3 c m1> <m4 b m5> ) End Declare Run(Dfa1, \"cb\") Run(Dfa1, \"acb\") Run(Dfa1, \"abcb\")", DSLGrammar.Dsl}
-            };
-
-            foreach (var (asset, ruleName) in assets)
-            {
-                var ast = dslParser.Parse(asset, ruleName);
-                using var resFile = File.CreateText(Path.Join("../../../Examples/RulesDotExamples", $"{ruleName}_example.dot"));
-                var astDot = ast?.Dot();
-                resFile.Write(astDot ?? "[NULL]");
-            }
-        }
-
         private static string PrepareData(string data)
         {
             var withoutNewLines = data.Replace(Environment.NewLine, " ");

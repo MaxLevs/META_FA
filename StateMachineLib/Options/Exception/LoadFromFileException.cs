@@ -11,7 +11,7 @@ namespace StateMachineLib.Options.Exception
         
         public LoadFromFileException(Grammar grammar, CoreParser parser, string configText)
         {
-            Message = $"Errors occured during a parsing. Grammar: {grammar}; Parser: {parser}";
+            Message = $"{this}: parse result is null";
         }
     }
 }
