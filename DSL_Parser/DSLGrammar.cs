@@ -21,7 +21,7 @@ namespace DSL_Parser
         public const string AssetRule = "asset_rule";
         public const string AssetArgs = "asset_args";
         public const string Identity = "identity";
-        public const string Str = "str";
+        public const string String = "string";
         public const string Bool = "bool";
         public const string TableRow = "table_row";
         public const string Symbol = "symbol";
@@ -32,7 +32,7 @@ namespace DSL_Parser
             {
                 {Identity, P.RE(@"(([A-Z][a-z_]+)+|[A-Z])[0-9_]*")}, // M, MinMax, MinMax_release, Some9
                 {Symbol, P.RE(@"[a-zA-Z0-9]")},
-                {Str, P.RE("\\\"[^\"]*\\\"")},
+                {String, P.RE("\\\"[^\"]*\\\"")},
                 {Bool, P.T("true") | P.T("false")},
                 {StateName, P.RE(@"[a-z]+[0-9]*")},
                 {StatesList, P.C(StateName) + P.T(",") + P.C(StatesList) | P.C(StateName)},
@@ -45,7 +45,7 @@ namespace DSL_Parser
                 {TableRow, P.T("<") + ((P.C(StateName) + P.C(Symbol) + P.C(StateName)) | P.C(StateName) + P.C(StateName)) + P.T(">")},
                 {AssetsArea, P.OI(AssetRule)},
                 {AssetRule, P.T(new[] {"Asset", "("}) + P.C(AssetArgs) + P.T(")")},
-                {AssetArgs, P.C(Identity) + P.T(",") + P.C(Str) + P.T(",") + P.C(Bool)},
+                {AssetArgs, P.C(Identity) + P.T(",") + P.C(String) + P.T(",") + P.C(Bool)},
                 {Dsl, P.OI(DeclareArea) + P.MB(AssetsArea)},
             };
 

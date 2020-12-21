@@ -41,7 +41,7 @@ namespace DSL_Parser
             var assets = new Dictionary<string, string>
             {
                 {"Dfa1", DSLGrammar.Identity},
-                {"\"some string\"", DSLGrammar.Str},
+                {"\"some string\"", DSLGrammar.String},
                 {"q", DSLGrammar.Symbol},
                 {"state14", DSLGrammar.StateName},
                 {"<s1 f s2>", DSLGrammar.TableRow},
