@@ -164,42 +164,42 @@ namespace DSL_Parser.Visitors.AST
                     
                     break;
                 }
-
-                case DSLGrammar.AssetArgs:
-                {
-                    syntaxTreeNode.Children[0].Visit(this); // Identity
-                    syntaxTreeNode.Children[2].Visit(this); // Str
-                    syntaxTreeNode.Children[4].Visit(this); // Bool
-                    
-                    break;
-                }
-
-                case DSLGrammar.AssetRule:
-                {
-                    syntaxTreeNode.Children[2].Visit(this); // AssetArgs
-
-                    var boolNode = (CstBool) _nodes.Pop();
-                    var stringNode = (CstString) _nodes.Pop();
-                    var identityNode = (CstIdentity) _nodes.Pop();
-                    
-                    var assetNode = new CstAsset(identityNode, stringNode.Data, boolNode.Data);
-                    
-                    _nodes.Push(assetNode);
-                    
-                    break;
-                }
-
-                case DSLGrammar.AssetsArea:
-                {
-                    var astAssets = syntaxTreeNode.Children;
-                    
-                    foreach (var asset in astAssets)
-                    {
-                        asset.Visit(this); // Asset
-                    }
-                    
-                    break;
-                }
+                //
+                // case DSLGrammar.AssetArgs:
+                // {
+                //     syntaxTreeNode.Children[0].Visit(this); // Identity
+                //     syntaxTreeNode.Children[2].Visit(this); // Str
+                //     syntaxTreeNode.Children[4].Visit(this); // Bool
+                //     
+                //     break;
+                // }
+                //
+                // case DSLGrammar.AssetRule:
+                // {
+                //     syntaxTreeNode.Children[2].Visit(this); // AssetArgs
+                //
+                //     var boolNode = (CstBool) _nodes.Pop();
+                //     var stringNode = (CstString) _nodes.Pop();
+                //     var identityNode = (CstIdentity) _nodes.Pop();
+                //     
+                //     var assetNode = new CstAsset(identityNode, stringNode.Data, boolNode.Data);
+                //     
+                //     _nodes.Push(assetNode);
+                //     
+                //     break;
+                // }
+                //
+                // case DSLGrammar.AssetsArea:
+                // {
+                //     var astAssets = syntaxTreeNode.Children;
+                //     
+                //     foreach (var asset in astAssets)
+                //     {
+                //         asset.Visit(this); // Asset
+                //     }
+                //     
+                //     break;
+                // }
 
                 case DSLGrammar.DeclareArea:
                 {
