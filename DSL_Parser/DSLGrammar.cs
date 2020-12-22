@@ -63,7 +63,7 @@ namespace DSL_Parser
                 {TableBlock, P.T(new[] {"Table", "=", "("}) + P.OI(TableRow) + P.T(")")},
                 {TableRow, P.T("<") + ((P.C(StateName) + P.C(Symbol) + P.C(StateName)) | P.C(StateName) + P.C(StateName)) + P.T(">")},
                 
-                {FunctionCall, P.C(Identity) + P.T("(") + P.C(FuncArgsList) + P.T(")")},
+                {FunctionCall, P.C(Identity) + P.T("(") + P.MB(FuncArgsList) + P.T(")")},
                 {FuncArgsList, P.C(FuncArg) + P.T(",") + P.C(FuncArgsList) | P.C(FuncArg)},
                 {FuncArg, P.C(Identity) | P.C(ConstantValue)},
                 
@@ -77,7 +77,7 @@ namespace DSL_Parser
                 {Dsl, P.OI(DeclareArea) + P.MB(CodeArea)},
             };
 
-            gram.CommentDefinition = new List<string> { @"/\*.*\*/", $"//[^\n]*\n" };
+            gram.CommentDefinition = new List<string> { @"/\*.*?\*/", $"//[^\n]*\n" };
             gram.InitGrammar();
         
             return gram;

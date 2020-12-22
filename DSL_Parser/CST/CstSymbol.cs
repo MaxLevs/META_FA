@@ -3,7 +3,7 @@ using DSL_Parser.Visitors.CST;
 
 namespace DSL_Parser.CST
 {
-    public class CstSymbol : CstCoreNode
+    public class CstSymbol : CstConstantValue
     {
         public string Name { get; }
         

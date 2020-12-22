@@ -1,0 +1,52 @@
+Declare Dfa
+    States = (q1, q2, q3)
+    Initial = q1
+    Finals = (q3)
+    Table = (
+        <q1 a q3>
+        <q1 b q2>
+        <q1 c q1>
+        <q2 c q1>
+        <q3 b q2>
+    )
+End Declare
+
+Declare Nfa
+    States = (s1, s2, s3)
+    Initial = s1
+    Finals = (s3)
+    Table = (
+        <s1 a s3>
+        <s1 b s2>
+        <s1 c s1>
+        <s2 c s1>
+        <s3 b s2>
+    )
+End Declare
+
+
+PrintInfo(Nfa)
+PrintTable(Nfa)
+PrintDot(Nfa)
+Print("===========")
+
+Determine(Nfa, Dfa1)
+PrintInfo(Dfa1)
+PrintTable(Dfa1)
+PrintDot(Dfa1)
+Print("===========")
+
+Minimize(Dfa1, MinDfa1)
+PrintInfo(MinDfa1)
+PrintTable(MinDfa1)
+PrintDot(MinDfa1)
+Print("===========")
+
+Asset( MinDfa1, "ccca", true )
+Asset( MinDfa1, "abca", true )
+Asset( MinDfa1, "abcbcbcabca", true )
+Asset( MinDfa1, "bca", true )
+Asset( MinDfa1, "abca", true )
+Asset( MinDfa1, "a", true )
+Asset( MinDfa1, "ca", true )
+

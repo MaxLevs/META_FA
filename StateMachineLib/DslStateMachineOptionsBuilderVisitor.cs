@@ -144,20 +144,55 @@ namespace StateMachineLib
                 _options.Add(options.Arch.MachineId, options);
             }
             
-            foreach (var assetCst in cstDsl.Assets)
-            {
-                assetCst.Visit(this);
-                
-                var asset = (Asset) _buffer.Pop();
-                var identity = (string) _buffer.Pop();
-                
-                _options[identity].Assets.Add(asset);
-            }
+            // foreach (var assetCst in cstDsl.Assets)
+            // {
+            //     assetCst.Visit(this);
+            //     
+            //     var asset = (Asset) _buffer.Pop();
+            //     var identity = (string) _buffer.Pop();
+            //     
+            //     _options[identity].Assets.Add(asset);
+            // }
             
             foreach (var (_, options) in _options)
             {
                 options.Assets = options.Assets.Any() ? options.Assets : null;
             }
+        }
+
+        public override void Apply(CstCodeArea cstCodeArea)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Apply(CstDouble cstDouble)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Apply(CstFuncArg cstFuncArg)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Apply(CstFuncDefArg cstFuncDefArg)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Apply(CstFunctionCall cstFunctionCall)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Apply(CstFunctionDefinition cstFunctionDefinition)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Apply(CstInt cstInt)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

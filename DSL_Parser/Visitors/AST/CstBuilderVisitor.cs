@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BFParser;
 using BFParser.SyntaxTreeNodeVisitors;
 using DSL_Parser.CST;
@@ -84,7 +85,7 @@ namespace DSL_Parser.Visitors.AST
                 case DSLGrammar.Dsl:
                 {
                     var declarations = new List<CstDeclaration>();
-                    var assets = new List<CstAsset>();
+                    var codeEntities = new List<CstCodeEntity>();
                     
                     var astDeclareAreas = syntaxTreeNode.Children[0].Children;
                     
@@ -143,63 +144,191 @@ namespace DSL_Parser.Visitors.AST
                         }
                     }
 
-                    // Take assets
+                    // Take code entities
                     if (syntaxTreeNode.Children[1].ParsedText != null)
                     {
-                        var astAssets = syntaxTreeNode.Children[1].Children[0].Children;
+                        var astCodeEntities = syntaxTreeNode.Children[1].Children[0].Children;
                         
-                        foreach (var astAsset in astAssets)
+                        foreach (var astCodeEntity in astCodeEntities)
                         {
-                            astAsset.Visit(this); // AssetRule
+                            astCodeEntity.Visit(this); // AssetRule
                             
-                            var asset = (CstAsset) _nodes.Pop();
+                            var entity = (CstCodeEntity) _nodes.Pop();
                             
-                            assets.Add(asset);
+                            codeEntities.Add(entity);
                         }
                     }
                     
-                    var dsl = new CstDsl(declarations, assets);
+                    var dsl = new CstDsl(declarations, codeEntities);
                     
                     _nodes.Push(dsl);
                     
                     break;
                 }
-                //
-                // case DSLGrammar.AssetArgs:
-                // {
-                //     syntaxTreeNode.Children[0].Visit(this); // Identity
-                //     syntaxTreeNode.Children[2].Visit(this); // Str
-                //     syntaxTreeNode.Children[4].Visit(this); // Bool
-                //     
-                //     break;
-                // }
-                //
-                // case DSLGrammar.AssetRule:
-                // {
-                //     syntaxTreeNode.Children[2].Visit(this); // AssetArgs
-                //
-                //     var boolNode = (CstBool) _nodes.Pop();
-                //     var stringNode = (CstString) _nodes.Pop();
-                //     var identityNode = (CstIdentity) _nodes.Pop();
-                //     
-                //     var assetNode = new CstAsset(identityNode, stringNode.Data, boolNode.Data);
-                //     
-                //     _nodes.Push(assetNode);
-                //     
-                //     break;
-                // }
-                //
-                // case DSLGrammar.AssetsArea:
-                // {
-                //     var astAssets = syntaxTreeNode.Children;
-                //     
-                //     foreach (var asset in astAssets)
-                //     {
-                //         asset.Visit(this); // Asset
-                //     }
-                //     
-                //     break;
-                // }
+
+                case DSLGrammar.CodeArea:
+                {
+                    var result = new List<CstCodeEntity>();
+                    foreach (var childNode in syntaxTreeNode.Children)
+                    {
+                        childNode.Visit(this);
+                        var codeEntity = (CstCodeEntity) _nodes.Pop();
+                        result.Add(codeEntity);
+                    }
+                    
+                    var codeArea = new CstCodeArea(result);
+                    _nodes.Push(codeArea);
+                    
+                    break;
+                }
+
+                case DSLGrammar.FunctionCall:
+                {
+                    syntaxTreeNode.Children[0].Visit(this);
+                    syntaxTreeNode.Children[2].Children[0].Visit(this);
+
+                    var someArg = _nodes.Pop();
+                    CstFuncArgsList functionArgs;
+                    if (someArg is CstIdentity || someArg is CstConstantValue)
+                        functionArgs = new CstFuncArgsList(new List<CstFuncArg> {new CstFuncArg(someArg)});
+                    else
+                        functionArgs = (CstFuncArgsList) someArg;
+
+                    var functionName = (CstIdentity) _nodes.Pop();
+                    
+                    var functionCall = new CstFunctionCall(functionName, functionArgs.Args);
+                    _nodes.Push(functionCall);
+                    
+                    break;
+                }
+
+                case DSLGrammar.FuncArgsList:
+                {
+                    switch (syntaxTreeNode.Children.Count)
+                    {
+                        case 1:
+                        {
+                            syntaxTreeNode.Children[0].Visit(this);
+                            var result = new List<CstFuncArg> {new CstFuncArg(_nodes.Pop())};
+                            _nodes.Push(new CstFuncArgsList(result));
+                            break;
+                        }
+                        
+                        case 3:
+                        {
+                            syntaxTreeNode.Children[0].Visit(this);
+                            var result = new List<CstFuncArg> {new CstFuncArg(_nodes.Pop())};
+                            syntaxTreeNode.Children[2].Visit(this);
+                            var node = _nodes.Pop();
+                            if (node is CstFuncArgsList argsList)
+                                result.AddRange(argsList.Args);
+                            else
+                                result.Add(new CstFuncArg(node));
+
+                            _nodes.Push(new CstFuncArgsList(result));
+                            break;
+                        }
+                        
+                        default:
+                            throw new NotImplementedException();
+                            break;
+                    }
+
+                    break;
+                }
+
+                case DSLGrammar.Int:
+                {
+                    var numberText = syntaxTreeNode.ParsedText;
+                    var number = int.Parse(numberText);
+                    _nodes.Push(new CstInt(number));
+                    break;
+                }
+
+                case DSLGrammar.Double:
+                {
+                    var numberText = syntaxTreeNode.ParsedText;
+                    var number = double.Parse(numberText);
+                    _nodes.Push(new CstDouble(number));
+                    break;
+                }
+
+                case DSLGrammar.FunctionDefinition:
+                {
+                    syntaxTreeNode.Children[1].Visit(this);
+
+                    var identity = (CstIdentity) _nodes.Pop();
+                    
+                    syntaxTreeNode.Children[3].Children[0].Visit(this);
+                    
+                    var args = new List<CstFuncDefArg>();
+                    var someDefArg = _nodes.Pop();
+                    switch (someDefArg)
+                    {
+                        case CstFuncDefArg funcDefArg:
+                            args.Add(funcDefArg);
+                            break;
+                        case CstFuncDefArgList funcDefArgList:
+                            args.AddRange(funcDefArgList.Args);
+                            break;
+                    }
+
+                    var statements = new List<CstCoreNode>();
+                    if (syntaxTreeNode.Children[5].Children.Any())
+                    {
+                        syntaxTreeNode.Children[5].Children[0].Visit(this);
+                        throw new NotImplementedException();
+                    }
+                    
+                    var functionDefinition = new CstFunctionDefinition(identity, args, statements);
+                    _nodes.Push(functionDefinition);
+                        
+                    break;
+                }
+                
+                case DSLGrammar.FuncDefArgsList:
+                {
+                    var argList = new List<CstFuncDefArg>();
+                    
+                    syntaxTreeNode.Children[0].Visit(this);
+                    syntaxTreeNode.Children[2].Visit(this);
+
+                    argList.Add((CstFuncDefArg) _nodes.Pop());
+                    
+                    var someArg = _nodes.Pop();
+                    switch (someArg)
+                    {
+                        case CstFuncDefArg funcDefArg:
+                            argList.Add(funcDefArg);
+                            break;
+                        
+                        case CstFuncDefArgList defArgList:
+                            argList.AddRange(defArgList.Args);
+                            break;
+                    }
+                    
+                    var funDefArgsList = new CstFuncDefArgList(argList);
+                    _nodes.Push(funDefArgsList);
+                    
+                    break;
+                }
+
+                case DSLGrammar.FuncDefArg:
+                {
+                    var type = "identity";
+                    if (syntaxTreeNode.Children[0].Children.Any())
+                    {
+                        type = syntaxTreeNode.Children[0].Children[0].ParsedText;
+                    }
+
+                    var data = syntaxTreeNode.Children[1].ParsedText;
+                    
+                    var funcDefArg = new CstFuncDefArg(type, data);
+                    _nodes.Push(funcDefArg);
+                    
+                    break;
+                }
+
 
                 case DSLGrammar.DeclareArea:
                 {

@@ -9,10 +9,21 @@
         <e p="CST" t="Include">
           <e p="CstAsset.cs" t="Include" />
           <e p="CstBool.cs" t="Include" />
+          <e p="CstCodeArea.cs" t="Include" />
+          <e p="CstCodeEntity.cs" t="Include" />
+          <e p="CstConstantValue.cs" t="Include" />
           <e p="CSTCoreNode.cs" t="Include" />
           <e p="CstDeclaration.cs" t="Include" />
+          <e p="CstDouble.cs" t="Include" />
           <e p="CstDsl.cs" t="Include" />
+          <e p="CstFuncArg.cs" t="Include" />
+          <e p="CstFuncArgsList.cs" t="Include" />
+          <e p="CstFuncDefArg.cs" t="Include" />
+          <e p="CstFuncDefArgList.cs" t="Include" />
+          <e p="CstFunctionCall.cs" t="Include" />
+          <e p="CstFunctionDefinition.cs" t="Include" />
           <e p="CstIdentity.cs" t="Include" />
+          <e p="CstInt.cs" t="Include" />
           <e p="CstStateName.cs" t="Include" />
           <e p="CstStatesList.cs" t="Include" />
           <e p="CstString.cs" t="Include" />
@@ -31,6 +42,7 @@
           <e p="example3_ast.dot" t="Include" />
           <e p="example3a_ast.dot" t="Include" />
           <e p="future_example.fa" t="Include" />
+          <e p="future_example_min.fa" t="Include" />
           <e p="RulesDotExamples" t="Include">
             <e p="asset_rule_example.dot" t="Include" />
             <e p="assets_area_example.dot" t="Include" />

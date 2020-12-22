@@ -2,7 +2,7 @@ using DSL_Parser.Visitors.CST;
 
 namespace DSL_Parser.CST
 {
-    public class CstBool : CstCoreNode
+    public class CstBool : CstConstantValue
     {
         public bool Data { get; }
         

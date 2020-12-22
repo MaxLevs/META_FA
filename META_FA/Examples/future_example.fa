@@ -47,30 +47,31 @@ Function SomeFunc (env, int a, bool b, string c)
 End Function
 
 PrintInfo(Nfa)
-PrintTable(Nfa)
-PrintDot(Nfa)
-Print("===========")
+// PrintTable(Nfa)
+// PrintDot(Nfa)
+// Print("===========")
 
 Determine(Nfa, Dfa1)
-PrintInfo(Dfa1)
-PrintTable(Dfa1)
-PrintDot(Dfa1)
-Print("===========")
+// PrintInfo(Dfa1)
+// PrintTable(Dfa1)
+// PrintDot(Dfa1)
+// Print("===========")
 
 Minimize(Dfa1, MinDfa1)
-PrintInfo(MinDfa1) // MachineID: f3dsff-34faf34faf4-fa4f43fa4f-fa44df  Initial state: s1  States number: 3  Transitions number: 5
-PrintTable(MinDfa1)
-PrintDot(MinDfa1)
+// PrintInfo(MinDfa1) // MachineID: f3dsff-34faf34faf4-fa4f43fa4f-fa44df  Initial state: s1  States number: 3  Transitions number: 5
+// PrintTable(MinDfa1)
+// PrintDot(MinDfa1)
 Print("===========")
 
-Asset( MinDfa1, "ccca", true )
-Asset( MinDfa1, "abca", true )
-Asset( MinDfa1, "abcbcbcabca", true )
-Asset( MinDfa1, "bca", true )
-Asset( MinDfa1, "abca", true )
-Asset( MinDfa1, "a", true )
+// Asset( MinDfa1, "ccca", true )
+// Asset( MinDfa1, "abca", true )
+// Asset( MinDfa1, "abcbcbcabca", true )
+// Asset( MinDfa1, "bca", true )
+// Asset( MinDfa1, "abca", true )
+// Asset( MinDfa1, "a", true )
 Asset( MinDfa1, "ca", true )
 
+/*
 Function MyDfaRun(env)
     var s = GetInitial(env)
     var c = Next()
@@ -88,10 +89,16 @@ Function MyDfaRun(env)
     
     return IsFinal(env, c)
 End Function
+*/
 
+/*
 Function GetAllSeq(env, int length)
 End Function
 
+GetAllSeq( MinDfa1, 5 )
+*/
+
+/*
 SetRun(MinDfa1, MyDfaRun)
 
 Asset( MinDfa1, "ccca", true )
@@ -101,6 +108,7 @@ Asset( MinDfa1, "bca", true )
 Asset( MinDfa1, "abca", true )
 Asset( MinDfa1, "a", true )
 Asset( MinDfa1, "ca", true )
+*/
 
 /* 
     Current DSL Grammar
@@ -126,5 +134,40 @@ Asset( MinDfa1, "ca", true )
     asset_args    ==> [identity] + "," + [str] + "," + [bool]
     dsl           ==> ([declare_area]+) + [assets_area]?
     
+*/
+
+/*
+    New DSL Grammar (without correct statements) 
+    
+    Goal: [dsl]
+    
+    identity            ==> r"(([A-Z][a-z_]+)+|[A-Z])[0-9_]*"
+    symbol              ==> r"[a-zA-Z0-9]"
+    string              ==> r"\\"[^\"]*\\""
+    bool                ==> "true" | "false"
+    int                 ==> r"\d+"
+    double              ==> r"\d+\.\d*"
+    constant_value      ==> [string] | [bool] | [symbol] | [double] | [int]
+    variable_type       ==> "string" | "bool" | "symbol" | "double" | "int"
+    variable_name       ==> r"[a-z_]?[a-z]+"
+    state_name          ==> r"[a-z]+[0-9]*"
+    states_list         ==> [state_name] + "," + [states_list] | [state_name]
+    declare_area        ==> "Declare" + [identity] + [declare_body] + "End" + "Declare"
+    declare_body        ==> [states_block]? + [initial_block] + [finals_block] + [table_block]
+    states_block        ==> "States" + "=" + "(" + [states_list] + ")"
+    initial_block       ==> "Initial" + "=" + [state_name]
+    finals_block        ==> "Finals" + "=" + "(" + [states_list] + ")"
+    table_block         ==> "Table" + "=" + "(" + ([table_row]+) + ")"
+    table_row           ==> "<" + ([state_name] + [symbol] + [state_name] | [state_name] + [state_name]) + ">"
+    function_call       ==> [identity] + "(" + [func_args_list] + ")"
+    func_args_list      ==> [func_arg] + "," + [func_args_list] | [func_arg]
+    func_arg            ==> [constant_value] | [identity]
+    function_definition ==> "Function" + [identity] + "(" + [func_def_args_list]? + ")" + [function_body]? + "End" + "Function"
+    func_def_args_list  ==> [func_def_arg] + "," + [func_def_args_list] | [func_def_arg]
+    func_def_arg        ==> [variable_type]? + [variable_name]
+    function_body       ==> [statement]+
+    statement           ==> [function_call]
+    code_area           ==> ([function_definition] | [function_call])+
+    dsl                 ==> ([declare_area]+) + [code_area]?
 */
     

@@ -8,12 +8,12 @@ namespace DSL_Parser.CST
     public class CstDsl : CstCoreNode
     {
         public ReadOnlyCollection<CstDeclaration> Declarations { get; }
-        public ReadOnlyCollection<CstAsset> Assets { get; }
+        public ReadOnlyCollection<CstCodeEntity> CodeEntities { get; }
 
-        public CstDsl(IList<CstDeclaration> declarations, IList<CstAsset> assets)
+        public CstDsl(IList<CstDeclaration> declarations, IList<CstCodeEntity> codeEntities)
         {
             Declarations = new ReadOnlyCollection<CstDeclaration>(declarations);
-            Assets = new ReadOnlyCollection<CstAsset>(assets);
+            CodeEntities = new ReadOnlyCollection<CstCodeEntity>(codeEntities);
         }
 
         public override void Visit(CstCoreVisitor visitor)
@@ -24,7 +24,7 @@ namespace DSL_Parser.CST
         protected bool Equals(CstDsl other)
         {
             return Equals(Declarations, other.Declarations)
-                && Equals(Assets, other.Assets);
+                && Equals(CodeEntities, other.CodeEntities);
         }
 
         public override bool Equals(object obj)
@@ -37,7 +37,7 @@ namespace DSL_Parser.CST
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Declarations, Assets);
+            return HashCode.Combine(Declarations, CodeEntities);
         }
     }
 }

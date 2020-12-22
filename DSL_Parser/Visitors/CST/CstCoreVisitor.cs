@@ -16,5 +16,14 @@ namespace DSL_Parser.Visitors.CST
         public abstract void Apply(CstDeclaration cstDeclaration);
         public abstract void Apply(CstAsset cstAsset);
         public abstract void Apply(CstDsl cstDsl);
+
+        public abstract void Apply(CstCodeArea cstCodeArea);
+        public abstract void Apply(CstDouble cstDouble);
+        public abstract void Apply(CstFuncArg cstFuncArg);
+        public abstract void Apply(CstFuncDefArg cstFuncDefArg);
+        public abstract void Apply(CstFunctionCall cstFunctionCall);
+        public abstract void Apply(CstFunctionDefinition cstFunctionDefinition);
+        public abstract void Apply(CstInt cstInt);
+        
     }
 }

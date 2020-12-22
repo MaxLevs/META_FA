@@ -42,6 +42,8 @@ End Declare
 // code_area            ==> ([function_definition] | [function_call])+
 // dsl                  ==> ([declare_area]+) + [code_area]?
 
+Asset(Dfa, "bc", true)
+
 Function SomeFunc (env, int a, bool b, string c) 
     // function body
 End Function
@@ -72,27 +74,28 @@ Asset( MinDfa1, "a", true )
 Asset( MinDfa1, "ca", true )
 
 Function MyDfaRun(env)
-    var s = GetInitial(env)
-    var c = Next()
+    // var s = GetInitial(env)
+    // var c = Next()
     
-    While (IsLast()) 
-        s = Move(env, c)
-        c = Next()
-        
-        If (false)
-            break
-        Else
-            // else block
-        End If
-    End While
+    // While (IsLast()) 
+        // s = Move(env, c)
+        // c = Next()
+        // 
+        // If (false)
+            // break
+        // Else
+            // // else block
+        // End If
+    // End While
     
-    return IsFinal(env, c)
+    // return IsFinal(env, c)
 End Function
 
 Function GetAllSeq(env, int length)
+    Minimize(env, Dfa3)
 End Function
 
-SetRun(MinDfa1, MyDfaRun)
+GetAllSeq( MinDfa1, 5 )
 
 Asset( MinDfa1, "ccca", true )
 Asset( MinDfa1, "abca", true )

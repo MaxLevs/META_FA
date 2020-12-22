@@ -10,13 +10,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="Examples\future_example.fa">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
+      <Folder Include="Output" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Output" />
+      <Content Include="Examples\future_example.fa">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Examples\future_example_min.fa">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
     
 <!--    <ItemGroup>-->

@@ -181,18 +181,53 @@ namespace DSL_Parser.Visitors.CST
             
             _graph.Edges.Add(node.Id, declarationAreaNode.Id);
 
-            if (!cstDsl.Assets.Any()) return;
+            if (!cstDsl.CodeEntities.Any()) return;
 
-            var assetsAreaNode = CreateAttributeNode(nameof(cstDsl.Assets));
+            var assetsAreaNode = CreateAttributeNode(nameof(cstDsl.CodeEntities));
             _graph.Nodes.Add(assetsAreaNode);
             
-            foreach (var asset in cstDsl.Assets)
+            foreach (var asset in cstDsl.CodeEntities)
             {
                 asset.Visit(this);
                 _graph.Edges.Add(assetsAreaNode.Id, asset.IdShort);
             }
             
             _graph.Edges.Add(node.Id, assetsAreaNode.Id);
+        }
+
+        public override void Apply(CstCodeArea cstCodeArea)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Apply(CstDouble cstDouble)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Apply(CstFuncArg cstFuncArg)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Apply(CstFuncDefArg cstFuncDefArg)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Apply(CstFunctionCall cstFunctionCall)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Apply(CstFunctionDefinition cstFunctionDefinition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Apply(CstInt cstInt)
+        {
+            throw new NotImplementedException();
         }
 
         public static DotNode CreateAttributeNode(string label)
