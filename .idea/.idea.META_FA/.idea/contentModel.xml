@@ -22,6 +22,7 @@
         <e p="DSL_Parser.csproj" t="IncludeRecursive" />
         <e p="DSLGrammar.cs" t="Include" />
         <e p="Examples" t="Include">
+          <e p="astOutput.dot" t="Include" />
           <e p="example1.dfa" t="Include" />
           <e p="example1_ast.dot" t="Include" />
           <e p="example2.dfa" t="Include" />
@@ -29,6 +30,7 @@
           <e p="example3.dfa" t="Include" />
           <e p="example3_ast.dot" t="Include" />
           <e p="example3a_ast.dot" t="Include" />
+          <e p="future_example.fa" t="Include" />
           <e p="RulesDotExamples" t="Include">
             <e p="asset_rule_example.dot" t="Include" />
             <e p="assets_area_example.dot" t="Include" />
@@ -51,6 +53,7 @@
             </e>
           </e>
         </e>
+        <e p="Output" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="Visitors" t="Include">
           <e p="AST" t="Include">

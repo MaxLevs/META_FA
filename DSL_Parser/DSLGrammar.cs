@@ -32,7 +32,7 @@ namespace DSL_Parser
         public const string FunctionBody = "function_body";
         public const string VariableName = "variable_name";
         public const string VariableType = "variable_type";
-        public const string Constant = "constant";
+        public const string ConstantValue = "constant_value";
         public const string Int = "int";
         public const string Double = "double";
         public const string Statement = "statement";
@@ -47,6 +47,12 @@ namespace DSL_Parser
                 {Symbol, P.RE(@"[a-zA-Z0-9]")},
                 {String, P.RE("\\\"[^\"]*\\\"")},
                 {Bool, P.T("true") | P.T("false")},
+                {Int, P.RE(@"\d+")},
+                {Double, P.RE(@"\d+\.\d*")},
+                {ConstantValue, P.C(String) | P.C(Bool) | P.C(Double) | P.C(Int) | P.C(Symbol)},
+                {VariableType, P.T(String) | P.T(Bool) | P.T(Symbol) | P.T(Double) | P.T(Int)},
+                {VariableName, P.RE("[a-z_]?[a-z]+")},
+                
                 {StateName, P.RE(@"[a-z]+[0-9]*")},
                 {StatesList, P.C(StateName) + P.T(",") + P.C(StatesList) | P.C(StateName)},
                 {DeclareArea, P.T("Declare") + P.C(Identity) + P.C(DeclareBody) + P.T(new[] {"End", "Declare"})},
@@ -57,15 +63,9 @@ namespace DSL_Parser
                 {TableBlock, P.T(new[] {"Table", "=", "("}) + P.OI(TableRow) + P.T(")")},
                 {TableRow, P.T("<") + ((P.C(StateName) + P.C(Symbol) + P.C(StateName)) | P.C(StateName) + P.C(StateName)) + P.T(">")},
                 
-                {Int, P.RE(@"\d+")},
-                {Double, P.RE(@"\d+\.\d*")},
-                {Constant, P.C(String) | P.C(Bool) | P.C(Symbol) | P.C(Double) | P.C(Int)},
-                {VariableType, P.T(String) | P.T(Bool) | P.T(Symbol) | P.T(Double) | P.T(Int)},
-                {VariableName, P.RE("[a-z_]?[a-z]+")},
-                
                 {FunctionCall, P.C(Identity) + P.T("(") + P.C(FuncArgsList) + P.T(")")},
                 {FuncArgsList, P.C(FuncArg) + P.T(",") + P.C(FuncArgsList) | P.C(FuncArg)},
-                {FuncArg, P.C(Constant) + P.C(Identity)},
+                {FuncArg, P.C(Identity) | P.C(ConstantValue)},
                 
                 {FunctionDefinition, P.T("Function") + P.C(Identity) + P.T("(") + P.MB(FuncDefArgsList) + P.T(")") + P.MB(FunctionBody) + P.T("End") + P.T("Function")},
                 {FuncDefArgsList, P.C(FuncDefArg) + P.T(",") + P.C(FuncDefArgsList) | P.C(FuncDefArg)},
@@ -73,7 +73,7 @@ namespace DSL_Parser
                 {FunctionBody, P.OI(Statement)},
                 {Statement, P.C(FunctionCall)},
                 
-                {CodeArea, P.C(FunctionDefinition) | P.C(FunctionCall)},
+                {CodeArea, P.OI(P.C(FunctionDefinition) | P.C(FunctionCall))},
                 {Dsl, P.OI(DeclareArea) + P.MB(CodeArea)},
             };
 

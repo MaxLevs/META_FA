@@ -1,0 +1,165 @@
+Declare Dfa
+    States = (q1, q2, q3)
+    Initial = q1
+    Finals = (q3)
+    Table = (
+        <q1 a q3>
+        <q1 b q2>
+        <q1 c q1>
+        <q2 c q1>
+        <q3 b q2>
+    )
+End Declare
+
+Declare Nfa
+    States = (s1, s2, s3)
+    Initial = s1
+    Finals = (s3)
+    Table = (
+        <s1 a s3>
+        <s1 b s2>
+        <s1 c s1>
+        <s2 c s1>
+        <s3 b s2>
+    )
+End Declare
+
+// function_call        ==> [identity] + "(" + [func_args_list] + ")";
+// func_args_list       ==> [func_arg] + "," [func_args_list] | [func_arg]
+// func_arg             ==> [constant] | [identity]
+
+// function_definition  ==> "Function" + [identity] + "(" + [func_def_args_list]? + ")" + [function_body]? + "End" + "Function"
+// func_def_args_list   ==> [func_def_arg] + "," + [func_def_args_list] | [func_def_arg]
+// func_def_arg         ==> [variable_type]? + [variable_name]
+// function_body        ==> [statement]+
+// variable_name        ==> r"[a-z_]?[a-z]+"
+// variable_type        ==> "string" | "bool" | "symbol" | "double" | "int"
+// constant             ==> [string] | [bool] | [symbol] | [double] | [int] 
+// int                  ==> r"\d+"
+// double               ==> r"\d+\.\d*"
+// statement            ==> [function_call]
+
+// code_area            ==> ([function_definition] | [function_call])+
+// dsl                  ==> ([declare_area]+) + [code_area]?
+
+Function SomeFunc (env, int a, bool b, string c) 
+    // function body
+End Function
+
+PrintInfo(Nfa)
+PrintTable(Nfa)
+PrintDot(Nfa)
+Print("===========")
+
+Determine(Nfa, Dfa1)
+PrintInfo(Dfa1)
+PrintTable(Dfa1)
+PrintDot(Dfa1)
+Print("===========")
+
+Minimize(Dfa1, MinDfa1)
+PrintInfo(MinDfa1) // MachineID: f3dsff-34faf34faf4-fa4f43fa4f-fa44df  Initial state: s1  States number: 3  Transitions number: 5
+PrintTable(MinDfa1)
+PrintDot(MinDfa1)
+Print("===========")
+
+Asset( MinDfa1, "ccca", true )
+Asset( MinDfa1, "abca", true )
+Asset( MinDfa1, "abcbcbcabca", true )
+Asset( MinDfa1, "bca", true )
+Asset( MinDfa1, "abca", true )
+Asset( MinDfa1, "a", true )
+Asset( MinDfa1, "ca", true )
+
+Function MyDfaRun(env)
+    var s = GetInitial(env)
+    var c = Next()
+    
+    While (IsLast()) 
+        s = Move(env, c)
+        c = Next()
+        
+        If (false)
+            break
+        Else
+            // else block
+        End If
+    End While
+    
+    return IsFinal(env, c)
+End Function
+
+Function GetAllSeq(env, int length)
+End Function
+
+SetRun(MinDfa1, MyDfaRun)
+
+Asset( MinDfa1, "ccca", true )
+Asset( MinDfa1, "abca", true )
+Asset( MinDfa1, "abcbcbcabca", true )
+Asset( MinDfa1, "bca", true )
+Asset( MinDfa1, "abca", true )
+Asset( MinDfa1, "a", true )
+Asset( MinDfa1, "ca", true )
+
+/* 
+    Current DSL Grammar
+    
+    Goal: [dsl]
+
+    identity      ==> r"(([A-Z][a-z_]+)+|[A-Z])[0-9_]*"
+    symbol        ==> r"[a-zA-Z0-9]"
+    str           ==> r"\\"[^\"]*\\""
+    bool          ==> "true" | "false"
+    state_name    ==> r"[a-z]+[0-9]*"
+    states_list   ==> [state_name] + "," + [states_list] | [state_name]
+    declare_area  ==> "Declare" + [identity] + [declare_body] + "End" + "Declare"
+    declare_body  ==> [states_block]? + [initial_block] + [finals_block] + [table_block]
+    states_block  ==> "States" + "=" + "(" + [states_list] + ")"
+    initial_block ==> "Initial" + "=" + [state_name]
+    finals_block  ==> "Finals" + "=" + "(" + [states_list] + ")"
+    table_block   ==> "Table" + "=" + "(" + ([table_row]+) + ")"
+    table_row     ==> "<" + [state_name] + [symbol] + [state_name] + ">"
+    table_row     ==> "<" + [state_name] + [state_name] + ">"
+    assets_area   ==> [asset_rule]+
+    asset_rule    ==> "Asset" + "(" + [asset_args] + ")"
+    asset_args    ==> [identity] + "," + [str] + "," + [bool]
+    dsl           ==> ([declare_area]+) + [assets_area]?
+    
+*/
+
+/*
+    New DSL Grammar (without correct statements) 
+    
+    Goal: [dsl]
+    
+    identity            ==> r"(([A-Z][a-z_]+)+|[A-Z])[0-9_]*"
+    symbol              ==> r"[a-zA-Z0-9]"
+    string              ==> r"\\"[^\"]*\\""
+    bool                ==> "true" | "false"
+    int                 ==> r"\d+"
+    double              ==> r"\d+\.\d*"
+    constant_value      ==> [string] | [bool] | [symbol] | [double] | [int]
+    variable_type       ==> "string" | "bool" | "symbol" | "double" | "int"
+    variable_name       ==> r"[a-z_]?[a-z]+"
+    state_name          ==> r"[a-z]+[0-9]*"
+    states_list         ==> [state_name] + "," + [states_list] | [state_name]
+    declare_area        ==> "Declare" + [identity] + [declare_body] + "End" + "Declare"
+    declare_body        ==> [states_block]? + [initial_block] + [finals_block] + [table_block]
+    states_block        ==> "States" + "=" + "(" + [states_list] + ")"
+    initial_block       ==> "Initial" + "=" + [state_name]
+    finals_block        ==> "Finals" + "=" + "(" + [states_list] + ")"
+    table_block         ==> "Table" + "=" + "(" + ([table_row]+) + ")"
+    table_row           ==> "<" + ([state_name] + [symbol] + [state_name] | [state_name] + [state_name]) + ">"
+    function_call       ==> [identity] + "(" + [func_args_list] + ")"
+    func_args_list      ==> [func_arg] + "," + [func_args_list] | [func_arg]
+    func_arg            ==> [constant_value] | [identity]
+    function_definition ==> "Function" + [identity] + "(" + [func_def_args_list]? + ")" + [function_body]? + "End" + "Function"
+    func_def_args_list  ==> [func_def_arg] + "," + [func_def_args_list] | [func_def_arg]
+    func_def_arg        ==> [variable_type]? + [variable_name]
+    function_body       ==> [statement]+
+    statement           ==> [function_call]
+    code_area           ==> ([function_definition] | [function_call])+
+    dsl                 ==> ([declare_area]+) + [code_area]?
+*/
+    

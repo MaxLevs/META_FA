@@ -8,6 +8,16 @@
     <ItemGroup>
       <ProjectReference Include="..\META3CombParser\BFParser.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Examples\future_example.fa">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Output" />
+    </ItemGroup>
     
 <!--    <ItemGroup>-->
 <!--        <Content Include="Examples/**">-->
