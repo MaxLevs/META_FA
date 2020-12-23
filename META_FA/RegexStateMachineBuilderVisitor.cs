@@ -15,6 +15,9 @@ namespace META_FA
 
         public MachineNonDetermined GetResult()
         {
+            if (_machine.IsInited)
+                return _machine;
+            
             var finalNode = new State(isFinal: true);
             var transition = new Transition(_endNodes[^1], finalNode);
 

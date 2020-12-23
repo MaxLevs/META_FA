@@ -8,12 +8,12 @@ namespace StateMachineLib
 {
     public class DslStateMachineOptionsBuilderVisitor : CstCoreVisitor
     {
-        private readonly Dictionary<string, Options.Options> _options;
+        private readonly Dictionary<string, SMOptions> _options;
         private readonly Stack<object> _buffer;
 
         public DslStateMachineOptionsBuilderVisitor()
         {
-            _options = new Dictionary<string, Options.Options>();
+            _options = new Dictionary<string, SMOptions>();
             _buffer = new Stack<object>();
         }
 
@@ -140,8 +140,8 @@ namespace StateMachineLib
             {
                 declaration.Visit(this);
 
-                var options = new Options.Options {Arch = ((SMOptions) _buffer.Pop()), Assets = new List<Asset>()};
-                _options.Add(options.Arch.MachineId, options);
+                var arch = (SMOptions) _buffer.Pop();
+                _options.Add(arch.MachineId, arch);
             }
             
             // foreach (var assetCst in cstDsl.Assets)
@@ -153,11 +153,6 @@ namespace StateMachineLib
             //     
             //     _options[identity].Assets.Add(asset);
             // }
-            
-            foreach (var (_, options) in _options)
-            {
-                options.Assets = options.Assets.Any() ? options.Assets : null;
-            }
         }
 
         public override void Apply(CstCodeArea cstCodeArea)

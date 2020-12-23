@@ -12,14 +12,16 @@ namespace StateMachineLib.StateMachine
         public Guid Id { get; } = Guid.NewGuid();
         protected readonly List<State> States = new List<State>();
         protected readonly List<Transition> Transitions = new List<Transition>();
-        protected State InitialState;
+        public State InitialState { get; protected set; }
         public abstract MachineType Type { get; }
         
-        protected bool IsInited;
+        public bool IsInited { get; private set; }
         protected bool IsThereAnyEpsilonTransition => Transitions.Any(transition => transition.IsEpsilon);
         protected bool IsThereAnyMultiVariantTokenTransition => Transitions
                                        .GroupBy(tr => new {tr.StartState, tr.Token})
                                        .Any(gr => gr.Count() > 1);
+
+        public bool IsUndetermined => IsThereAnyEpsilonTransition || IsThereAnyMultiVariantTokenTransition;
 
         public IEnumerable<State> GetStates()
         {
@@ -202,7 +204,7 @@ namespace StateMachineLib.StateMachine
         public abstract Machine Minimize();
         public abstract MachineDetermined Determine(bool verbose = false);
 
-        public Machine RenameToNormalNames(string startsWith)
+        public Machine RenameToNormalNames(string startsWith = null)
         {
             return Type switch
             {
