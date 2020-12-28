@@ -108,6 +108,33 @@ namespace META_FA
                 var minMachine = machine.Minimize().RenameToNormalNames("m");
                 Machines[newName] = minMachine;
             }},
+            
+            {"BuildRegex", args =>
+            {
+                if (args.Count != 2
+                    || args[0].Type != DSLGrammar.String
+                    || args[1].Type != DSLGrammar.Identity)
+                    throw new NotImplementedException();
+
+                var regexString = ((CstString) args[0].Data).Data;
+                var regexNfaIdentityName = ((CstIdentity) args[1].Data).Name;
+                
+                var regexpParser = RegexpGrammar.GetParser();
+                var parseRes = regexpParser.Parse(regexString);
+
+                // Console.WriteLine(parseRes.Dot()); return;
+
+                var cstBuilder = new CSTBuilderVisitor();
+                cstBuilder.Apply(parseRes);
+                var cst = cstBuilder.GetResult();
+
+                // Console.WriteLine(cst.Dot()); return;
+
+                var stateMachineBuilder = new RegexStateMachineBuilderVisitor();
+                cst.Visit(stateMachineBuilder);
+
+                Machines.Add(regexNfaIdentityName, stateMachineBuilder.GetResult());
+            }},
         };
         
         private static bool _determ;
