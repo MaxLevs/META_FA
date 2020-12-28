@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using DSL_Parser.CST;
 
-namespace META_FA.Exceptions
+namespace META_FA.BuiltInFuncs.Exceptions
 {
     public class BuiltInFunctionArgumentsNumberException : CoreException
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace META_FA.Exceptions
+namespace META_FA.BuiltInFuncs.Exceptions
 {
     public abstract class CoreException : Exception
     {

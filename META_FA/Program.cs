@@ -5,8 +5,9 @@ using System.Linq;
 using DSL_Parser;
 using DSL_Parser.CST;
 using DSL_Parser.Visitors.AST;
+using META_FA.BuiltInFuncs;
+using META_FA.BuiltInFuncs.Exceptions;
 using Regex_Parser;
-using Regex_Parser.CST;
 using Regex_Parser.Visitors.AST;
 using StateMachineLib;
 using StateMachineLib.Options;
@@ -18,123 +19,122 @@ namespace META_FA
 {
     class Program
     {
-        static string _optionsFilePath = "Examples/future_example_min.fa";
+        private static string _optionsFilePath; // = "Examples/future_example_min.fa";
         private static string _regexpForParsing;
         private static string _outputPath;
         private static readonly Dictionary<string, Machine> Machines = new Dictionary<string, Machine>();
         private static readonly List<Asset> Assets = new List<Asset>();
         
-        private static readonly Dictionary<string, Action<IList<CstFuncArg>>> BuiltIn = new Dictionary<string, Action<IList<CstFuncArg>>>
+        private static readonly Dictionary<string, BuiltInFunction> BuiltIn = new Dictionary<string, BuiltInFunction>
         {
-            {"Asset", args =>
-            {
-                if (args.Count != 3
-                 || args[0].Type != DSLGrammar.Identity
-                 || args[1].Type != DSLGrammar.String
-                 || args[2].Type != DSLGrammar.Bool)
-                    throw new NotImplementedException();
-                
-                var machine = Machines[((CstIdentity) args[0].Data).Name];
-                var text = ((CstString) args[1].Data).Data;
-                var expected = ((CstBool) args[2].Data).Data;
-                
-                TestAsset(machine, text, expected);
-            }},
+            {"Asset", new BuiltInFunction(
+                "Asset", 
+                new List<string> {DSLGrammar.Identity, DSLGrammar.String, DSLGrammar.Bool},
+                args =>
+                {
+                    var machine = Machines[((CstIdentity) args[0].Data).Name];
+                    var text = ((CstString) args[1].Data).Data;
+                    var expected = ((CstBool) args[2].Data).Data;
+                    
+                    TestAsset(machine, text, expected);
+                }
+            )},
             
-            {"Print", args =>
-            {
-                if (args.Count != 1
-                 || args[0].Type != DSLGrammar.String)
-                    throw new NotImplementedException();
-                
-                Console.WriteLine(((CstString) args[0].Data).Data);
-            }},
+            {"Print", new BuiltInFunction(
+                "Print",
+                new List<string> {DSLGrammar.String},
+                args =>
+                {
+                    var @string = ((CstString) args[0].Data).Data;
+                    
+                    Console.WriteLine(@string);
+                }
+            )},
             
-            {"PrintInfo", args =>
-            {
-                if (args.Count != 1
-                 || args[0].Type != DSLGrammar.Identity)
-                    throw new NotImplementedException();
-                
-                var machine = Machines[((CstIdentity) args[0].Data).Name];
-                
-                PrintInfo(machine);
-            }},
+            {"PrintInfo", new BuiltInFunction(
+                "PrintInfo",
+                new List<string> {DSLGrammar.Identity},
+                args =>
+                {
+                    var machine = Machines[((CstIdentity) args[0].Data).Name];
+                    
+                    PrintInfo(machine);
+                }
+            )},
             
-            {"PrintTable", args =>
-            {
-                if (args.Count != 1
-                 || args[0].Type != DSLGrammar.Identity)
-                    throw new NotImplementedException();
-                
-                var machine = Machines[((CstIdentity) args[0].Data).Name];
-                
-                PrintTable(machine);
-            }},
+            {"PrintTable", new BuiltInFunction(
+                "PrintTable",
+                new List<string> {DSLGrammar.Identity},
+                args =>
+                {
+                    var machine = Machines[((CstIdentity) args[0].Data).Name];
+                    
+                    PrintTable(machine);
+                }
+            )},
             
-            {"PrintDot", args =>
-            {
-                if (args.Count != 1
-                 || args[0].Type != DSLGrammar.Identity)
-                    throw new NotImplementedException();
-                
-                var machine = Machines[((CstIdentity) args[0].Data).Name];
-                
-                PrintDot(machine);
-            }},
+            {"PrintDot", new BuiltInFunction(
+                "PrintDot",
+                new List<string> {DSLGrammar.Identity},
+                args =>
+                {
+                    var machine = Machines[((CstIdentity) args[0].Data).Name];
+                    
+                    PrintDot(machine);
+                }
+            )},
             
-            {"Determine", args =>
-            {
-                if (args.Count != 2
-                 || args[0].Type != DSLGrammar.Identity
-                 || args[1].Type != DSLGrammar.Identity)
-                    throw new NotImplementedException();
-                
-                var machine = Machines[((CstIdentity) args[0].Data).Name];
-                var newName = ((CstIdentity) args[1].Data).Name;
-                var determMachine = machine.Determine(_dverbose).RenameToNormalNames("q");
-                Machines[newName] = determMachine;
-            }},
+            {"Determine", new BuiltInFunction(
+                "Determine",
+                new List<string> {DSLGrammar.Identity, DSLGrammar.Identity},
+                args =>
+                {
+                    var machine = Machines[((CstIdentity) args[0].Data).Name];
+                    var newName = ((CstIdentity) args[1].Data).Name;
+                    
+                    var determMachine = machine.Determine(_dverbose).RenameToNormalNames("q");
+                    Machines[newName] = determMachine;
+                }
+            )},
             
-            {"Minimize", args =>
-            {
-                if (args.Count != 2
-                 || args[0].Type != DSLGrammar.Identity
-                 || args[1].Type != DSLGrammar.Identity)
-                    throw new NotImplementedException();
-                
-                var machine = Machines[((CstIdentity) args[0].Data).Name];
-                var newName = ((CstIdentity) args[1].Data).Name;
-                var minMachine = machine.Minimize().RenameToNormalNames("m");
-                Machines[newName] = minMachine;
-            }},
+            {"Minimize", new BuiltInFunction(
+                "Minimize",
+                new List<string> {DSLGrammar.Identity, DSLGrammar.Identity},
+                args =>
+                {
+                    var machine = Machines[((CstIdentity) args[0].Data).Name];
+                    var newName = ((CstIdentity) args[1].Data).Name;
+                    
+                    var minMachine = machine.Minimize().RenameToNormalNames("m");
+                    Machines[newName] = minMachine;
+                }
+            )},
             
-            {"BuildRegex", args =>
-            {
-                if (args.Count != 2
-                    || args[0].Type != DSLGrammar.String
-                    || args[1].Type != DSLGrammar.Identity)
-                    throw new NotImplementedException();
+            {"BuildRegex", new BuiltInFunction(
+                "BuildRegex",
+                new List<string> {DSLGrammar.String, DSLGrammar.Identity},
+                args =>
+                {
+                    var regexString = ((CstString) args[0].Data).Data;
+                    var regexNfaIdentityName = ((CstIdentity) args[1].Data).Name;
+                    
+                    var regexpParser = RegexpGrammar.GetParser();
+                    var parseRes = regexpParser.Parse(regexString);
 
-                var regexString = ((CstString) args[0].Data).Data;
-                var regexNfaIdentityName = ((CstIdentity) args[1].Data).Name;
-                
-                var regexpParser = RegexpGrammar.GetParser();
-                var parseRes = regexpParser.Parse(regexString);
+                    // Console.WriteLine(parseRes.Dot()); return;
 
-                // Console.WriteLine(parseRes.Dot()); return;
+                    var cstBuilder = new CSTBuilderVisitor();
+                    cstBuilder.Apply(parseRes);
+                    var cst = cstBuilder.GetResult();
 
-                var cstBuilder = new CSTBuilderVisitor();
-                cstBuilder.Apply(parseRes);
-                var cst = cstBuilder.GetResult();
+                    // Console.WriteLine(cst.Dot()); return;
 
-                // Console.WriteLine(cst.Dot()); return;
+                    var stateMachineBuilder = new RegexStateMachineBuilderVisitor();
+                    cst.Visit(stateMachineBuilder);
 
-                var stateMachineBuilder = new RegexStateMachineBuilderVisitor();
-                cst.Visit(stateMachineBuilder);
-
-                Machines.Add(regexNfaIdentityName, stateMachineBuilder.GetResult());
-            }},
+                    Machines.Add(regexNfaIdentityName, stateMachineBuilder.GetResult());
+                }
+            )},
         };
         
         private static bool _determ;
@@ -259,7 +259,7 @@ namespace META_FA
                     {
                         if (entity is CstFunctionCall functionCall)
                         {
-                            BuiltIn[functionCall.FunctionName.Name](functionCall.Args);
+                            BuiltIn[functionCall.FunctionName.Name].Execute(functionCall.Args.ToList());
                         }
                     }
                 }

@@ -124,6 +124,14 @@
       </e>
       <e p="META_FA" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="BuiltInFuncs" t="Include">
+          <e p="BuiltInFunction.cs" t="Include" />
+          <e p="Exceptions" t="Include">
+            <e p="BuiltInFunctionArgumentsNumberException.cs" t="Include" />
+            <e p="BuiltInFunctionArgumentTypeException.cs" t="Include" />
+            <e p="CoreException.cs" t="Include" />
+          </e>
+        </e>
         <e p="Examples" t="Include">
           <e p="Determ.dot" t="Include" />
           <e p="example_compilation_var.fa" t="Include" />
@@ -133,6 +141,7 @@
           <e p="future_example.fa" t="Include" />
           <e p="future_example_min.fa" t="Include" />
           <e p="MinDeterm.dot" t="Include" />
+          <e p="Nikitko.fa" t="Include" />
           <e p="nonDeterm.dot" t="Include" />
           <e p="NonDetermOutPut_a01332d_BreakDetermine.json" t="Include" />
           <e p="options.json" t="Include" />
@@ -144,11 +153,6 @@
           <e p="options_example_meh.json" t="Include" />
           <e p="options_example_nondeterm.json" t="Include" />
           <e p="output_example.txt" t="Include" />
-        </e>
-        <e p="Exceptions" t="Include">
-          <e p="BuiltInFunctionArgumentsNumberException.cs" t="Include" />
-          <e p="BuiltInFunctionArgumentTypeException.cs" t="Include" />
-          <e p="CoreException.cs" t="Include" />
         </e>
         <e p="META_FA.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">

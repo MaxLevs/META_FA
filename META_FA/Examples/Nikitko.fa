@@ -1,0 +1,32 @@
+Declare PassFa
+    States = (p1, p2)
+    Initial = p1
+    Finals = (p2)
+    Table = (
+        <p1 a p2>
+    )
+End Declare
+
+BuildRegex("abc", Nfa)
+
+PrintInfo(Nfa)
+PrintTable(Nfa)
+PrintDot(Nfa)
+Print("============")
+Print("")
+
+Determine(Nfa, Dfa)
+
+PrintInfo(Dfa)
+PrintTable(Dfa)
+PrintDot(Dfa)
+Print("============")
+Print("")
+
+Minimize(Dfa, MinDfa)
+
+PrintInfo(MinDfa)
+PrintTable(MinDfa)
+PrintDot(MinDfa)
+Print("============")
+Print("")
