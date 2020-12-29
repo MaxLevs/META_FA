@@ -366,7 +366,10 @@ namespace META_FA
 
         private static void PrintInfo(Machine stateMachine)
         {
-            Console.WriteLine($"MachineID: {stateMachine.Id}  Initial state: {stateMachine.InitialState} States count: {stateMachine.GetStates().Count()} Transitions count: {stateMachine.GetTransitions().Count()}");
+            Console.WriteLine($"[MachineID: {stateMachine.Id}]\n" +
+                              $"[Initial state: {stateMachine.InitialState}]\n" +
+                              $"[States count: {stateMachine.GetStates().Count()}]\n" +
+                              $"[Transitions count: {stateMachine.GetTransitions().Count()}]\n");
         }
 
         private static void PrintDot(Machine stateMachine)
