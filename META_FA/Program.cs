@@ -92,7 +92,7 @@ namespace META_FA
                     var machine = Machines[((CstIdentity) args[0].Data).Name];
                     var newName = ((CstIdentity) args[1].Data).Name;
                     
-                    var determMachine = machine.Determine(_dverbose).RenameToNormalNames("q");
+                    var determMachine = machine.Determine(_dverbose).RenameToNormalNames("s");
                     Machines[newName] = determMachine;
                 }
             )},

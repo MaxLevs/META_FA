@@ -7,7 +7,7 @@ Declare PassFa
     )
 End Declare
 
-BuildRegex("abc", Nfa)
+BuildRegex("(a|b)*(ab)*cc", Nfa)
 
 PrintInfo(Nfa)
 PrintTable(Nfa)
